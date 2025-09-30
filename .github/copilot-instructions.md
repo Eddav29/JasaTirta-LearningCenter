@@ -9,85 +9,25 @@ The Laravel Boost guidelines are specifically curated by Laravel maintainers for
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
 - php - 8.3.6
+- inertiajs/inertia-laravel (INERTIA) - v2
 - laravel/framework (LARAVEL) - v12
 - laravel/prompts (PROMPTS) - v0
 - laravel/pint (PINT) - v1
+- @inertiajs/react (INERTIA) - v2
+- tailwindcss (TAILWINDCSS) - v4
 
 
 ## Conventions
 - You must follow all existing code conventions used in this application. When creating or editing a file, check sibling files for the correct structure, approach, naming.
 - Use descriptive names for variables and methods. For example, `isRegisteredForDiscounts`, not `discount()`.
 - Check for existing components to reuse before writing a new one.
-- The application follows a Repository-Service architecture to enforce SOLID, thin controllers, low coupling, and high cohesion.
-- Always code against interfaces (Contracts) for Services and Repositories; never inject concrete Eloquent implementations directly into Controllers.
-- Prefer DTOs / value objects over associative arrays for complex data passed between layers.
+
 ## Verification Scripts
 - Do not create verification scripts or tinker when tests cover that functionality and prove it works. Unit and feature tests are more important.
 
 ## Application Structure & Architecture
 - Stick to existing directory structure - don't create new base folders without approval.
 - Do not change the application's dependencies without approval.
-
-### Architectural Layers (Mandatory Flow)
-Controller -> FormRequest (validation) -> Service (use case orchestration) -> Repository (data access) -> Model
-
-1. Controllers: HTTP-only. No business rules, no direct Eloquent queries, no permission logic beyond calling authorization helpers / middleware.
-2. Form Requests: Input validation and simple authorization (gate/permission pre-check) only.
-3. Services: Contain business use cases (one class per cohesive use case group). Coordinate multiple repositories, handle transactions, dispatch events/jobs.
-4. Repositories: Encapsulate all persistence queries and aggregations; expose intention-revealing methods (e.g. `findActiveByEmail(string $email): ?User`). Never return raw query builders to upper layers.
-5. Models: Define relationships, casts, scopes, and accessors only—no orchestration or multi-entity business logic.
-
-### Repository Guidelines
-- Interface location (approved): `app/Repositories/Contracts/{Model}Repository.php`.
-- Implementation location (approved): `app/Repositories/Eloquent/Eloquent{Model}Repository.php`.
-- Naming: Interface = `{Model}Repository`, Implementation = `Eloquent{Model}Repository`.
-- Return types: Explicit (Model, Collection, LengthAwarePaginator, scalar, DTO). Avoid mixed / array when a DTO or model is appropriate.
-- Pagination: Repositories own pagination logic; controllers only pass request pagination parameters.
-- Eager loading: Apply inside repository methods to eliminate N+1; never call `->with()` from controllers for domain queries.
-- No static calls to models in services; always go through a repository.
-
-### Service Guidelines
-- Location (approved): `app/Services`.
-- Naming: `{Domain}{Action}Service` or `{Verb}{Domain}Service` (e.g. `UserRegistrationService`, `RoleSynchronizationService`).
-- Each public method should represent a single application use case. If a service gains many unrelated methods, split it.
-- Transactions: Start at service level using `DB::transaction()` when mutating multiple aggregates.
-- Do not return HTTP responses; return domain data (models/DTOs) and let controllers transform.
-
-### Contracts & Dependency Inversion
-- All controllers must depend on service interfaces (e.g. `UserRegistrationServiceContract`).
-- Bind contracts in a service provider (existing: `AppServiceProvider` or create `RepositoryServiceProvider` if growth warrants—seek approval first).
-- Binding example:
-    <code-snippet name="Interface Binding" lang="php">public function register(): void
-    {
-            $this->app->scoped(\App\Repositories\Contracts\UserRepository::class, \App\Repositories\Eloquent\EloquentUserRepository::class);
-            $this->app->scoped(\App\Services\Contracts\UserRegistrationService::class, \App\Services\UserRegistrationService::class);
-    }
-    </code-snippet>
-
-### SOLID Practical Checklist
-- SRP: One reason to change per class; controllers rarely exceed ~25 lines per action.
-- OCP: Add new behavior via new classes or strategy objects instead of editing stable abstractions.
-- LSP: Interfaces must not define methods that some implementations cannot fulfill.
-- ISP: Split large interfaces (>12 methods) into smaller role-focused ones.
-- DIP: High-level modules (controllers/services) depend only on interfaces; service providers wire concretes.
-
-### Cohesion & Coupling Metrics (Heuristics)
-- Service >150 lines or >3 distinct responsibilities => refactor.
-- Repository with unrelated resource methods (multiple models) => split.
-- Controller performing loops with conditional business rules => move logic to service.
-
-### DTO / Data Shape Guidance
-- Introduce lightweight immutable DTOs for complex create/update operations instead of passing raw arrays (e.g. `UserCreationData`).
-- DTOs may live in `app/Data` (seek approval before adding if not present yet).
-
-### Caching Strategy (Future-Friendly)
-- If introducing caching, encapsulate cache logic inside repository methods or dedicated cache decorators; never inside controllers. Use tagged cache namespacing by model context.
-
-### Example Use Case Flow
-1. HTTP POST /users -> `UserStoreRequest` validates.
-2. Controller injects `UserRegistrationServiceContract` and calls `register(UserCreationData $data)`.
-3. Service starts transaction, calls `UserRepository->create(...)`, assigns roles via Spatie permissions, dispatches `UserRegistered` event, commits.
-4. Controller returns API Resource or redirect.
 
 ## Frontend Bundling
 - If the user doesn't see a frontend change reflected in the UI, it could mean they need to run `npm run build`, `npm run dev`, or `composer run dev`. Ask them.
@@ -165,7 +105,41 @@ protected function isAccessible(User $user, ?string $path = null): bool
 - Add useful array shape type definitions for arrays when appropriate.
 
 ## Enums
-- Typically, keys in an Enum should be TitleCase. For example: `FavoritePerson`, `BestLake`, `Monthly`.
+- That being said, keys in an Enum should follow existing application Enum conventions.
+
+
+=== inertia-laravel/core rules ===
+
+## Inertia Core
+
+- Inertia.js components should be placed in the `resources/js/Pages` directory unless specified differently in the JS bundler (vite.config.js).
+- Use `Inertia::render()` for server-side routing instead of traditional Blade views.
+
+<code-snippet lang="php" name="Inertia::render Example">
+// routes/web.php example
+Route::get('/users', function () {
+    return Inertia::render('Users/Index', [
+        'users' => User::all()
+    ]);
+});
+</code-snippet>
+
+
+=== inertia-laravel/v2 rules ===
+
+## Inertia v2
+
+- Make use of all Inertia features from v1 & v2. Check the documentation before making any changes to ensure we are taking the correct approach.
+
+### Inertia v2 New Features
+- Polling
+- Prefetching
+- Deferred props
+- Infinite scrolling using merging props and `WhenVisible`
+- Lazy loading data on scroll
+
+### Deferred Props & Empty States
+- When using deferred props on the frontend, you should add a nice empty state with pulsing / animated skeleton.
 
 
 === laravel/core rules ===
@@ -198,26 +172,6 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 ### Authentication & Authorization
 - Use Laravel's built-in authentication and authorization features (gates, policies, Sanctum, etc.).
-\- Spatie Laravel Permission provides role & permission RBAC. Policies may wrap permission logic for model-specific rules but must not duplicate cross-cutting permission names.
-
-#### Spatie Roles & Permissions
-- Naming: permissions = `resource.action` (plural resource, lower snake or dot separated) e.g. `users.view`, `users.create`, `posts.publish`.
-- Roles: StudlyCase singular (e.g. `Admin`, `Editor`, `Moderator`).
-- Define / sync in seeders (see `RoleSeeder`): clear cache first using `app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();`.
-- Assignment: Use service layer (`UserRoleAssignmentService`) calling `$user->syncRoles([...])`, `$user->givePermissionTo('users.view')`.
-- Authorization in routes: middleware `permission:users.view` or `role:Admin`. Combine with `role_or_permission:Admin|users.view` when necessary.
-- Prefer permission checks over strict role checks in code for flexibility.
-- Blade/UI: Use `@can('users.view')` or `@role('Admin')`. Keep UI conditionals presentation-only; never trust them for security.
-- Repositories may receive the authenticated User for scoping (e.g. multi-tenant filters) instead of performing permission checks internally.
-- Do not query Spatie tables directly; always use model API methods.
-
-#### Policy Integration
-- Policies should translate model-specific access (e.g. ownership) and may internally defer to permission checks (`$user->can('posts.update') && $user->id === $post->user_id`).
-- Register new policies in `AuthServiceProvider` (ensure provider exists or is added appropriately per Laravel 12 structure).
-
-#### Auditing
-- Log critical role/permission structural changes (assignment, revocation) at info level with acting user id & target user id.
-- Avoid logging entire permission sets when unnecessary (reduce log noise & inadvertent leakage of internal permission taxonomy).
 
 ### URL Generation
 - When generating links to other pages, prefer named routes and the `route()` function.
@@ -229,9 +183,6 @@ protected function isAccessible(User $user, ?string $path = null): bool
 - When creating models for tests, use the factories for the models. Check if the factory has custom states that can be used before manually setting up the model.
 - Faker: Use methods such as `$this->faker->word()` or `fake()->randomDigit()`. Follow existing conventions whether to use `$this->faker` or `fake()`.
 - When creating tests, make use of `php artisan make:test [options] <name>` to create a feature test, and pass `--unit` to create a unit test. Most tests should be feature tests.
-- Service Tests: Prefer in-memory sqlite DB with real repositories unless isolation is critical; mock only repository interfaces, not Eloquent models.
-- Repository Tests: Validate query filtering, eager loading behavior, pagination edges, and soft delete scope interactions.
-- Permission / Role Tests: Seed baseline roles & permissions, assert authorization gates, ensure cache flush occurs after seeding updates.
 
 ### Vite Error
 - If you receive an "Illuminate\Foundation\ViteException: Unable to locate file in Vite manifest" error, you can run `npm run build` or ask the user to run `npm run dev` or `composer run dev`.
@@ -240,27 +191,16 @@ protected function isAccessible(User $user, ?string $path = null): bool
 === laravel/v12 rules ===
 
 ## Laravel 12
- - Use the `search-docs` tool to get version specific documentation.
-@if (file_exists(base_path('app/Http/Kernel.php')))
-- This project upgraded from an earlier Laravel (10 or below) without migrating to the new streamlined Laravel 11+/12 file structure.
-- This is perfectly fine and recommended by Laravel; do NOT attempt to restructure unless explicitly requested.
 
-### Legacy (Laravel 10 Style) Structure Notes
-- Global HTTP middleware & groups are registered in `app/Http/Kernel.php`.
-- Exception handling resides in `app/Exceptions/Handler.php`.
-- Console commands & schedule registration live in `app/Console/Kernel.php`.
-- Rate limiting definitions may exist in `RouteServiceProvider` or `app/Http/Kernel.php`.
-- Service providers continue to reside in `app/Providers/` (including `AuthServiceProvider`, `EventServiceProvider`, etc.).
-@else
-- Since Laravel 11, Laravel ships with a streamlined structure which this project uses.
+- Use the `search-docs` tool to get version specific documentation.
+- Since Laravel 11, Laravel has a new streamlined file structure which this project uses.
 
-### Laravel 12 Streamlined Structure
-- No middleware classes stored under `app/Http/Middleware/` by default (custom middleware may still be added if needed).
-- `bootstrap/app.php` registers middleware, exception handling, and loads routing definitions.
-- `bootstrap/providers.php` contains application-specific service providers (bind repository & service contracts here).
-- No `app/Console/Kernel.php`; configure console in `routes/console.php` or `bootstrap/app.php`.
-- Commands auto-register: any class in `app/Console/Commands/` is auto-discovered.
-@endif
+### Laravel 12 Structure
+- No middleware files in `app/Http/Middleware/`.
+- `bootstrap/app.php` is the file to register middleware, exceptions, and routing files.
+- `bootstrap/providers.php` contains application specific service providers.
+- **No app\Console\Kernel.php** - use `bootstrap/app.php` or `routes/console.php` for console configuration.
+- **Commands auto-register** - files in `app/Console/Commands/` are automatically available and do not require manual registration.
 
 ### Database
 - When modifying a column, the migration must include all of the attributes that were previously defined on the column. Otherwise, they will be dropped and lost.
@@ -268,7 +208,6 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 ### Models
 - Casts can and likely should be set in a `casts()` method on a model rather than the `$casts` property. Follow existing conventions from other models.
-- Keep models free from cross-aggregate coordination; push that logic to services.
 
 
 === pint/core rules ===
@@ -277,4 +216,128 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 - You must run `vendor/bin/pint --dirty` before finalizing changes to ensure your code matches the project's expected style.
 - Do not run `vendor/bin/pint --test`, simply run `vendor/bin/pint` to fix any formatting issues.
+
+
+=== inertia-react/core rules ===
+
+## Inertia + React
+
+- Use `router.visit()` or `<Link>` for navigation instead of traditional links.
+
+<code-snippet lang="react" name="Inertia Client Navigation">
+    import { Link } from '@inertiajs/react'
+
+    <Link href="/">Home</Link>
+</code-snippet>
+
+- For form handling, use `router.post` and related methods. Do not use regular forms.
+
+<code-snippet lang="react" name="Inertia React Form Example">
+import { useState } from 'react'
+import { router } from '@inertiajs/react'
+
+export default function Edit() {
+    const [values, setValues] = useState({
+        first_name: "",
+        last_name: "",
+        email: "",
+    })
+
+    function handleChange(e) {
+        const key = e.target.id;
+        const value = e.target.value
+
+        setValues(values => ({
+            ...values,
+            [key]: value,
+        }))
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+
+        router.post('/users', values)
+    }
+
+    return (
+    <form onSubmit={handleSubmit}>
+        <label htmlFor="first_name">First name:</label>
+        <input id="first_name" value={values.first_name} onChange={handleChange} />
+        <label htmlFor="last_name">Last name:</label>
+        <input id="last_name" value={values.last_name} onChange={handleChange} />
+        <label htmlFor="email">Email:</label>
+        <input id="email" value={values.email} onChange={handleChange} />
+        <button type="submit">Submit</button>
+    </form>
+    )
+}
+</code-snippet>
+
+
+=== tailwindcss/core rules ===
+
+## Tailwind Core
+
+- Use Tailwind CSS classes to style HTML, check and use existing tailwind conventions within the project before writing your own.
+- Offer to extract repeated patterns into components that match the project's conventions (i.e. Blade, JSX, Vue, etc..)
+- Think through class placement, order, priority, and defaults - remove redundant classes, add classes to parent or child carefully to limit repetition, group elements logically
+- You can use the `search-docs` tool to get exact examples from the official documentation when needed.
+
+### Spacing
+- When listing items, use gap utilities for spacing, don't use margins.
+
+    <code-snippet name="Valid Flex Gap Spacing Example" lang="html">
+        <div class="flex gap-8">
+            <div>Superior</div>
+            <div>Michigan</div>
+            <div>Erie</div>
+        </div>
+    </code-snippet>
+
+
+### Dark Mode
+- If existing pages and components support dark mode, new pages and components must support dark mode in a similar way, typically using `dark:`.
+
+
+=== tailwindcss/v4 rules ===
+
+## Tailwind 4
+
+- Always use Tailwind CSS v4 - do not use the deprecated utilities.
+- `corePlugins` is not supported in Tailwind v4.
+- In Tailwind v4, you import Tailwind using a regular CSS `@import` statement, not using the `@tailwind` directives used in v3:
+
+<code-snippet name="Tailwind v4 Import Tailwind Diff" lang="diff"
+   - @tailwind base;
+   - @tailwind components;
+   - @tailwind utilities;
+   + @import "tailwindcss";
+</code-snippet>
+
+
+### Replaced Utilities
+- Tailwind v4 removed deprecated utilities. Do not use the deprecated option - use the replacement.
+- Opacity values are still numeric.
+
+| Deprecated |	Replacement |
+|------------+--------------|
+| bg-opacity-* | bg-black/* |
+| text-opacity-* | text-black/* |
+| border-opacity-* | border-black/* |
+| divide-opacity-* | divide-black/* |
+| ring-opacity-* | ring-black/* |
+| placeholder-opacity-* | placeholder-black/* |
+| flex-shrink-* | shrink-* |
+| flex-grow-* | grow-* |
+| overflow-ellipsis | text-ellipsis |
+| decoration-slice | box-decoration-slice |
+| decoration-clone | box-decoration-clone |
+
+
+=== tests rules ===
+
+## Test Enforcement
+
+- Every change must be programmatically tested. Write a new test or update an existing test, then run the affected tests to make sure they pass.
+- Run the minimum number of tests needed to ensure code quality and speed. Use `php artisan test` with a specific filename or filter.
 </laravel-boost-guidelines>
