@@ -1,48 +1,260 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# JTLC - Laravel API Application
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<img src="https://img.shields.io/badge/Laravel-12.x-red" alt="Laravel Version">
+<img src="https://img.shields.io/badge/PHP-8.3+-blue" alt="PHP Version">
+<img src="https://img.shields.io/badge/License-MIT-green" alt="License">
 </p>
 
-## About Laravel
+## Tentang Proyek
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+JTLC adalah aplikasi backend Laravel yang dibangun dengan arsitektur yang bersih dan terstruktur menggunakan Repository-Service pattern. Aplikasi ini menyediakan sistem autentikasi dan manajemen pengguna dengan kontrol akses berbasis role dan permission menggunakan Laravel Sanctum dan Spatie Laravel Permission.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- 🔐 **Autentikasi & Otorisasi**
+  - Registrasi dan login pengguna
+  - Token-based authentication menggunakan Laravel Sanctum
+  - Role-based access control (RBAC) dengan Spatie Laravel Permission
+  - Middleware untuk kontrol akses endpoint
 
-## Learning Laravel
+- 👥 **Manajemen Pengguna**
+  - CRUD operations untuk pengguna
+  - Sistem role dan permission yang fleksibel
+  - Data Transfer Objects (DTOs) untuk transfer data yang aman
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- 🏗️ **Arsitektur Bersih**
+  - Repository Pattern untuk abstraksi data access
+  - Service Layer untuk business logic
+  - Dependency Injection dengan Contracts/Interfaces
+  - Form Request untuk validasi input
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- 🧪 **Testing**
+  - Feature tests untuk endpoint API
+  - Unit tests untuk komponen individual
+  - Test coverage untuk autentikasi dan CRUD operations
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Teknologi yang Digunakan
 
-## Laravel Sponsors
+- **Backend Framework**: Laravel 12.x
+- **PHP Version**: 8.3+
+- **Database**: SQLite (default), MySQL/PostgreSQL (configurable)
+- **Authentication**: Laravel Sanctum
+- **Authorization**: Spatie Laravel Permission
+- **Code Quality**: Laravel Pint
+- **Testing**: PHPUnit
+- **Development Tools**: Laravel Boost, Laravel Sail
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Persyaratan Sistem
 
-### Premium Partners
+- PHP 8.3 atau lebih tinggi
+- Composer
+- Node.js & NPM (untuk asset bundling)
+- SQLite (default) atau MySQL/PostgreSQL
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Instalasi
+
+1. **Clone repository**
+   ```bash
+   git clone <repository-url>
+   cd jtlc
+   ```
+
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. **Setup environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Setup database**
+   ```bash
+   # Untuk SQLite (default)
+   touch database/database.sqlite
+   
+   # Atau konfigurasi MySQL/PostgreSQL di .env
+   ```
+
+5. **Run migrations dan seeders**
+   ```bash
+   php artisan migrate --seed
+   ```
+
+6. **Build assets**
+   ```bash
+   npm run build
+   # Atau untuk development
+   npm run dev
+   ```
+
+7. **Start server**
+   ```bash
+   php artisan serve
+   ```
+
+## API Endpoints
+
+### Authentication
+
+| Method | Endpoint | Description | Middleware |
+|--------|----------|-------------|------------|
+| POST | `/api/auth/register` | Registrasi pengguna baru | - |
+| POST | `/api/auth/login` | Login pengguna | - |
+| GET | `/api/auth/me` | Informasi pengguna yang login | `auth:sanctum` |
+| POST | `/api/auth/logout` | Logout pengguna | `auth:sanctum` |
+
+### User Management
+
+| Method | Endpoint | Description | Permission Required |
+|--------|----------|-------------|-------------------|
+| GET | `/api/users` | List semua pengguna | `users.view` |
+| POST | `/api/users` | Buat pengguna baru | `users.create` |
+| GET | `/api/users/{id}` | Detail pengguna | `users.view` |
+| PUT | `/api/users/{id}` | Update pengguna | `users.update` |
+| DELETE | `/api/users/{id}` | Hapus pengguna | `users.delete` |
+
+### Admin Routes
+
+| Method | Endpoint | Description | Role Required |
+|--------|----------|-------------|---------------|
+| GET | `/api/admin/dashboard` | Dashboard admin | `admin` |
+
+## Roles dan Permissions
+
+### Default Roles
+- **admin**: Memiliki akses penuh ke semua fitur
+- **user**: Akses terbatas sesuai permission yang diberikan
+
+### Available Permissions
+- `users.view`: Melihat daftar dan detail pengguna
+- `users.create`: Membuat pengguna baru
+- `users.update`: Mengupdate data pengguna
+- `users.delete`: Menghapus pengguna
+
+## Arsitektur Aplikasi
+
+### Repository Pattern
+```
+app/Repositories/
+├── Contracts/          # Interface definitions
+│   └── UserRepository.php
+└── Eloquent/          # Eloquent implementations
+    └── EloquentUserRepository.php
+```
+
+### Service Layer
+```
+app/Services/
+├── Contracts/          # Service interfaces
+│   └── AuthService.php
+├── AuthService.php     # Authentication business logic
+└── UserManagementService.php  # User management logic
+```
+
+### Data Transfer Objects
+```
+app/Data/
+├── UserCreationData.php    # Data untuk membuat user
+└── UserUpdateData.php      # Data untuk update user
+```
+
+## Testing
+
+### Menjalankan Tests
+```bash
+# Semua tests
+php artisan test
+
+# Feature tests saja
+php artisan test --testsuite=Feature
+
+# Unit tests saja
+php artisan test --testsuite=Unit
+
+# Test dengan coverage
+php artisan test --coverage
+```
+
+### Test Structure
+- **Feature Tests**: Testing endpoint API dan integrasi
+- **Unit Tests**: Testing komponen individual seperti services dan repositories
+
+## Development
+
+### Code Quality
+```bash
+# Format code dengan Pint
+vendor/bin/pint
+
+# Check code style
+vendor/bin/pint --test
+```
+
+### Database
+```bash
+# Fresh migration dengan seeder
+php artisan migrate:fresh --seed
+
+# Rollback migration
+php artisan migrate:rollback
+
+# Create new migration
+php artisan make:migration create_table_name
+```
+
+### Artisan Commands
+```bash
+# Generate new controller
+php artisan make:controller Api/ExampleController --api
+
+# Generate new model dengan factory dan migration
+php artisan make:model Example -mf
+
+# Generate new service
+php artisan make:class Services/ExampleService
+
+# Generate new repository
+php artisan make:class Repositories/Contracts/ExampleRepository
+php artisan make:class Repositories/Eloquent/EloquentExampleRepository
+```
+
+## Deployment
+
+1. **Setup production environment**
+   ```bash
+   composer install --optimize-autoloader --no-dev
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+
+2. **Setup database**
+   ```bash
+   php artisan migrate --force
+   php artisan db:seed --class=RoleSeeder --force
+   ```
+
+3. **Setup file permissions**
+   ```bash
+   chmod -R 755 storage bootstrap/cache
+   ```
+
+## Contributing
+
+1. Fork repository
+2. Buat feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit perubahan (`git commit -m 'Add amazing feature'`)
+4. Push ke branch (`git push origin feature/amazing-feature`)
+5. Buat Pull Request
+
+## License
+
+Proyek ini menggunakan lisensi MIT. Lihat file [LICENSE](LICENSE) untuk detail lebih lanjut.
 
 ## Contributing
 
