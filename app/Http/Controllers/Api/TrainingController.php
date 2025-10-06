@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreTrainingRequest;
-use App\Http\Requests\UpdateTrainingRequest;
+use App\Http\Requests\Training\StoreTrainingRequest;
+use App\Http\Requests\Training\UpdateTrainingRequest;
 use App\Http\Resources\TrainingResource;
 use App\Models\Training;
 use Illuminate\Http\JsonResponse;

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreTrainingCategoryRequest;
-use App\Http\Requests\UpdateTrainingCategoryRequest;
+use App\Http\Requests\TrainingCategory\StoreTrainingCategoryRequest;
+use App\Http\Requests\TrainingCategory\UpdateTrainingCategoryRequest;
 use App\Http\Resources\TrainingCategoryResource;
 use App\Models\TrainingCategory;
 use Illuminate\Http\JsonResponse;

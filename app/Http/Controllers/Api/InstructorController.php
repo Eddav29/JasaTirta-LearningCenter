@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreInstructorRequest;
-use App\Http\Requests\UpdateInstructorRequest;
+use App\Http\Requests\Instructor\StoreInstructorRequest;
+use App\Http\Requests\Instructor\UpdateInstructorRequest;
 use App\Http\Resources\InstructorResource;
 use App\Models\Instructor;
 use App\Models\InstructorCertification;

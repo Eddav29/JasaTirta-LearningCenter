@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Instructor;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateInstructorRequest extends FormRequest
+class StoreInstructorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,25 +21,16 @@ class UpdateInstructorRequest extends FormRequest
      */
     public function rules(): array
     {
-        $instructorId = $this->route('instructor');
-
         return [
-            'name' => 'sometimes|required|string|max:255',
-            'specialization' => 'sometimes|required|string|max:255',
-            'education' => 'sometimes|required|string|max:255',
-            'experience' => 'sometimes|required|integer|min:0|max:50',
-            'bio' => 'sometimes|required|string',
-            'email' => [
-                'sometimes',
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('instructors')->ignore($instructorId),
-            ],
-            'phone' => 'sometimes|required|string|max:20',
+            'name' => 'required|string|max:255',
+            'specialization' => 'required|string|max:255',
+            'education' => 'required|string|max:255',
+            'experience' => 'required|integer|min:0|max:50',
+            'bio' => 'required|string',
+            'email' => 'required|string|email|max:255|unique:instructors',
+            'phone' => 'required|string|max:20',
             'image' => 'nullable|string|max:255',
-            'instructor_type' => 'sometimes|required|in:internal,vendor',
+            'instructor_type' => 'required|in:internal,vendor',
             'company' => 'nullable|string|max:255',
             'certifications' => 'nullable|array',
             'certifications.*' => 'string|max:255',
@@ -64,9 +54,8 @@ class UpdateInstructorRequest extends FormRequest
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah digunakan oleh instruktur lain.',
             'phone.required' => 'Nomor telepon wajib diisi.',
-            'instructor_type.required' => 'Tipe instruktur wajib diisi.',
+            'instructor_type.required' => 'Tipe instruktur wajib dipilih.',
             'instructor_type.in' => 'Tipe instruktur harus internal atau vendor.',
-            'certifications.array' => 'Sertifikasi harus berupa array.',
         ];
     }
 }
