@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\InstructorController;
+use App\Http\Controllers\Api\TrainingCategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
@@ -28,6 +29,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Instructor management routes
     Route::apiResource('instructors', InstructorController::class);
+
+    // Training category management routes
+    Route::apiResource('training-categories', TrainingCategoryController::class);
 });
 
 // API status endpoint
