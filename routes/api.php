@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\InstructorController;
 use App\Http\Controllers\Api\TrainingCategoryController;
+use App\Http\Controllers\Api\TrainingController;
+use App\Http\Controllers\Api\TrainingDetailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
@@ -32,6 +34,49 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Training category management routes
     Route::apiResource('training-categories', TrainingCategoryController::class);
+
+    // Training management routes
+    Route::apiResource('trainings', TrainingController::class);
+
+    // Training detail management routes
+    Route::prefix('trainings')->group(function () {
+        // Learning Objectives
+        Route::get('{training}/learning-objectives', [TrainingDetailController::class, 'getLearningObjectives']);
+        Route::post('learning-objectives', [TrainingDetailController::class, 'storeLearningObjective']);
+        Route::put('learning-objectives/{id}', [TrainingDetailController::class, 'updateLearningObjective']);
+        Route::delete('learning-objectives/{id}', [TrainingDetailController::class, 'deleteLearningObjective']);
+        Route::put('{training}/learning-objectives/reorder', [TrainingDetailController::class, 'reorderLearningObjectives']);
+
+        // Prerequisites
+        Route::get('{training}/prerequisites', [TrainingDetailController::class, 'getPrerequisites']);
+        Route::post('prerequisites', [TrainingDetailController::class, 'storePrerequisite']);
+        Route::put('prerequisites/{id}', [TrainingDetailController::class, 'updatePrerequisite']);
+        Route::delete('prerequisites/{id}', [TrainingDetailController::class, 'deletePrerequisite']);
+        Route::put('{training}/prerequisites/reorder', [TrainingDetailController::class, 'reorderPrerequisites']);
+
+        // Materials
+        Route::get('{training}/materials', [TrainingDetailController::class, 'getMaterials']);
+        Route::post('materials', [TrainingDetailController::class, 'storeMaterial']);
+        Route::put('materials/{id}', [TrainingDetailController::class, 'updateMaterial']);
+        Route::delete('materials/{id}', [TrainingDetailController::class, 'deleteMaterial']);
+        Route::put('{training}/materials/reorder', [TrainingDetailController::class, 'reorderMaterials']);
+
+        // Syllabus
+        Route::get('{training}/syllabus', [TrainingDetailController::class, 'getSyllabus']);
+        Route::post('syllabus', [TrainingDetailController::class, 'storeSyllabus']);
+        Route::put('syllabus/{id}', [TrainingDetailController::class, 'updateSyllabus']);
+        Route::delete('syllabus/{id}', [TrainingDetailController::class, 'deleteSyllabus']);
+        Route::put('{training}/syllabus/reorder', [TrainingDetailController::class, 'reorderSyllabus']);
+
+        // Syllabus Topics
+        Route::post('syllabus/{syllabus}/topics', [TrainingDetailController::class, 'storeSyllabusTopic']);
+        Route::put('syllabus-topics/{id}', [TrainingDetailController::class, 'updateSyllabusTopic']);
+        Route::delete('syllabus-topics/{id}', [TrainingDetailController::class, 'deleteSyllabusTopic']);
+        Route::put('syllabus/{syllabus}/topics/reorder', [TrainingDetailController::class, 'reorderSyllabusTopics']);
+
+        // Combined details endpoint
+        Route::get('{training}/details', [TrainingDetailController::class, 'getTrainingDetails']);
+    });
 });
 
 // API status endpoint

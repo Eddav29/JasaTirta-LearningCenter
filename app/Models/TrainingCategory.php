@@ -21,22 +21,22 @@ class TrainingCategory extends Model
         'description',
     ];
 
-    // NOTE: Training relationships will be added when Training model is created
-    // /**
-    //  * Get the trainings for the training category.
-    //  */
-    // public function trainings(): HasMany
-    // {
-    //     return $this->hasMany(Training::class, 'category_id');
-    // }
-    //
-    // /**
-    //  * Get active trainings for the training category.
-    //  */
-    // public function activeTrainings(): HasMany
-    // {
-    //     return $this->hasMany(Training::class, 'category_id')->where('is_active', true);
-    // }
+    // Training relationships
+    /**
+     * Get the trainings for the training category.
+     */
+    public function trainings(): HasMany
+    {
+        return $this->hasMany(Training::class, 'category_id');
+    }
+
+    /**
+     * Get active trainings for the training category.
+     */
+    public function activeTrainings(): HasMany
+    {
+        return $this->hasMany(Training::class, 'category_id')->where('is_active', true);
+    }
 
     /**
      * Scope a query to search by name or description.
