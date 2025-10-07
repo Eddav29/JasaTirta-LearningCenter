@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\InstructorController;
 use App\Http\Controllers\Api\TrainingCategoryController;
 use App\Http\Controllers\Api\TrainingController;
 use App\Http\Controllers\Api\TrainingDetailController;
+use App\Http\Controllers\Api\TrainingScheduleController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
@@ -37,6 +38,22 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Training management routes
     Route::apiResource('trainings', TrainingController::class);
+
+    // Training schedule management routes
+    Route::prefix('training-schedules')->group(function () {
+        Route::get('/', [TrainingScheduleController::class, 'index']);
+        Route::post('/', [TrainingScheduleController::class, 'store']);
+        Route::get('training/{trainingId}', [TrainingScheduleController::class, 'byTraining']);
+        Route::get('available', [TrainingScheduleController::class, 'available']);
+        Route::get('upcoming', [TrainingScheduleController::class, 'upcoming']);
+        Route::get('by-month', [TrainingScheduleController::class, 'byMonth']);
+        Route::get('statistics', [TrainingScheduleController::class, 'statistics']);
+        Route::get('{id}', [TrainingScheduleController::class, 'show']);
+        Route::put('{id}', [TrainingScheduleController::class, 'update']);
+        Route::delete('{id}', [TrainingScheduleController::class, 'destroy']);
+        Route::post('{id}/duplicate', [TrainingScheduleController::class, 'duplicate']);
+        Route::patch('{id}/status', [TrainingScheduleController::class, 'changeStatus']);
+    });
 
     // Training detail management routes
     Route::prefix('trainings')->group(function () {

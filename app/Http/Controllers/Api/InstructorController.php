@@ -110,7 +110,7 @@ class InstructorController extends Controller
         ]);
     }
 
-    /**
+    /**  
      * Update the specified resource in storage.
      */
     public function update(UpdateInstructorRequest $request, string $id): JsonResponse
