@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Training extends Model
 {
@@ -62,6 +63,38 @@ class Training extends Model
     public function instructor(): BelongsTo
     {
         return $this->belongsTo(Instructor::class);
+    }
+
+    /**
+     * Get the learning objectives for the training.
+     */
+    public function learningObjectives(): HasMany
+    {
+        return $this->hasMany(TrainingLearningObjective::class)->ordered();
+    }
+
+    /**
+     * Get the prerequisites for the training.
+     */
+    public function prerequisites(): HasMany
+    {
+        return $this->hasMany(TrainingPrerequisite::class)->ordered();
+    }
+
+    /**
+     * Get the materials for the training.
+     */
+    public function materials(): HasMany
+    {
+        return $this->hasMany(TrainingMaterial::class)->ordered();
+    }
+
+    /**
+     * Get the syllabus for the training.
+     */
+    public function syllabus(): HasMany
+    {
+        return $this->hasMany(TrainingSyllabus::class)->ordered();
     }
 
     /**
