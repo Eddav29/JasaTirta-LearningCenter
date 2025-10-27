@@ -98,6 +98,14 @@ class Training extends Model
     }
 
     /**
+     * Get the schedules for the training.
+     */
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(TrainingSchedule::class);
+    }
+
+    /**
      * Scope a query to only include active trainings.
      */
     public function scopeActive($query): void
