@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 // Welcome page - Landing Home
 Route::get('/', function () {
     return view('pages.landing.home.index');
-});
+})->name('home');
 
 // API status endpoint
 Route::get('/api-status', function () {
