@@ -18,6 +18,8 @@
 </head>
 <body class="antialiased">
     <div id="app">
+        <x-header />
+        
         @yield('content')
     </div>
 
