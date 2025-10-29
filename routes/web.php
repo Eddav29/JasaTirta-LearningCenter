@@ -17,6 +17,11 @@ Route::get('/pengajar', function () {
     return view('pages.landing.instructor.index');
 })->name('pengajar');
 
+// Jadwal
+Route::get('/jadwal', function () {
+    return view('pages.landing.schedule.index');
+})->name('jadwal');
+
 // API status endpoint
 Route::get('/api-status', function () {
     return response()->json([
