@@ -22,6 +22,11 @@ Route::get('/jadwal', function () {
     return view('pages.landing.schedule.index');
 })->name('jadwal');
 
+// Kontak
+Route::get('/kontak', function () {
+    return view('pages.landing.contact.index');
+})->name('kontak');
+
 // API status endpoint
 Route::get('/api-status', function () {
     return response()->json([
