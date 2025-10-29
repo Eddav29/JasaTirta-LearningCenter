@@ -31,10 +31,10 @@
             @php
             $navItems = [
                 ['name' => 'Beranda', 'path' => '/'],
-                ['name' => 'Katalog Pelatihan', 'path' => '/catalog'],
-                ['name' => 'Pengajar', 'path' => '/instructor'],
-                ['name' => 'Jadwal', 'path' => '/schedule'],
-                ['name' => 'Kontak', 'path' => '/contact'],
+                ['name' => 'Katalog Pelatihan', 'path' => '/katalog'],
+                ['name' => 'Pengajar', 'path' => '/pengajar'],
+                ['name' => 'Jadwal', 'path' => '/jadwal'],
+                ['name' => 'Kontak', 'path' => '/kontak'],
             ];
             $currentPath = request()->path() === '/' ? '/' : '/' . request()->path();
             @endphp
