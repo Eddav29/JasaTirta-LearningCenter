@@ -1,4 +1,10 @@
 import '../css/app.css';
 
-// Add your JavaScript here
-console.log('Vite + Laravel + Tailwind CSS v4 is running!');
+// Alpine.js
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
+
+console.log('Vite + Laravel + Tailwind CSS v4 + Alpine.js is running!');

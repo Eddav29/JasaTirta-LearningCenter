@@ -6,10 +6,30 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 
-// Welcome page with Vite + Tailwind
+// Welcome page - Landing Home
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('pages.landing.home.index');
+})->name('home');
+
+// Katalog Pelatihan
+Route::get('/katalog', function () {
+    return view('pages.landing.catalog.index');
+})->name('katalog');
+
+// Pengajar
+Route::get('/pengajar', function () {
+    return view('pages.landing.instructor.index');
+})->name('pengajar');
+
+// Jadwal
+Route::get('/jadwal', function () {
+    return view('pages.landing.schedule.index');
+})->name('jadwal');
+
+// Kontak
+Route::get('/kontak', function () {
+    return view('pages.landing.contact.index');
+})->name('kontak');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {

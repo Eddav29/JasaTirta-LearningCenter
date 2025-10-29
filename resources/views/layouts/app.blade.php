@@ -18,7 +18,11 @@
 </head>
 <body class="antialiased">
     <div id="app">
+        <x-header />
+        
         @yield('content')
+        
+        <x-footer />
     </div>
 
     @stack('scripts')
