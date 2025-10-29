@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Welcome page with Vite + Tailwind
+// Welcome page - Landing Home
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.landing.home.index');
 });
 
 // API status endpoint
