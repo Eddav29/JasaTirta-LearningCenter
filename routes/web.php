@@ -128,7 +128,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/notifications/create', fn () => 'Create Notification Page')->name('notifications.create');
 
     // Messages routes
-    Route::get('/messages', fn () => 'Messages Page')->name('messages.index');
+    Route::get('/messages', function () {
+        return view('pages.admin.messages.index');
+    })->name('messages.index');
 
     // Reports routes
     Route::get('/reports', fn () => 'Reports Page')->name('reports');
