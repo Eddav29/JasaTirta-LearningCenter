@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('instructor_id')->constrained()->onDelete('cascade');
             $table->string('certification_name');
             $table->timestamps();
-            
+
             // Add indexes
             $table->index('instructor_id');
         });

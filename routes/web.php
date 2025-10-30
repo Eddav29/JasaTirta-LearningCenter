@@ -78,8 +78,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         return view('pages.admin.dashboard.index');
     })->name('dashboard');
 
-    // Placeholder routes for sidebar links
-    Route::get('/trainings', fn () => 'Trainings Page')->name('trainings.index');
+    // Trainings routes
+    Route::get('/trainings', function () {
+        return view('pages.admin.trainings.index');
+    })->name('trainings.index');
     Route::get('/trainings/create', fn () => 'Create Training Page')->name('trainings.create');
     Route::get('/schedules', fn () => 'Schedules Page')->name('schedules.index');
     Route::get('/instructors', fn () => 'Instructors Page')->name('instructors.index');

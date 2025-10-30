@@ -24,7 +24,7 @@ return new class extends Migration
             $table->enum('instructor_type', ['internal', 'vendor']);
             $table->string('company')->nullable();
             $table->timestamps();
-            
+
             // Add indexes
             $table->index('instructor_type');
             $table->index('email');
