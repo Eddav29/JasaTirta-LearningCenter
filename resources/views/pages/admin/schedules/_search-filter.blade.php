@@ -4,25 +4,27 @@
     $uniqueMonths = ['Oktober', 'November', 'Desember'];
 @endphp
 
-<div class="space-y-4">
-    <div class="flex flex-col sm:flex-row gap-4">
-        {{-- Search Box --}}
-        <div class="relative flex-1">
-            <svg class="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-            <input
-                type="text"
-                x-model="searchQuery"
-                placeholder="Cari jadwal, pelatihan, atau instructor..."
-                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+<div class="bg-white p-6 rounded-lg border border-gray-200">
+    <div class="flex flex-col lg:flex-row gap-4 items-center justify-between">
+        <div class="flex items-center gap-4 w-full lg:w-auto">
+            {{-- Search Box --}}
+            <div class="relative flex-1 lg:w-80">
+                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input
+                    type="text"
+                    x-model="searchQuery"
+                    placeholder="Cari jadwal, pelatihan, atau instructor..."
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+            </div>
         </div>
 
         {{-- Filters --}}
-        <div class="flex gap-2 flex-wrap">
+        <div class="flex items-center gap-2 flex-wrap">
             {{-- Status Filter --}}
-            <select x-model="statusFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select x-model="statusFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                 <option value="all">Semua Status</option>
                 <option value="Scheduled">Terjadwal</option>
                 <option value="Ongoing">Berlangsung</option>
@@ -31,7 +33,7 @@
             </select>
 
             {{-- Method Filter --}}
-            <select x-model="methodFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select x-model="methodFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                 <option value="all">Semua Metode</option>
                 <option value="Online">Online</option>
                 <option value="Offline">Offline</option>
@@ -39,7 +41,7 @@
             </select>
 
             {{-- Instructor Filter --}}
-            <select x-model="instructorFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select x-model="instructorFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                 <option value="all">Semua Instructor</option>
                 @foreach($uniqueInstructors as $instructor)
                     <option value="{{ $instructor }}">{{ $instructor }}</option>
@@ -47,7 +49,7 @@
             </select>
 
             {{-- Month Filter --}}
-            <select x-model="monthFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select x-model="monthFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                 <option value="all">Semua Bulan</option>
                 @foreach($uniqueMonths as $month)
                     <option value="{{ $month }}">{{ $month }}</option>
@@ -64,3 +66,4 @@
         </div>
     </div>
 </div>
+
