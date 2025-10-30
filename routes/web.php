@@ -104,7 +104,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         return view('pages.admin.instructors.index');
     })->name('instructors.index');
     Route::get('/instructors/create', fn () => 'Create Instructor Page')->name('instructors.create');
-    Route::get('/participants', fn () => 'Participants Page')->name('participants.index');
+
+    // Participants routes
+    Route::get('/participants', function () {
+        return view('pages.admin.participants.index');
+    })->name('participants.index');
+    Route::get('/participants/create', fn () => 'Create Participant Page')->name('participants.create');
     Route::get('/categories', fn () => 'Categories Page')->name('categories.index');
     Route::get('/messages', fn () => 'Messages Page')->name('messages.index');
     Route::get('/reports', fn () => 'Reports Page')->name('reports');
