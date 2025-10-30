@@ -73,7 +73,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
-    
+
     // User Dashboard
     Route::get('/dashboard', function () {
         return view('pages.dashboard');
@@ -92,7 +92,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         return view('pages.admin.trainings.index');
     })->name('trainings.index');
     Route::get('/trainings/create', fn () => 'Create Training Page')->name('trainings.create');
-    Route::get('/schedules', fn () => 'Schedules Page')->name('schedules.index');
+
+    // Schedules routes
+    Route::get('/schedules', function () {
+        return view('pages.admin.schedules.index');
+    })->name('schedules.index');
+    Route::get('/schedules/create', fn () => 'Create Schedule Page')->name('schedules.create');
     Route::get('/instructors', fn () => 'Instructors Page')->name('instructors.index');
     Route::get('/participants', fn () => 'Participants Page')->name('participants.index');
     Route::get('/categories', fn () => 'Categories Page')->name('categories.index');
