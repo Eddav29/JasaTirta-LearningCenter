@@ -16,6 +16,10 @@ Route::get('/katalog', function () {
     return view('pages.landing.catalog.index');
 })->name('katalog');
 
+Route::get('/catalog', function () {
+    return view('pages.landing.catalog.index');
+})->name('catalog');
+
 // Pengajar
 Route::get('/pengajar', function () {
     return view('pages.landing.instructor.index');
@@ -69,6 +73,11 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+    
+    // User Dashboard
+    Route::get('/dashboard', function () {
+        return view('pages.dashboard');
+    })->name('dashboard');
 });
 
 // Admin Routes
