@@ -35,6 +35,10 @@ Route::get('/kontak', function () {
     return view('pages.landing.contact.index');
 })->name('kontak');
 
+Route::get('/contact', function () {
+    return view('pages.landing.contact.index');
+})->name('contact');
+
 // Guest routes (Login, Register, Password Reset)
 Route::middleware('guest')->group(function () {
     // Login routes

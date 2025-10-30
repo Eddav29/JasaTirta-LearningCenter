@@ -59,14 +59,21 @@
                     Katalog Pelatihan
                 </a>
                 <a 
-                    href="#about" 
+                    href="{{ route('pengajar') }}" 
                     :class="isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'"
                     class="font-medium transition-colors duration-300"
                 >
-                    Tentang Kami
+                    Pengajar
                 </a>
                 <a 
-                    href="#contact" 
+                    href="{{ route('jadwal') }}" 
+                    :class="isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'"
+                    class="font-medium transition-colors duration-300"
+                >
+                    Jadwal
+                </a>
+                <a 
+                    href="{{ route('contact') }}" 
                     :class="isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'"
                     class="font-medium transition-colors duration-300"
                 >
@@ -156,10 +163,13 @@
                 <a href="{{ route('catalog') }}" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
                     Katalog Pelatihan
                 </a>
-                <a href="#about" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                    Tentang Kami
+                <a href="{{ route('pengajar') }}" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                    Pengajar
                 </a>
-                <a href="#contact" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                <a href="{{ route('jadwal') }}" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                    Jadwal
+                </a>
+                <a href="{{ route('contact') }}" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
                     Kontak
                 </a>
                 <div class="border-t border-gray-200 pt-4 space-y-4">
