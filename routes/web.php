@@ -121,6 +121,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     })->name('categories.index');
     Route::get('/categories/create', fn () => 'Create Category Page')->name('categories.create');
 
+    // Notifications routes
+    Route::get('/notifications', function () {
+        return view('pages.admin.notifications.index');
+    })->name('notifications.index');
+    Route::get('/notifications/create', fn () => 'Create Notification Page')->name('notifications.create');
+
     // Messages routes
     Route::get('/messages', fn () => 'Messages Page')->name('messages.index');
 

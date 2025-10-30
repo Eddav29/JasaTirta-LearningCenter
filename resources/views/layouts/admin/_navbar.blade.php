@@ -129,7 +129,7 @@
                     {{-- Footer --}}
                     <div class="border-t border-gray-200 px-4 py-2">
                         <a 
-                            href="#"
+                            href="{{ route('admin.notifications.index') }}"
                             class="block text-center text-sm text-blue-600 hover:text-blue-700 font-medium py-1"
                         >
                             Lihat Semua Notifikasi
