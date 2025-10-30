@@ -1,5 +1,5 @@
 {{-- Schedule Table Section --}}
-<section class="pb-12">
+<section id="schedule-table" class="pb-12">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         @php
         $scheduleData = [
