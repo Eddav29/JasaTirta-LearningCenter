@@ -1,5 +1,5 @@
 {{-- Main Contact Section --}}
-<section class="py-20" x-data="contactForm()">
+<section id="contact-form" class="py-20 bg-white" x-data="contactForm()">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
             {{-- Contact Information --}}
