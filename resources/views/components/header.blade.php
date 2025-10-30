@@ -1,121 +1,190 @@
-{{-- Header Component with Alpine.js for interactivity --}}
+{{-- Modern Header Component with Scroll Effects --}}
 <header 
     x-data="{ 
-        mobileMenuOpen: false, 
-        isScrolled: false 
+        isScrolled: false,
+        isMenuOpen: false
     }"
     x-init="
         window.addEventListener('scroll', () => {
-            isScrolled = window.scrollY > 20;
+            isScrolled = window.scrollY > 50;
         });
     "
-    :class="isScrolled ? 'bg-white shadow-xl border-b border-gray-200' : 'bg-white shadow-md border-b border-gray-100'"
-    class="fixed top-0 z-50 w-full transition-all duration-500"
+    :class="{
+        'bg-white/95 backdrop-blur-md shadow-lg': isScrolled,
+        'bg-transparent': !isScrolled
+    }"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out"
 >
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
-        {{-- Logo --}}
-        <a href="/" class="flex items-center space-x-2">
-            <div class="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-md">
-                <span class="text-sm font-bold text-white">JT</span>
-            </div>
-            <span 
-                :class="isScrolled ? 'text-gray-900' : 'text-gray-800'"
-                class="text-lg font-semibold transition-all duration-300"
-            >
-                Jasa Tirta Learning Center
-            </span>
-        </a>
-
-        {{-- Desktop Navigation --}}
-        <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
-            @php
-            $navItems = [
-                ['name' => 'Beranda', 'path' => '/'],
-                ['name' => 'Katalog Pelatihan', 'path' => '/katalog'],
-                ['name' => 'Pengajar', 'path' => '/pengajar'],
-                ['name' => 'Jadwal', 'path' => '/jadwal'],
-                ['name' => 'Kontak', 'path' => '/kontak'],
-            ];
-            $currentPath = request()->path() === '/' ? '/' : '/' . request()->path();
-            @endphp
-
-            @foreach($navItems as $item)
-            <a 
-                href="{{ $item['path'] }}" 
-                class="relative transition-all duration-300 hover:text-blue-600 {{ $currentPath === $item['path'] ? 'text-blue-600 font-medium' : 'text-gray-700' }}"
-            >
-                {{ $item['name'] }}
-                @if($currentPath === $item['path'])
-                <div class="absolute -bottom-2 left-0 right-0 h-0.5 bg-blue-600 rounded-full"></div>
-                @endif
-            </a>
-            @endforeach
-        </nav>
-
-        {{-- Login Button (Desktop) --}}
-        <div class="hidden md:flex">
-            <a 
-                href="/login" 
-                class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 shadow-md text-sm"
-            >
-                <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-                </svg>
-                Login
-            </a>
-        </div>
-
-        {{-- Mobile Menu Button --}}
-        <button
-            @click="mobileMenuOpen = !mobileMenuOpen"
-            :class="isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-gray-700 hover:text-blue-600'"
-            class="md:hidden transition-all duration-300 p-2 rounded-lg hover:bg-gray-100"
-        >
-            <svg x-show="!mobileMenuOpen" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-            <svg x-show="mobileMenuOpen" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
-    </div>
-
-    {{-- Mobile Menu --}}
-    <div 
-        x-show="mobileMenuOpen" 
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 -translate-y-2"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-150"
-        x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 -translate-y-2"
-        class="md:hidden"
-        style="display: none;"
-    >
-        <div class="px-2 pt-2 pb-3 space-y-1 bg-white shadow-xl border-b border-gray-200">
-            @foreach($navItems as $item)
-            <a 
-                href="{{ $item['path'] }}" 
-                @click="mobileMenuOpen = false"
-                class="block px-3 py-2 rounded-md text-base font-medium transition-colors {{ $currentPath === $item['path'] ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50' }}"
-            >
-                {{ $item['name'] }}
-            </a>
-            @endforeach
-            <div class="px-3 py-2">
-                <a 
-                    href="/login" 
-                    class="flex items-center justify-center w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 text-sm"
-                >
-                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-                    </svg>
-                    Login
+    <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16 lg:h-20">
+            {{-- Logo --}}
+            <div class="shrink-0">
+                <a href="{{ route('home') }}" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-linear-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 
+                            :class="isScrolled ? 'text-gray-900' : 'text-white'"
+                            class="text-xl font-bold transition-colors duration-300"
+                        >
+                            JTLC
+                        </h1>
+                        <p 
+                            :class="isScrolled ? 'text-gray-600' : 'text-white/80'"
+                            class="text-xs font-medium transition-colors duration-300"
+                        >
+                            Learning Center
+                        </p>
+                    </div>
                 </a>
             </div>
+
+            {{-- Desktop Navigation --}}
+            <div class="hidden lg:flex items-center space-x-8">
+                <a 
+                    href="{{ route('home') }}" 
+                    :class="isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'"
+                    class="font-medium transition-colors duration-300"
+                >
+                    Beranda
+                </a>
+                <a 
+                    href="{{ route('catalog') }}" 
+                    :class="isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'"
+                    class="font-medium transition-colors duration-300"
+                >
+                    Katalog Pelatihan
+                </a>
+                <a 
+                    href="#about" 
+                    :class="isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'"
+                    class="font-medium transition-colors duration-300"
+                >
+                    Tentang Kami
+                </a>
+                <a 
+                    href="#contact" 
+                    :class="isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'"
+                    class="font-medium transition-colors duration-300"
+                >
+                    Kontak
+                </a>
+            </div>
+
+            {{-- Desktop Auth Buttons --}}
+            <div class="hidden lg:flex items-center space-x-4">
+                @auth
+                    <div class="flex items-center space-x-4">
+                        <span 
+                            :class="isScrolled ? 'text-gray-700' : 'text-white'"
+                            class="text-sm font-medium transition-colors duration-300"
+                        >
+                            Halo, {{ Auth::user()->first_name }}
+                        </span>
+                        <a 
+                            href="{{ route('dashboard') }}"
+                            :class="isScrolled ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/20 hover:bg-white/30 backdrop-blur-sm'"
+                            class="px-4 py-2 rounded-lg text-white font-medium transition-all duration-300"
+                        >
+                            Dashboard
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
+                            <button 
+                                type="submit"
+                                :class="isScrolled ? 'text-gray-600 hover:text-red-600' : 'text-white/80 hover:text-white'"
+                                class="font-medium transition-colors duration-300"
+                            >
+                                Keluar
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <a 
+                        href="{{ route('login') }}"
+                        :class="isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'"
+                        class="font-medium transition-colors duration-300"
+                    >
+                        Masuk
+                    </a>
+                    <a 
+                        href="{{ route('register') }}"
+                        :class="isScrolled ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/20 hover:bg-white/30 backdrop-blur-sm'"
+                        class="px-4 py-2 rounded-lg text-white font-medium transition-all duration-300"
+                    >
+                        Daftar
+                    </a>
+                @endauth
+            </div>
+
+            {{-- Mobile Menu Button --}}
+            <div class="lg:hidden">
+                <button 
+                    @click="isMenuOpen = !isMenuOpen"
+                    :class="isScrolled ? 'text-gray-700' : 'text-white'"
+                    class="p-2 transition-colors duration-300"
+                >
+                    <svg x-show="!isMenuOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg x-show="isMenuOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
         </div>
-    </div>
+
+    {{-- Mobile Menu --}}
+            {{-- Mobile Menu --}}
+        <div 
+            x-show="isMenuOpen"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg border-t border-gray-200/20"
+        >
+            <div class="px-4 py-6 space-y-4">
+                <a href="{{ route('home') }}" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                    Beranda
+                </a>
+                <a href="{{ route('catalog') }}" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                    Katalog Pelatihan
+                </a>
+                <a href="#about" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                    Tentang Kami
+                </a>
+                <a href="#contact" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                    Kontak
+                </a>
+                <div class="border-t border-gray-200 pt-4 space-y-4">
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium text-center transition-colors">
+                            Dashboard
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="block w-full text-left text-gray-700 hover:text-red-600 font-medium transition-colors">
+                                Keluar
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="block text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                            Masuk
+                        </a>
+                        <a href="{{ route('register') }}" class="block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium text-center transition-colors">
+                            Daftar
+                        </a>
+                    @endauth
+                </div>
+            </div>
+        </div>
+    </nav>
 </header>
 
-{{-- Spacer to prevent content from going under fixed header --}}
-<div class="h-16"></div>
+

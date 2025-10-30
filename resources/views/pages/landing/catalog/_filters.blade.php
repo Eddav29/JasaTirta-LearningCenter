@@ -1,5 +1,5 @@
 {{-- Search and Filter Section --}}
-<section class="py-12" x-data="catalogFilters()">
+<section id="filters" class="py-12 bg-white" x-data="catalogFilters()">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Search and Filter Controls --}}
         <div class="bg-white rounded-2xl p-6 shadow-lg mb-8">
