@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TrainingDetail\StoreLearningObjectiveRequest;
-use App\Http\Requests\TrainingDetail\StorePrerequisiteRequest;
 use App\Http\Requests\TrainingDetail\StoreMaterialRequest;
+use App\Http\Requests\TrainingDetail\StorePrerequisiteRequest;
 use App\Http\Requests\TrainingDetail\StoreSyllabusRequest;
 use App\Http\Resources\TrainingLearningObjectiveResource;
 use App\Http\Resources\TrainingPrerequisiteResource;
-use App\Http\Resources\TrainingMaterialResource;
-use App\Http\Resources\TrainingSyllabusResource;
 use App\Services\TrainingDetail\TrainingLearningObjectiveService;
 use App\Services\TrainingDetail\TrainingMaterialService;
 use App\Services\TrainingDetail\TrainingPrerequisiteService;
@@ -28,7 +26,7 @@ class TrainingDetailController extends Controller
     ) {}
 
     // ==================== LEARNING OBJECTIVES ====================
-    
+
     /**
      * Get all learning objectives for a training.
      */
@@ -86,7 +84,7 @@ class TrainingDetailController extends Controller
 
         $objective = $this->learningObjectiveService->update($id, $data);
 
-        if (!$objective) {
+        if (! $objective) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Learning objective not found',
@@ -107,7 +105,7 @@ class TrainingDetailController extends Controller
     {
         $deleted = $this->learningObjectiveService->delete($id);
 
-        if (!$deleted) {
+        if (! $deleted) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Learning objective not found',
@@ -140,7 +138,7 @@ class TrainingDetailController extends Controller
     }
 
     // ==================== PREREQUISITES ====================
-    
+
     /**
      * Get all prerequisites for a training.
      */
@@ -198,7 +196,7 @@ class TrainingDetailController extends Controller
 
         $prerequisite = $this->prerequisiteService->update($id, $data);
 
-        if (!$prerequisite) {
+        if (! $prerequisite) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Prerequisite not found',
@@ -219,7 +217,7 @@ class TrainingDetailController extends Controller
     {
         $deleted = $this->prerequisiteService->delete($id);
 
-        if (!$deleted) {
+        if (! $deleted) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Prerequisite not found',
@@ -233,7 +231,7 @@ class TrainingDetailController extends Controller
     }
 
     // ==================== MATERIALS ====================
-    
+
     /**
      * Get all materials for a training.
      */
@@ -278,7 +276,7 @@ class TrainingDetailController extends Controller
     }
 
     // ==================== SYLLABUS ====================
-    
+
     /**
      * Get all syllabus for a training.
      */

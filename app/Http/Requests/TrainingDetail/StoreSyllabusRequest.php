@@ -26,7 +26,7 @@ class StoreSyllabusRequest extends FormRequest
             'day' => 'required|string|max:20',
             'title' => 'required|string|max:255',
             'order_number' => 'nullable|integer|min:1',
-            
+
             // Topics (optional)
             'topics' => 'sometimes|array',
             'topics.*.topic' => 'required_with:topics|string|max:500',

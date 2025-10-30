@@ -25,7 +25,7 @@ class StoreMaterialRequest extends FormRequest
             'training_id' => 'required|integer|exists:trainings,id',
             'material' => 'required_without:materials|string|max:1000',
             'order_number' => 'nullable|integer|min:1',
-            
+
             // Untuk bulk create
             'materials' => 'sometimes|array',
             'materials.*.material' => 'required_with:materials|string|max:1000',

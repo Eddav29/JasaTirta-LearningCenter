@@ -13,12 +13,13 @@ class TrainingDetailApiTest extends TestCase
     use RefreshDatabase;
 
     private User $user;
+
     private Training $training;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->user = User::factory()->create();
         $category = TrainingCategory::factory()->create();
         $this->training = Training::factory()->create([

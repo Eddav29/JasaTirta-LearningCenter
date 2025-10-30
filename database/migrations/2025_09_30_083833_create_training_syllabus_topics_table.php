@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('topic');
             $table->integer('order_number');
             $table->timestamps();
-            
+
             // Add indexes
             $table->index(['syllabus_id', 'order_number']);
         });

@@ -35,7 +35,7 @@ class TrainingSyllabusService
     {
         return DB::transaction(function () use ($data) {
             // If no order_number provided, set it to the next available number
-            if (!isset($data['order_number'])) {
+            if (! isset($data['order_number'])) {
                 $data['order_number'] = $this->getNextOrderNumber($data['training_id']);
             }
 
@@ -47,7 +47,7 @@ class TrainingSyllabusService
             $syllabus = TrainingSyllabus::create($data);
 
             // Create topics if provided
-            if (!empty($topicsData)) {
+            if (! empty($topicsData)) {
                 $this->createTopics($syllabus->id, $topicsData);
             }
 
@@ -61,8 +61,8 @@ class TrainingSyllabusService
     public function update(int $id, array $data): ?TrainingSyllabus
     {
         $syllabus = $this->getById($id);
-        
-        if (!$syllabus) {
+
+        if (! $syllabus) {
             return null;
         }
 
@@ -89,23 +89,23 @@ class TrainingSyllabusService
     public function delete(int $id): bool
     {
         $syllabus = $this->getById($id);
-        
-        if (!$syllabus) {
+
+        if (! $syllabus) {
             return false;
         }
 
         return DB::transaction(function () use ($syllabus) {
             $trainingId = $syllabus->training_id;
             $orderNumber = $syllabus->order_number;
-            
+
             // Delete the syllabus (topics will be deleted by cascade)
             $deleted = $syllabus->delete();
-            
+
             if ($deleted) {
                 // Reorder remaining syllabus
                 $this->reorderAfterDelete($trainingId, $orderNumber);
             }
-            
+
             return $deleted;
         });
     }
@@ -117,7 +117,7 @@ class TrainingSyllabusService
     {
         return DB::transaction(function () use ($trainingId, $syllabusData) {
             $created = collect();
-            
+
             foreach ($syllabusData as $index => $syllabusItem) {
                 $data = [
                     'training_id' => $trainingId,
@@ -126,10 +126,10 @@ class TrainingSyllabusService
                     'order_number' => $syllabusItem['order_number'] ?? ($index + 1),
                     'topics' => $syllabusItem['topics'] ?? [],
                 ];
-                
+
                 $created->push($this->create($data));
             }
-            
+
             return $created;
         });
     }
@@ -145,7 +145,7 @@ class TrainingSyllabusService
                     ->where('training_id', $trainingId)
                     ->update(['order_number' => $item['order_number']]);
             }
-            
+
             return true;
         });
     }
@@ -163,11 +163,12 @@ class TrainingSyllabusService
      */
     public function addTopic(int $syllabusId, array $topicData): TrainingSyllabusTopic
     {
-        if (!isset($topicData['order_number'])) {
+        if (! isset($topicData['order_number'])) {
             $topicData['order_number'] = $this->getNextTopicOrderNumber($syllabusId);
         }
 
         $topicData['syllabus_id'] = $syllabusId;
+
         return TrainingSyllabusTopic::create($topicData);
     }
 
@@ -177,12 +178,13 @@ class TrainingSyllabusService
     public function updateTopic(int $topicId, array $data): ?TrainingSyllabusTopic
     {
         $topic = TrainingSyllabusTopic::find($topicId);
-        
-        if (!$topic) {
+
+        if (! $topic) {
             return null;
         }
 
         $topic->update($data);
+
         return $topic->fresh();
     }
 
@@ -192,23 +194,23 @@ class TrainingSyllabusService
     public function deleteTopic(int $topicId): bool
     {
         $topic = TrainingSyllabusTopic::find($topicId);
-        
-        if (!$topic) {
+
+        if (! $topic) {
             return false;
         }
 
         return DB::transaction(function () use ($topic) {
             $syllabusId = $topic->syllabus_id;
             $orderNumber = $topic->order_number;
-            
+
             // Delete the topic
             $deleted = $topic->delete();
-            
+
             if ($deleted) {
                 // Reorder remaining topics
                 $this->reorderTopicsAfterDelete($syllabusId, $orderNumber);
             }
-            
+
             return $deleted;
         });
     }
@@ -224,7 +226,7 @@ class TrainingSyllabusService
                     ->where('syllabus_id', $syllabusId)
                     ->update(['order_number' => $item['order_number']]);
             }
-            
+
             return true;
         });
     }
@@ -240,7 +242,7 @@ class TrainingSyllabusService
                 'topic' => $topicData['topic'],
                 'order_number' => $topicData['order_number'] ?? ($index + 1),
             ];
-            
+
             TrainingSyllabusTopic::create($data);
         }
     }
@@ -252,7 +254,7 @@ class TrainingSyllabusService
     {
         // Delete existing topics
         TrainingSyllabusTopic::where('syllabus_id', $syllabusId)->delete();
-        
+
         // Create new topics
         $this->createTopics($syllabusId, $topicsData);
     }
@@ -264,7 +266,7 @@ class TrainingSyllabusService
     {
         $maxOrder = TrainingSyllabus::forTraining($trainingId)
             ->max('order_number');
-            
+
         return ($maxOrder ?? 0) + 1;
     }
 
@@ -275,7 +277,7 @@ class TrainingSyllabusService
     {
         $maxOrder = TrainingSyllabusTopic::forSyllabus($syllabusId)
             ->max('order_number');
-            
+
         return ($maxOrder ?? 0) + 1;
     }
 

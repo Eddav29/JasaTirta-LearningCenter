@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->integer('order_number');
             $table->timestamps();
-            
+
             // Add indexes
             $table->index(['training_id', 'order_number']);
         });

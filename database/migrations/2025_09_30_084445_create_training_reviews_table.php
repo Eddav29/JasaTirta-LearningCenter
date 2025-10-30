@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -19,14 +19,14 @@ return new class extends Migration
             $table->integer('rating')->unsigned();
             $table->text('review_text')->nullable();
             $table->timestamps();
-            
+
             // Add indexes
             $table->index('user_id');
             $table->index('training_id');
             $table->index('rating');
             $table->unique(['user_id', 'training_id']);
         });
-        
+
         // Add check constraint with raw SQL for SQLite
         DB::statement('ALTER TABLE training_reviews ADD CONSTRAINT check_rating_range CHECK (rating >= 1 AND rating <= 5)');
     }

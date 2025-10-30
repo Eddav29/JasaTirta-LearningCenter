@@ -18,7 +18,7 @@ class ApiAuthTest extends TestCase
             ->assertJson([
                 'message' => 'JTLC Learning Center API',
                 'version' => '1.0.0',
-                'status' => 'active'
+                'status' => 'active',
             ]);
     }
 
@@ -30,7 +30,7 @@ class ApiAuthTest extends TestCase
             ->assertJson([
                 'message' => 'JTLC Learning Center API',
                 'version' => '1.0.0',
-                'status' => 'active'
+                'status' => 'active',
             ]);
     }
 
@@ -55,9 +55,9 @@ class ApiAuthTest extends TestCase
                     'first_name',
                     'last_name',
                     'email',
-                    'phone'
+                    'phone',
                 ],
-                'token'
+                'token',
             ])
             ->assertJson([
                 'message' => 'Registrasi berhasil',
@@ -65,14 +65,14 @@ class ApiAuthTest extends TestCase
                     'first_name' => 'John',
                     'last_name' => 'Doe',
                     'email' => 'john@example.com',
-                    'phone' => '081234567890'
-                ]
+                    'phone' => '081234567890',
+                ],
             ]);
 
         $this->assertDatabaseHas('users', [
             'email' => 'john@example.com',
             'first_name' => 'John',
-            'last_name' => 'Doe'
+            'last_name' => 'Doe',
         ]);
     }
 
@@ -96,12 +96,12 @@ class ApiAuthTest extends TestCase
                     'id',
                     'first_name',
                     'last_name',
-                    'email'
+                    'email',
                 ],
-                'token'
+                'token',
             ])
             ->assertJson([
-                'message' => 'Login berhasil'
+                'message' => 'Login berhasil',
             ]);
     }
 
@@ -116,8 +116,8 @@ class ApiAuthTest extends TestCase
             ->assertJson([
                 'message' => 'Kredensial yang diberikan tidak sesuai dengan data kami.',
                 'errors' => [
-                    'email' => ['Kredensial yang diberikan tidak sesuai dengan data kami.']
-                ]
+                    'email' => ['Kredensial yang diberikan tidak sesuai dengan data kami.'],
+                ],
             ]);
     }
 
@@ -127,7 +127,7 @@ class ApiAuthTest extends TestCase
         $token = $user->createToken('test-token')->plainTextToken;
 
         $response = $this->getJson('/api/auth/me', [
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ]);
 
         $response->assertOk()
@@ -136,8 +136,8 @@ class ApiAuthTest extends TestCase
                     'id',
                     'first_name',
                     'last_name',
-                    'email'
-                ]
+                    'email',
+                ],
             ]);
     }
 
@@ -154,12 +154,12 @@ class ApiAuthTest extends TestCase
         $token = $user->createToken('test-token')->plainTextToken;
 
         $response = $this->postJson('/api/auth/logout', [], [
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ]);
 
         $response->assertOk()
             ->assertJson([
-                'message' => 'Logout berhasil'
+                'message' => 'Logout berhasil',
             ]);
 
         // Verify token is revoked - check token count in database
@@ -172,7 +172,7 @@ class ApiAuthTest extends TestCase
         $token = $user->createToken('test-token')->plainTextToken;
 
         $response = $this->getJson('/api/dashboard', [
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ]);
 
         $response->assertOk()
@@ -182,19 +182,19 @@ class ApiAuthTest extends TestCase
                     'id',
                     'first_name',
                     'last_name',
-                    'email'
+                    'email',
                 ],
                 'data' => [
                     'welcome_message',
-                    'dashboard_info'
-                ]
+                    'dashboard_info',
+                ],
             ])
             ->assertJson([
                 'message' => 'Dashboard data retrieved successfully',
                 'data' => [
                     'welcome_message' => 'Selamat datang di JTLC Learning Center',
-                    'dashboard_info' => 'Ini adalah API dashboard'
-                ]
+                    'dashboard_info' => 'Ini adalah API dashboard',
+                ],
             ]);
     }
 
@@ -215,7 +215,7 @@ class ApiAuthTest extends TestCase
                 'first_name',
                 'last_name',
                 'email',
-                'password'
+                'password',
             ]);
 
         // Test password confirmation mismatch
@@ -253,7 +253,7 @@ class ApiAuthTest extends TestCase
         $response->assertStatus(422)
             ->assertJsonValidationErrors([
                 'email',
-                'password'
+                'password',
             ]);
 
         // Test invalid email format

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            
+
             // Add indexes for performance
             $table->index('email');
             $table->index(['first_name', 'last_name']);

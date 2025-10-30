@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('instructor_id')->constrained()->onDelete('cascade');
             $table->foreignId('training_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            
+
             // Add indexes and unique constraint
             $table->index('instructor_id');
             $table->index('training_id');

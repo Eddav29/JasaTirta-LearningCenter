@@ -32,7 +32,7 @@ class TrainingMaterialService
     public function create(array $data): TrainingMaterial
     {
         // If no order_number provided, set it to the next available number
-        if (!isset($data['order_number'])) {
+        if (! isset($data['order_number'])) {
             $data['order_number'] = $this->getNextOrderNumber($data['training_id']);
         }
 
@@ -45,12 +45,13 @@ class TrainingMaterialService
     public function update(int $id, array $data): ?TrainingMaterial
     {
         $material = $this->getById($id);
-        
-        if (!$material) {
+
+        if (! $material) {
             return null;
         }
 
         $material->update($data);
+
         return $material->fresh();
     }
 
@@ -60,23 +61,23 @@ class TrainingMaterialService
     public function delete(int $id): bool
     {
         $material = $this->getById($id);
-        
-        if (!$material) {
+
+        if (! $material) {
             return false;
         }
 
         return DB::transaction(function () use ($material) {
             $trainingId = $material->training_id;
             $orderNumber = $material->order_number;
-            
+
             // Delete the material
             $deleted = $material->delete();
-            
+
             if ($deleted) {
                 // Reorder remaining materials
                 $this->reorderAfterDelete($trainingId, $orderNumber);
             }
-            
+
             return $deleted;
         });
     }
@@ -88,17 +89,17 @@ class TrainingMaterialService
     {
         return DB::transaction(function () use ($trainingId, $materials) {
             $created = collect();
-            
+
             foreach ($materials as $index => $materialData) {
                 $data = [
                     'training_id' => $trainingId,
                     'material' => $materialData['material'],
                     'order_number' => $materialData['order_number'] ?? ($index + 1),
                 ];
-                
+
                 $created->push($this->create($data));
             }
-            
+
             return $created;
         });
     }
@@ -114,7 +115,7 @@ class TrainingMaterialService
                     ->where('training_id', $trainingId)
                     ->update(['order_number' => $item['order_number']]);
             }
-            
+
             return true;
         });
     }
@@ -134,7 +135,7 @@ class TrainingMaterialService
     {
         $maxOrder = TrainingMaterial::forTraining($trainingId)
             ->max('order_number');
-            
+
         return ($maxOrder ?? 0) + 1;
     }
 

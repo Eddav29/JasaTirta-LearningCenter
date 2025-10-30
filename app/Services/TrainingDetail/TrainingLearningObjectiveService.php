@@ -32,7 +32,7 @@ class TrainingLearningObjectiveService
     public function create(array $data): TrainingLearningObjective
     {
         // If no order_number provided, set it to the next available number
-        if (!isset($data['order_number'])) {
+        if (! isset($data['order_number'])) {
             $data['order_number'] = $this->getNextOrderNumber($data['training_id']);
         }
 
@@ -45,12 +45,13 @@ class TrainingLearningObjectiveService
     public function update(int $id, array $data): ?TrainingLearningObjective
     {
         $objective = $this->getById($id);
-        
-        if (!$objective) {
+
+        if (! $objective) {
             return null;
         }
 
         $objective->update($data);
+
         return $objective->fresh();
     }
 
@@ -60,23 +61,23 @@ class TrainingLearningObjectiveService
     public function delete(int $id): bool
     {
         $objective = $this->getById($id);
-        
-        if (!$objective) {
+
+        if (! $objective) {
             return false;
         }
 
         return DB::transaction(function () use ($objective) {
             $trainingId = $objective->training_id;
             $orderNumber = $objective->order_number;
-            
+
             // Delete the objective
             $deleted = $objective->delete();
-            
+
             if ($deleted) {
                 // Reorder remaining objectives
                 $this->reorderAfterDelete($trainingId, $orderNumber);
             }
-            
+
             return $deleted;
         });
     }
@@ -88,17 +89,17 @@ class TrainingLearningObjectiveService
     {
         return DB::transaction(function () use ($trainingId, $objectives) {
             $created = [];
-            
+
             foreach ($objectives as $index => $objectiveData) {
                 $data = [
                     'training_id' => $trainingId,
                     'objective' => $objectiveData['objective'],
                     'order_number' => $objectiveData['order_number'] ?? ($index + 1),
                 ];
-                
+
                 $created[] = $this->create($data);
             }
-            
+
             return TrainingLearningObjective::whereIn('id', collect($created)->pluck('id'))->get();
         });
     }
@@ -114,7 +115,7 @@ class TrainingLearningObjectiveService
                     ->where('training_id', $trainingId)
                     ->update(['order_number' => $item['order_number']]);
             }
-            
+
             return true;
         });
     }
@@ -134,7 +135,7 @@ class TrainingLearningObjectiveService
     {
         $maxOrder = TrainingLearningObjective::forTraining($trainingId)
             ->max('order_number');
-            
+
         return ($maxOrder ?? 0) + 1;
     }
 

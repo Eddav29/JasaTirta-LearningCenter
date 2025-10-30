@@ -25,7 +25,7 @@ class StoreLearningObjectiveRequest extends FormRequest
             'training_id' => 'required|integer|exists:trainings,id',
             'objective' => 'required_without:objectives|string|max:1000',
             'order_number' => 'nullable|integer|min:1',
-            
+
             // Untuk bulk create
             'objectives' => 'sometimes|array',
             'objectives.*.objective' => 'required_with:objectives|string|max:1000',

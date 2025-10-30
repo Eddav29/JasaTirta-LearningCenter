@@ -30,7 +30,7 @@ return new class extends Migration
             $table->text('certification_note')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-            
+
             // Add indexes
             $table->index('category_id');
             $table->index('instructor_id');

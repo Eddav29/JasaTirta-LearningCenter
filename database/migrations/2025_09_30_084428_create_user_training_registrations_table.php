@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('registration_date')->useCurrent();
             $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed'])->default('pending');
             $table->timestamps();
-            
+
             // Add indexes
             $table->index('user_id');
             $table->index('training_schedule_id');

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('message');
             $table->enum('status', ['unread', 'read', 'replied'])->default('unread');
             $table->timestamps();
-            
+
             // Add indexes
             $table->index('status');
             $table->index('email');

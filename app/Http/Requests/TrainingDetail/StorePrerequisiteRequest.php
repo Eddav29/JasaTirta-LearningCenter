@@ -25,7 +25,7 @@ class StorePrerequisiteRequest extends FormRequest
             'training_id' => 'required|integer|exists:trainings,id',
             'prerequisite' => 'required_without:prerequisites|string|max:1000',
             'order_number' => 'nullable|integer|min:1',
-            
+
             // Untuk bulk create
             'prerequisites' => 'sometimes|array',
             'prerequisites.*.prerequisite' => 'required_with:prerequisites|string|max:1000',

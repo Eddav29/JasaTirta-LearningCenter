@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 // Welcome page - Landing Home
@@ -27,17 +31,48 @@ Route::get('/kontak', function () {
     return view('pages.landing.contact.index');
 })->name('kontak');
 
-// Authentication Routes
-Route::post('/logout', function () {
-    auth()->logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
+// Guest routes (Login, Register, Password Reset)
+Route::middleware('guest')->group(function () {
+    // Login routes
+    Route::get('/login', function () {
+        return view('pages.auth.login');
+    })->name('login');
 
-    return redirect('/');
-})->name('logout');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+        ->name('login.store');
+
+    // Register routes
+    Route::get('/register', function () {
+        return view('pages.auth.register');
+    })->name('register');
+
+    Route::post('/register', [RegisteredUserController::class, 'store'])
+        ->name('register.store');
+
+    // Forgot password routes
+    Route::get('/forgot-password', function () {
+        return view('pages.auth.forgot-password');
+    })->name('password.request');
+
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+
+    // Reset password routes
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+        ->name('password.reset');
+
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])
+        ->name('password.store');
+});
+
+// Authenticated user routes
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
+});
 
 // Admin Routes
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', function () {
         return view('pages.admin.dashboard.index');

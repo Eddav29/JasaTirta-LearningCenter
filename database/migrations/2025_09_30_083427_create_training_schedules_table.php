@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('month', 20);
             $table->enum('status', ['buka_pendaftaran', 'tutup_pendaftaran', 'berlangsung', 'penuh', 'selesai']);
             $table->timestamps();
-            
+
             // Add indexes
             $table->index('training_id');
             $table->index(['start_date', 'end_date']);
