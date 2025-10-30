@@ -98,7 +98,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         return view('pages.admin.schedules.index');
     })->name('schedules.index');
     Route::get('/schedules/create', fn () => 'Create Schedule Page')->name('schedules.create');
-    Route::get('/instructors', fn () => 'Instructors Page')->name('instructors.index');
+
+    // Instructors routes
+    Route::get('/instructors', function () {
+        return view('pages.admin.instructors.index');
+    })->name('instructors.index');
+    Route::get('/instructors/create', fn () => 'Create Instructor Page')->name('instructors.create');
     Route::get('/participants', fn () => 'Participants Page')->name('participants.index');
     Route::get('/categories', fn () => 'Categories Page')->name('categories.index');
     Route::get('/messages', fn () => 'Messages Page')->name('messages.index');

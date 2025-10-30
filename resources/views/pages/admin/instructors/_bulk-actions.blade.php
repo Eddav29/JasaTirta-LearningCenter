@@ -1,0 +1,36 @@
+<div x-show="showBulkActions" x-transition class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <span class="text-sm font-medium text-blue-900">
+                <span x-text="selectedInstructors.length"></span> instructor dipilih
+            </span>
+            <div class="flex items-center gap-2">
+                <select 
+                    @change="bulkStatusChange($event.target.value); $event.target.value = ''"
+                    class="px-3 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm w-40"
+                >
+                    <option value="">Ubah Status</option>
+                    <option value="Active">Set ke Active</option>
+                    <option value="Inactive">Set ke Inactive</option>
+                    <option value="On Leave">Set ke On Leave</option>
+                    <option value="Retired">Set ke Retired</option>
+                </select>
+                <button
+                    @click="bulkDelete()"
+                    class="inline-flex items-center px-3 py-1.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
+                >
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                    Hapus
+                </button>
+            </div>
+        </div>
+        <button
+            @click="selectedInstructors = []"
+            class="px-3 py-1.5 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors"
+        >
+            Batal
+        </button>
+    </div>
+</div>
