@@ -77,7 +77,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
-    
+
     // User Dashboard
     Route::get('/dashboard', function () {
         return view('pages.dashboard');
@@ -91,12 +91,29 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         return view('pages.admin.dashboard.index');
     })->name('dashboard');
 
-    // Placeholder routes for sidebar links
-    Route::get('/trainings', fn () => 'Trainings Page')->name('trainings.index');
+    // Trainings routes
+    Route::get('/trainings', function () {
+        return view('pages.admin.trainings.index');
+    })->name('trainings.index');
     Route::get('/trainings/create', fn () => 'Create Training Page')->name('trainings.create');
-    Route::get('/schedules', fn () => 'Schedules Page')->name('schedules.index');
-    Route::get('/instructors', fn () => 'Instructors Page')->name('instructors.index');
-    Route::get('/participants', fn () => 'Participants Page')->name('participants.index');
+
+    // Schedules routes
+    Route::get('/schedules', function () {
+        return view('pages.admin.schedules.index');
+    })->name('schedules.index');
+    Route::get('/schedules/create', fn () => 'Create Schedule Page')->name('schedules.create');
+
+    // Instructors routes
+    Route::get('/instructors', function () {
+        return view('pages.admin.instructors.index');
+    })->name('instructors.index');
+    Route::get('/instructors/create', fn () => 'Create Instructor Page')->name('instructors.create');
+
+    // Participants routes
+    Route::get('/participants', function () {
+        return view('pages.admin.participants.index');
+    })->name('participants.index');
+    Route::get('/participants/create', fn () => 'Create Participant Page')->name('participants.create');
     Route::get('/categories', fn () => 'Categories Page')->name('categories.index');
     Route::get('/messages', fn () => 'Messages Page')->name('messages.index');
     Route::get('/reports', fn () => 'Reports Page')->name('reports');
