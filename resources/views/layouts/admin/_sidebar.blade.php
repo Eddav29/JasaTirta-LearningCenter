@@ -33,6 +33,11 @@
             <span x-show="sidebarOpen" x-transition>Dashboard</span>
         </a>
 
+        {{-- Divider --}}
+        <div class="pt-5 pb-3" x-show="sidebarOpen" x-transition>
+            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Manajemen</p>
+        </div>
+
         {{-- Pelatihan --}}
         <a href="{{ route('admin.trainings.index') }}" 
            class="flex items-center gap-4 px-4 py-3.5 text-base font-medium rounded-lg transition-colors {{ request()->routeIs('admin.trainings.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
@@ -69,11 +74,6 @@
             <span x-show="sidebarOpen" x-transition>Peserta</span>
         </a>
 
-        {{-- Divider --}}
-        <div class="pt-5 pb-3" x-show="sidebarOpen" x-transition>
-            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Manajemen</p>
-        </div>
-
         {{-- Kategori --}}
         <a href="{{ route('admin.categories.index') }}" 
            class="flex items-center gap-4 px-4 py-3.5 text-base font-medium rounded-lg transition-colors {{ request()->routeIs('admin.categories.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
@@ -82,6 +82,10 @@
             </svg>
             <span x-show="sidebarOpen" x-transition>Kategori</span>
         </a>
+                {{-- Divider --}}
+        <div class="pt-5 pb-3" x-show="sidebarOpen" x-transition>
+            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Laporan</p>
+        </div>
 
         {{-- Pesan --}}
         <a href="{{ route('admin.messages.index') }}" 

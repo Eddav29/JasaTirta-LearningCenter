@@ -32,14 +32,111 @@
         </div>
 
         {{-- Right Side --}}
-        <div class="flex items-center gap-3">
-            {{-- Notifications --}}
-            <button class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                </svg>
-                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+        <div class="flex items-center gap-3" x-data="notificationsManager()">
+            {{-- Notifications Dropdown --}}
+            <div class="relative" x-data="{ notifOpen: false }">
+                <button 
+                    @click="notifOpen = !notifOpen"
+                    class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                    </svg>
+                    <span 
+                        x-show="unreadCount > 0"
+                        x-text="unreadCount"
+                        class="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center font-medium"
+                    ></span>
+                </button>
+
+                {{-- Dropdown Menu --}}
+                <div 
+                    x-show="notifOpen"
+                    @click.away="notifOpen = false"
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="transform opacity-0 scale-95"
+                    x-transition:enter-end="transform opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="transform opacity-100 scale-100"
+                    x-transition:leave-end="transform opacity-0 scale-95"
+                    class="absolute right-0 mt-2 w-80 max-h-[500px] bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden"
+                    style="display: none;"
+                >
+                    {{-- Header --}}
+                    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+                        <div>
+                            <h3 class="font-semibold text-sm text-gray-900">Notifikasi</h3>
+                            <p class="text-xs text-gray-500"><span x-text="unreadCount"></span> belum dibaca</p>
+                        </div>
+                        <button 
+                            x-show="unreadCount > 0"
+                            @click="markAllAsRead()"
+                            class="text-xs text-blue-600 hover:text-blue-700 font-medium"
+                        >
+                            Tandai semua dibaca
+                        </button>
+                    </div>
+
+                    {{-- Notifications List --}}
+                    <div class="overflow-y-auto max-h-96">
+                        <template x-if="notifications.length === 0">
+                            <div class="px-4 py-8 text-center text-sm text-gray-500">
+                                <svg class="w-12 h-12 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                                </svg>
+                                <p>Tidak ada notifikasi</p>
+                            </div>
+                        </template>
+
+                        <div class="divide-y divide-gray-100">
+                            <template x-for="notification in notifications" :key="notification.id">
+                                <div 
+                                    @click="markAsRead(notification.id)"
+                                    :class="!notification.read ? 'bg-blue-50/50' : ''"
+                                    class="px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors"
+                                >
+                                    <div class="flex items-start gap-3">
+                                        <div class="text-xl mt-0.5" x-html="getNotificationIcon(notification.type)"></div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-start justify-between gap-2">
+                                                <h4 
+                                                    :class="!notification.read ? 'text-gray-900' : 'text-gray-700'"
+                                                    class="text-sm font-medium"
+                                                    x-text="notification.title"
+                                                ></h4>
+                                                <div 
+                                                    x-show="!notification.read"
+                                                    class="w-2 h-2 rounded-full bg-blue-600 flex-shrink-0 mt-1.5"
+                                                ></div>
+                                            </div>
+                                            <p class="text-xs text-gray-600 mt-0.5 line-clamp-2" x-text="notification.message"></p>
+                                            <div class="flex items-center justify-between mt-2">
+                                                <span class="text-xs text-gray-500" x-text="notification.time"></span>
+                                                <button
+                                                    @click.stop="deleteNotification(notification.id)"
+                                                    class="text-xs text-red-600 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded transition-colors"
+                                                >
+                                                    Hapus
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    {{-- Footer --}}
+                    <div class="border-t border-gray-200 px-4 py-2">
+                        <a 
+                            href="#"
+                            class="block text-center text-sm text-blue-600 hover:text-blue-700 font-medium py-1"
+                        >
+                            Lihat Semua Notifikasi
+                        </a>
+                    </div>
+                </div>
+            </div>
 
             {{-- Profile Dropdown --}}
             <div class="relative" x-data="{ open: false }">
