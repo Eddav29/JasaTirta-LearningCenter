@@ -3,7 +3,7 @@
 @section('title', 'Pesan Kontak - Admin')
 
 @section('content')
-<div class="space-y-6">
+<div class="space-y-6" x-data="messagesPageManager()">
     @include('pages.admin.messages._header')
     @include('pages.admin.messages._statistics')
     @include('pages.admin.messages._filters')

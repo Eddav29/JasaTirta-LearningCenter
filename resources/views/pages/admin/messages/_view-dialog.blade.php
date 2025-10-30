@@ -1,4 +1,4 @@
-<div x-data="messagesPageManager()" x-show="viewDialogOpen" x-cloak class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+<div x-show="viewDialogOpen" x-cloak class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
     <!-- Backdrop -->
     <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="viewDialogOpen = false"></div>
     

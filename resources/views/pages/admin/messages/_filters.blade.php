@@ -1,4 +1,4 @@
-<div x-data="messagesPageManager()" class="space-y-4">
+<div class="space-y-4">
     <!-- Search Bar -->
     <div class="relative">
         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

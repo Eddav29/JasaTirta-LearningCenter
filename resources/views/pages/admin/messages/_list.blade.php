@@ -107,13 +107,28 @@ $data = [
 ];
 @endphp
 
-<div x-data="messagesPageManager()" x-init="messages = {{ json_encode($data) }}" class="bg-white rounded-lg border border-gray-200">
+<div x-init="messages = {{ json_encode($data) }}" class="bg-white rounded-lg border border-gray-200">
     <!-- Header -->
     <div class="p-6 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-900">
-            Daftar Pesan (<span x-text="filteredMessages.length"></span>)
-        </h2>
-        <p class="text-sm text-gray-600 mt-1">Kelola semua pesan masuk dari formulir kontak</p>
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-gray-900">
+                    Daftar Pesan (<span x-text="filteredMessages.length"></span>)
+                </h2>
+                <p class="text-sm text-gray-600 mt-1">Kelola semua pesan masuk dari formulir kontak</p>
+            </div>
+            
+            <!-- Select All Checkbox -->
+            <div class="flex items-center gap-2">
+                <input 
+                    type="checkbox" 
+                    :checked="selectedMessages.length === paginatedMessages.length && paginatedMessages.length > 0"
+                    @change="selectAll()"
+                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                >
+                <label class="text-sm text-gray-600">Pilih Semua</label>
+            </div>
+        </div>
     </div>
 
     <!-- Messages List -->

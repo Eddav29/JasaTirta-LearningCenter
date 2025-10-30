@@ -1,4 +1,4 @@
-<div x-data="messagesPageManager()" x-init="messages = []" class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+<div x-init="messages = []" class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
     <!-- Total Messages -->
     <div class="bg-white rounded-lg border border-gray-200 p-6">
         <div class="flex items-center justify-between mb-2">
