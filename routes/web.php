@@ -114,11 +114,28 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         return view('pages.admin.participants.index');
     })->name('participants.index');
     Route::get('/participants/create', fn () => 'Create Participant Page')->name('participants.create');
-    Route::get('/categories', fn () => 'Categories Page')->name('categories.index');
-    Route::get('/messages', fn () => 'Messages Page')->name('messages.index');
+
+    // Categories routes
+    Route::get('/categories', function () {
+        return view('pages.admin.categories.index');
+    })->name('categories.index');
+    Route::get('/categories/create', fn () => 'Create Category Page')->name('categories.create');
+
+    // Notifications routes
+    Route::get('/notifications', function () {
+        return view('pages.admin.notifications.index');
+    })->name('notifications.index');
+    Route::get('/notifications/create', fn () => 'Create Notification Page')->name('notifications.create');
+
+    // Messages routes
+    Route::get('/messages', function () {
+        return view('pages.admin.messages.index');
+    })->name('messages.index');
+
+    // Reports routes
     Route::get('/reports', fn () => 'Reports Page')->name('reports');
-    Route::get('/users', fn () => 'Users Page')->name('users.index');
-    Route::get('/settings', fn () => 'Settings Page')->name('settings');
+
+    // Profile routes
     Route::get('/profile', fn () => 'Profile Page')->name('profile');
 });
 

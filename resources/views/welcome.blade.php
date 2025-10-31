@@ -3,7 +3,7 @@
 @section('title', 'Welcome')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+<div class="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
     <div class="flex flex-col items-center justify-center min-h-screen px-4">
         <div class="text-center">
             <!-- Logo/Icon -->

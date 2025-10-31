@@ -55,7 +55,7 @@
             
             <div class="relative">
                 <div class="relative group">
-                    <div class="relative rounded-2xl shadow-2xl w-full bg-gradient-to-br from-blue-500 to-purple-600 h-96 flex items-center justify-center overflow-hidden">
+                    <div class="relative rounded-2xl shadow-2xl w-full bg-linear-to-br from-blue-500 to-purple-600 h-96 flex items-center justify-center overflow-hidden">
                         <div class="absolute inset-0 bg-black/20"></div>
                         <p class="relative z-10 text-white text-2xl font-bold">Hero Image</p>
                     </div>
