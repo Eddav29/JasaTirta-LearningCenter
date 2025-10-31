@@ -37,7 +37,7 @@
 
             @foreach($trainings as $index => $training)
             <div class="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg bg-white">
-                <div class="aspect-video overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                <div class="aspect-video overflow-hidden bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                     <p class="text-white text-xl font-bold">Training Image {{ $index + 1 }}</p>
                 </div>
                 <div class="p-6">

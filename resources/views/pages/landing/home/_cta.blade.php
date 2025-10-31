@@ -1,5 +1,5 @@
 {{-- Final CTA Section --}}
-<section class="py-24 bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 relative overflow-hidden">
+<section class="py-24 bg-linear-to-br from-blue-50 to-indigo-100 text-gray-800 relative overflow-hidden">
     {{-- Clean Background Pattern --}}
     <div class="absolute inset-0 opacity-10">
         <div class="absolute top-20 left-20 w-20 h-20 border border-blue-300 rounded-xl rotate-45"></div>
@@ -39,7 +39,7 @@
             {{-- Clean Benefits Grid --}}
             <div class="grid md:grid-cols-3 gap-8 mb-16">
                 <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-blue-200 text-center hover:bg-white/80 transition-all duration-300 shadow-lg">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-200 to-blue-300 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                    <div class="w-16 h-16 bg-linear-to-br from-blue-200 to-blue-300 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
                         <svg class="w-8 h-8 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
@@ -49,7 +49,7 @@
                 </div>
                 
                 <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-green-200 text-center hover:bg-white/80 transition-all duration-300 shadow-lg">
-                    <div class="w-16 h-16 bg-gradient-to-br from-green-200 to-emerald-300 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                    <div class="w-16 h-16 bg-linear-to-br from-green-200 to-emerald-300 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
                         <svg class="w-8 h-8 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                         </svg>
@@ -59,7 +59,7 @@
                 </div>
                 
                 <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-purple-200 text-center hover:bg-white/80 transition-all duration-300 shadow-lg">
-                    <div class="w-16 h-16 bg-gradient-to-br from-purple-200 to-violet-300 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                    <div class="w-16 h-16 bg-linear-to-br from-purple-200 to-violet-300 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
                         <svg class="w-8 h-8 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
@@ -72,7 +72,7 @@
             {{-- Clean Action Buttons --}}
             <div class="text-center space-y-8">
                 <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                    <a href="/contact" class="inline-flex items-center bg-gradient-to-r from-blue-400 to-blue-500 text-white hover:from-blue-500 hover:to-blue-600 shadow-lg font-bold px-12 py-4 text-lg transition-all duration-300 hover:shadow-xl rounded-xl">
+                    <a href="/contact" class="inline-flex items-center bg-linear-to-r from-blue-400 to-blue-500 text-white hover:from-blue-500 hover:to-blue-600 shadow-lg font-bold px-12 py-4 text-lg transition-all duration-300 hover:shadow-xl rounded-xl">
                         <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                         </svg>

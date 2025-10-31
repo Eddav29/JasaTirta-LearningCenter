@@ -4,7 +4,7 @@
     <div class="p-6">
         <div class="flex items-start space-x-4">
             {{-- Avatar --}}
-            <div class="w-20 h-20 bg-linear-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+            <div class="w-20 h-20 bg-linear-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center text-white font-bold text-xl shrink-0">
                 @php
                     $initials = collect(explode(' ', $instructor['name']))
                         ->take(2)

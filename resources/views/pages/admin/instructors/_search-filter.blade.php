@@ -13,7 +13,7 @@
                 />
             </div>
         </div>
-        <div class="flex items-center gap-3 w-full md:w-auto flex-shrink-0">
+        <div class="flex items-center gap-3 w-full md:w-auto shrink-0">
             <div class="flex items-center gap-2 flex-wrap">
                 <select x-model="specializationFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm w-48">
                     <option value="all">Semua Spesialisasi</option>
@@ -40,7 +40,7 @@
                     <option value="Retired">Retired</option>
                 </select>
             </div>
-            <a href="{{ route('admin.instructors.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap flex-shrink-0">
+            <a href="{{ route('admin.instructors.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap shrink-0">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>

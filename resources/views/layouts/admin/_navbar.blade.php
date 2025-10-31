@@ -106,7 +106,7 @@
                                                 ></h4>
                                                 <div 
                                                     x-show="!notification.read"
-                                                    class="w-2 h-2 rounded-full bg-blue-600 flex-shrink-0 mt-1.5"
+                                                    class="w-2 h-2 rounded-full bg-blue-600 shrink-0 mt-1.5"
                                                 ></div>
                                             </div>
                                             <p class="text-xs text-gray-600 mt-0.5 line-clamp-2" x-text="notification.message"></p>
@@ -144,7 +144,7 @@
                     @click="open = !open"
                     class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 >
-                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <div class="w-8 h-8 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                         <span class="text-white text-sm font-medium">AD</span>
                     </div>
                     <div class="hidden lg:block text-left">
