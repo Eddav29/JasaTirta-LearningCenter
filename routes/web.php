@@ -136,7 +136,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/reports', fn () => 'Reports Page')->name('reports');
 
     // Profile routes
-    Route::get('/profile', fn () => 'Profile Page')->name('profile');
+    Route::get('/profile', function () {
+        return view('pages.admin.profile.index');
+    })->name('profile');
 });
 
 // API status endpoint
