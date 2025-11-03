@@ -20,9 +20,7 @@ Route::get('/catalog', [App\Http\Controllers\TrainingController::class, 'catalog
 Route::get('/pengajar', [App\Http\Controllers\InstructorController::class, 'index'])->name('pengajar');
 
 // Jadwal
-Route::get('/jadwal', function () {
-    return view('pages.landing.schedule.index');
-})->name('jadwal');
+Route::get('/jadwal', [App\Http\Controllers\ScheduleController::class, 'index'])->name('jadwal');
 
 // Kontak
 Route::get('/kontak', function () {

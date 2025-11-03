@@ -62,6 +62,9 @@ class TrainingSchedule extends Model
         'can_register',
         'formatted_date_range',
         'formatted_time_range',
+        'duration',
+        'max_participants',
+        'price',
     ];
 
     /**
@@ -106,6 +109,30 @@ class TrainingSchedule extends Model
     public function getFormattedTimeRangeAttribute(): string
     {
         return Carbon::parse($this->start_time)->format('H:i').' - '.Carbon::parse($this->end_time)->format('H:i');
+    }
+
+    /**
+     * Get duration in days.
+     */
+    public function getDurationAttribute(): int
+    {
+        return $this->start_date->diffInDays($this->end_date) + 1;
+    }
+
+    /**
+     * Get max participants (alias for total_slots).
+     */
+    public function getMaxParticipantsAttribute(): int
+    {
+        return $this->total_slots;
+    }
+
+    /**
+     * Get price from related training.
+     */
+    public function getPriceAttribute(): int
+    {
+        return $this->training?->price ?? 0;
     }
 
     /**
