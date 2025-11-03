@@ -3,7 +3,17 @@
 @section('title', 'Kategori Pelatihan')
 
 @section('content')
-<div class="space-y-6">
+<div class="space-y-6" x-data="categoriesManager()" x-init="categories = {{ json_encode($categories->map(fn($cat) => [
+    'id' => $cat->id,
+    'name' => $cat->name,
+    'slug' => $cat->slug,
+    'description' => $cat->description ?? '',
+    'icon' => $cat->icon ?? '📁',
+    'color' => $cat->color ?? '#3b82f6',
+    'trainingCount' => $cat->trainings_count,
+    'isActive' => (bool) $cat->is_active,
+    'createdAt' => $cat->created_at->format('Y-m-d')
+])) }}; console.log('Initial categories:', categories);">
     @include('pages.admin.categories._header')
     @include('pages.admin.categories._statistics')
     @include('pages.admin.categories._search-filter')
@@ -24,6 +34,7 @@
             showAddDialog: false,
             showEditDialog: false,
             selectedCategory: null,
+            selectedIds: [],
 
             // Form data
             formData: {
@@ -35,13 +46,19 @@
                 isActive: true
             },
 
+            // Computed: All selected
+            get allSelected() {
+                return this.paginatedCategories.length > 0 && 
+                       this.paginatedCategories.every(cat => this.selectedIds.includes(cat.id));
+            },
+
             // Computed: Filtered categories
             get filteredCategories() {
                 return this.categories.filter(category => {
                     const matchesSearch = this.searchQuery === '' ||
-                        category.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                        category.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                        category.slug.toLowerCase().includes(this.searchQuery.toLowerCase());
+                        (category.name && category.name.toLowerCase().includes(this.searchQuery.toLowerCase())) ||
+                        (category.description && category.description.toLowerCase().includes(this.searchQuery.toLowerCase())) ||
+                        (category.slug && category.slug.toLowerCase().includes(this.searchQuery.toLowerCase()));
                     
                     const matchesStatus = this.statusFilter === '' ||
                         (this.statusFilter === 'active' && category.isActive) ||
@@ -181,6 +198,78 @@
                 }
             },
 
+            // Bulk Actions
+            toggleAll() {
+                if (this.allSelected) {
+                    // Deselect all on current page
+                    this.paginatedCategories.forEach(cat => {
+                        const idx = this.selectedIds.indexOf(cat.id);
+                        if (idx > -1) this.selectedIds.splice(idx, 1);
+                    });
+                } else {
+                    // Select all on current page
+                    this.paginatedCategories.forEach(cat => {
+                        if (!this.selectedIds.includes(cat.id)) {
+                            this.selectedIds.push(cat.id);
+                        }
+                    });
+                }
+            },
+
+            toggleSelect(id) {
+                const idx = this.selectedIds.indexOf(id);
+                if (idx > -1) {
+                    this.selectedIds.splice(idx, 1);
+                } else {
+                    this.selectedIds.push(id);
+                }
+            },
+
+            bulkDelete() {
+                if (this.selectedIds.length === 0) return;
+
+                const categoriesWithTrainings = this.selectedIds
+                    .map(id => this.categories.find(cat => cat.id === id))
+                    .filter(cat => cat && cat.trainingCount > 0);
+
+                if (categoriesWithTrainings.length > 0) {
+                    alert(`Tidak dapat menghapus ${categoriesWithTrainings.length} kategori yang masih memiliki pelatihan.`);
+                    return;
+                }
+
+                if (confirm(`Apakah Anda yakin ingin menghapus ${this.selectedIds.length} kategori?`)) {
+                    this.categories = this.categories.filter(cat => !this.selectedIds.includes(cat.id));
+                    this.selectedIds = [];
+                    alert('Kategori berhasil dihapus');
+                }
+            },
+
+            bulkActivate() {
+                if (this.selectedIds.length === 0) return;
+
+                this.selectedIds.forEach(id => {
+                    const index = this.categories.findIndex(cat => cat.id === id);
+                    if (index !== -1) {
+                        this.categories[index].isActive = true;
+                    }
+                });
+                this.selectedIds = [];
+                alert('Kategori berhasil diaktifkan');
+            },
+
+            bulkDeactivate() {
+                if (this.selectedIds.length === 0) return;
+
+                this.selectedIds.forEach(id => {
+                    const index = this.categories.findIndex(cat => cat.id === id);
+                    if (index !== -1) {
+                        this.categories[index].isActive = false;
+                    }
+                });
+                this.selectedIds = [];
+                alert('Kategori berhasil dinonaktifkan');
+            },
+
             formatDate(dateString) {
                 const date = new Date(dateString);
                 return date.toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -188,8 +277,18 @@
 
             // Watchers
             init() {
-                this.$watch('searchQuery', () => this.currentPage = 1);
-                this.$watch('statusFilter', () => this.currentPage = 1);
+                this.$watch('searchQuery', () => {
+                    console.log('Search query changed:', this.searchQuery);
+                    this.currentPage = 1;
+                });
+                this.$watch('statusFilter', () => {
+                    console.log('Status filter changed:', this.statusFilter);
+                    this.currentPage = 1;
+                });
+                this.$watch('filteredCategories', () => {
+                    console.log('Filtered categories:', this.filteredCategories.length);
+                });
+                console.log('Categories Manager initialized with', this.categories.length, 'categories');
             }
         }));
     });

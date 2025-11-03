@@ -1,129 +1,83 @@
 {{-- Instructors Table --}}
-@php
-    $instructors = [
-        [
-            'id' => 1,
-            'name' => 'Dr. Sarah Wijaya',
-            'email' => 'sarah.wijaya@jtlc.com',
-            'phone' => '+62 811-2233-4455',
-            'specialization' => ['Water Quality Testing', 'Environmental Analysis', 'Laboratory Management'],
-            'experienceLevel' => 'Expert',
-            'status' => 'Active',
-            'yearsExperience' => 12,
-            'coursesCount' => 8,
-            'studentsCount' => 245,
-            'rating' => 4.9,
-            'joinDate' => '2020-03-15',
-            'certifications' => ['ISO 17025 Lead Auditor', 'Water Quality Specialist', 'Environmental Consultant'],
-            'education' => 'PhD Environmental Chemistry - UI',
-            'bio' => 'Experienced environmental scientist with expertise in water quality analysis.',
-            'hourlyRate' => 750000
-        ],
-        [
-            'id' => 2,
-            'name' => 'Muhammad Rizki, S.T.',
-            'email' => 'rizki.muhammad@jtlc.com',
-            'phone' => '+62 812-3344-5566',
-            'specialization' => ['Sampling Techniques', 'Field Testing', 'Quality Control'],
-            'experienceLevel' => 'Senior',
-            'status' => 'Active',
-            'yearsExperience' => 8,
-            'coursesCount' => 6,
-            'studentsCount' => 189,
-            'rating' => 4.7,
-            'joinDate' => '2021-07-20',
-            'certifications' => ['Sampling Technician Level II', 'Quality Control Specialist'],
-            'education' => 'S1 Teknik Lingkungan - ITB',
-            'bio' => 'Field specialist with extensive experience in sampling and testing procedures.',
-            'hourlyRate' => 500000
-        ],
-        [
-            'id' => 3,
-            'name' => 'Dr. Lisa Chen',
-            'email' => 'lisa.chen@jtlc.com',
-            'phone' => '+62 813-4455-6677',
-            'specialization' => ['Microbiology', 'Pathogen Detection', 'Food Safety'],
-            'experienceLevel' => 'Expert',
-            'status' => 'Active',
-            'yearsExperience' => 15,
-            'coursesCount' => 5,
-            'studentsCount' => 156,
-            'rating' => 4.8,
-            'joinDate' => '2019-11-10',
-            'certifications' => ['Microbiologist Certified', 'Food Safety Auditor', 'HACCP Lead Auditor'],
-            'education' => 'PhD Microbiology - NTU Singapore',
-            'bio' => 'Microbiology expert specializing in pathogen detection and food safety.',
-            'hourlyRate' => 850000
-        ],
-        [
-            'id' => 4,
-            'name' => 'Ahmad Fadli, M.Sc.',
-            'email' => 'ahmad.fadli@jtlc.com',
-            'phone' => '+62 814-5566-7788',
-            'specialization' => ['Chemical Analysis', 'Instrumentation', 'Method Development'],
-            'experienceLevel' => 'Senior',
-            'status' => 'On Leave',
-            'yearsExperience' => 10,
-            'coursesCount' => 7,
-            'studentsCount' => 198,
-            'rating' => 4.6,
-            'joinDate' => '2020-09-05',
-            'certifications' => ['Analytical Chemist', 'Instrument Specialist'],
-            'education' => 'M.Sc Chemistry - UGM',
-            'bio' => 'Analytical chemistry specialist with focus on method development.',
-            'hourlyRate' => 600000
-        ],
-        [
-            'id' => 5,
-            'name' => 'Maya Sari, S.Si.',
-            'email' => 'maya.sari@jtlc.com',
-            'phone' => '+62 815-6677-8899',
-            'specialization' => ['Training Development', 'Adult Education', 'Curriculum Design'],
-            'experienceLevel' => 'Junior',
-            'status' => 'Active',
-            'yearsExperience' => 3,
-            'coursesCount' => 4,
-            'studentsCount' => 87,
-            'rating' => 4.4,
-            'joinDate' => '2023-02-14',
-            'certifications' => ['Certified Trainer', 'Adult Education Specialist'],
-            'education' => 'S1 Pendidikan Kimia - UNJ',
-            'bio' => 'Education specialist focused on training development and curriculum design.',
-            'hourlyRate' => 350000
-        ]
-    ];
 
-    function getStatusColor($status) {
-        return match($status) {
-            'Active' => 'bg-green-100 text-green-800',
-            'Inactive' => 'bg-red-100 text-red-800',
-            'On Leave' => 'bg-yellow-100 text-yellow-800',
-            'Retired' => 'bg-gray-100 text-gray-800',
-            default => 'bg-gray-100 text-gray-800'
-        };
-    }
-
-    function getExperienceLevelColor($level) {
-        return match($level) {
-            'Master' => 'bg-purple-100 text-purple-800',
-            'Expert' => 'bg-blue-100 text-blue-800',
-            'Senior' => 'bg-indigo-100 text-indigo-800',
-            'Junior' => 'bg-green-100 text-green-800',
-            default => 'bg-gray-100 text-gray-800'
-        };
-    }
-@endphp
-
-<div class="bg-white rounded-lg border border-gray-200" x-data="instructorsManager()" x-init="instructors = {{ json_encode($instructors) }}">
+<div class="bg-white rounded-lg border border-gray-200">
     <div class="p-6 border-b border-gray-200">
-        <h3 class="text-lg font-bold text-gray-900">Daftar Instructor</h3>
-        <p class="text-sm text-gray-600 mt-1">
-            <span x-text="`Menampilkan ${filteredInstructors.length} dari ${instructors.length} instructor`"></span>
-        </p>
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-lg font-bold text-gray-900">Daftar Instructor</h3>
+                <p class="text-sm text-gray-600 mt-1">
+                    Kelola data instructor dan pengajar
+                </p>
+            </div>
+            <div class="text-sm text-gray-600">
+                <span x-show="searchQuery || specializationFilter !== 'all' || experienceLevelFilter !== 'all' || statusFilter !== 'all'" x-cloak>
+                    Menampilkan <span class="font-medium text-gray-900" x-text="filteredInstructors.length"></span> 
+                    dari <span class="font-medium text-gray-900" x-text="instructors.length"></span> instructor
+                </span>
+                <span x-show="!searchQuery && specializationFilter === 'all' && experienceLevelFilter === 'all' && statusFilter === 'all'">
+                    Total <span class="font-medium text-gray-900" x-text="instructors.length"></span> instructor
+                </span>
+            </div>
+        </div>
     </div>
     
     <div class="p-6">
-        <div class="overflow-x-auto">
+        {{-- Bulk Actions Bar --}}
+        <div 
+            x-show="selectedInstructors.length > 0" 
+            x-cloak
+            class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between"
+        >
+            <div class="flex items-center gap-3">
+                <span class="text-sm font-medium text-blue-900">
+                    <span x-text="selectedInstructors.length"></span> instructor dipilih
+                </span>
+                <button 
+                    @click="selectedInstructors = []"
+                    class="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                >
+                    Batal Pilih
+                </button>
+            </div>
+            <div class="flex items-center gap-2">
+                <select 
+                    @change="bulkStatusChange($event.target.value); $event.target.value = ''" 
+                    class="px-3 py-1.5 text-sm border border-blue-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    <option value="">Ubah Status</option>
+                    <option value="Active">Set ke Active</option>
+                    <option value="Inactive">Set ke Inactive</option>
+                    <option value="On Leave">Set ke On Leave</option>
+                    <option value="Retired">Set ke Retired</option>
+                </select>
+                <button 
+                    @click="bulkDelete()"
+                    class="inline-flex items-center px-3 py-1.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
+                >
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                    Hapus
+                </button>
+            </div>
+        </div>
+
+        {{-- Empty State for No Results --}}
+        <div x-show="filteredInstructors.length === 0" x-cloak class="text-center py-12">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Tidak ada instructor ditemukan</h3>
+            <p class="mt-1 text-sm text-gray-500">Coba ubah kriteria pencarian atau filter Anda</p>
+            <button 
+                @click="searchQuery = ''; specializationFilter = 'all'; experienceLevelFilter = 'all'; statusFilter = 'all'"
+                class="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+            >
+                Reset Filter
+            </button>
+        </div>
+
+        <div x-show="filteredInstructors.length > 0" class="overflow-x-auto">
             <table class="w-full">
                 <thead>
                     <tr class="border-b border-gray-200">
@@ -179,18 +133,18 @@
                                 </div>
                             </td>
                             <td class="py-4 px-4">
-                                @foreach($instructors as $instructor)
-                                <template x-if="instructor.id === {{ $instructor['id'] }}">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium {{ getExperienceLevelColor($instructor['experienceLevel']) }}" x-text="instructor.experienceLevel"></span>
-                                </template>
-                                @endforeach
+                                <span 
+                                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                                    :class="instructor.experienceLevel === 'Expert' ? 'bg-blue-100 text-blue-800' : (instructor.experienceLevel === 'Senior' ? 'bg-indigo-100 text-indigo-800' : (instructor.experienceLevel === 'Junior' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'))"
+                                    x-text="instructor.experienceLevel"
+                                ></span>
                             </td>
                             <td class="py-4 px-4">
-                                @foreach($instructors as $instructor)
-                                <template x-if="instructor.id === {{ $instructor['id'] }}">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium {{ getStatusColor($instructor['status']) }}" x-text="instructor.status"></span>
-                                </template>
-                                @endforeach
+                                <span 
+                                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                                    :class="instructor.status === 'Active' ? 'bg-green-100 text-green-800' : (instructor.status === 'On Leave' ? 'bg-yellow-100 text-yellow-800' : (instructor.status === 'Inactive' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'))"
+                                    x-text="instructor.status"
+                                ></span>
                             </td>
                             <td class="py-4 px-4">
                                 <div class="text-sm">

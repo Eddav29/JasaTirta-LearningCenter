@@ -94,9 +94,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('/schedules/{schedule}/duplicate', [App\Http\Controllers\Admin\ScheduleController::class, 'duplicate'])->name('schedules.duplicate');
 
     // Instructors routes
-    Route::get('/instructors', function () {
-        return view('pages.admin.instructors.index');
-    })->name('instructors.index');
+    Route::get('/instructors', [App\Http\Controllers\Admin\InstructorController::class, 'index'])->name('instructors.index');
     Route::get('/instructors/create', fn () => 'Create Instructor Page')->name('instructors.create');
 
     // Participants routes
@@ -106,9 +104,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/participants/create', fn () => 'Create Participant Page')->name('participants.create');
 
     // Categories routes
-    Route::get('/categories', function () {
-        return view('pages.admin.categories.index');
-    })->name('categories.index');
+    Route::get('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', fn () => 'Create Category Page')->name('categories.create');
 
     // Notifications routes
