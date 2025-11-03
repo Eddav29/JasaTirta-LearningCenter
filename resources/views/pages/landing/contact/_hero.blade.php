@@ -19,14 +19,6 @@
         <div class="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-20">
             {{-- Left Content --}}
             <div class="space-y-8">
-                {{-- Badge --}}
-                <div class="inline-flex items-center px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 rounded-full text-white text-sm font-medium shadow-lg shadow-blue-200">
-                    <svg class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                    Konsultasi Gratis - Tim Ahli Siap Membantu
-                </div>
-
                 {{-- Main Headline --}}
                 <div class="space-y-4">
                     <h1 class="text-5xl lg:text-7xl font-bold text-white leading-tight">
@@ -88,79 +80,6 @@
                         </svg>
                         Lihat Program
                     </a>
-                </div>
-            </div>
-
-            {{-- Right Visual Content --}}
-            <div class="relative lg:order-first order-last">
-                {{-- Main Illustration Container --}}
-                <div class="relative">
-                    {{-- Background Decorative Elements --}}
-                    <div class="absolute -inset-4">
-                        <div class="w-full h-full bg-linear-to-r from-blue-400 to-indigo-500 rounded-3xl transform rotate-3 opacity-20"></div>
-                    </div>
-                    <div class="absolute -inset-2">
-                        <div class="w-full h-full bg-linear-to-r from-indigo-400 to-purple-500 rounded-3xl transform -rotate-2 opacity-20"></div>
-                    </div>
-                    
-                    {{-- Main Content Card --}}
-                    <div class="relative bg-white rounded-3xl shadow-2xl p-8 transform hover:scale-105 transition-transform duration-500">
-                        {{-- Header --}}
-                        <div class="text-center mb-8">
-                            <div class="w-20 h-20 bg-linear-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Siap Membantu Anda</h3>
-                            <p class="text-gray-600">Tim professional dengan pengalaman 15+ tahun</p>
-                        </div>
-
-                        {{-- Contact Stats --}}
-                        <div class="grid grid-cols-2 gap-6 mb-8">
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-blue-600 mb-1">24/7</div>
-                                <div class="text-sm text-gray-600">Layanan Konsultasi</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-indigo-600 mb-1">1000+</div>
-                                <div class="text-sm text-gray-600">Klien Terpuaskan</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-purple-600 mb-1">50+</div>
-                                <div class="text-sm text-gray-600">Program Pelatihan</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-green-600 mb-1">15+</div>
-                                <div class="text-sm text-gray-600">Tahun Pengalaman</div>
-                            </div>
-                        </div>
-
-                        {{-- Quick Contact Form Teaser --}}
-                        <div class="bg-gray-50 rounded-2xl p-6">
-                            <h4 class="font-semibold text-gray-900 mb-4">Konsultasi Cepat</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-center text-sm text-gray-600">
-                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Analisis kebutuhan pelatihan
-                                </div>
-                                <div class="flex items-center text-sm text-gray-600">
-                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Rekomendasi program terbaik
-                                </div>
-                                <div class="flex items-center text-sm text-gray-600">
-                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Penawaran khusus untuk perusahaan
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
