@@ -14,52 +14,37 @@ class TrainingCategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Teknik Sampling',
-                'description' => 'Pelatihan tentang teknik pengambilan sampel air dan lingkungan yang sesuai dengan standar nasional dan internasional. Meliputi prosedur sampling, preservasi sampel, dan dokumentasi.',
+                'name' => 'Analisis Lab',
+                'description' => 'Pelatihan analisis kualitas air dan parameter lingkungan di laboratorium menggunakan metode standar. Meliputi analisis fisika, kimia, dan mikrobiologi dengan peralatan modern.',
             ],
             [
-                'name' => 'Analisis Laboratorium',
-                'description' => 'Pelatihan analisis kualitas air dan parameter lingkungan di laboratorium menggunakan metode standar. Meliputi analisis fisika, kimia, dan mikrobiologi.',
+                'name' => 'Sampling Lingkungan',
+                'description' => 'Pelatihan tentang teknik pengambilan contoh uji udara ambien, air, dan lingkungan yang sesuai dengan standar nasional dan internasional.',
             ],
             [
-                'name' => 'Mikrobiologi Air',
-                'description' => 'Pelatihan tentang analisis mikrobiologi dalam air meliputi deteksi bakteri patogen, coliform, dan mikroorganisme indikator kualitas air lainnya.',
+                'name' => 'Sampling Air',
+                'description' => 'Pelatihan teknik pengambilan sampel air sungai, air tanah, dan air sumur sesuai dengan SNI. Meliputi prosedur sampling, preservasi sampel, dan dokumentasi.',
             ],
             [
-                'name' => 'Pengolahan Air',
-                'description' => 'Pelatihan sistem pengolahan air bersih dan air limbah. Meliputi proses koagulasi, flokulasi, sedimentasi, filtrasi, disinfeksi, dan teknologi pengolahan modern.',
+                'name' => 'K3L',
+                'description' => 'Pelatihan keselamatan, kesehatan kerja, dan lingkungan di laboratorium. Meliputi manajemen K3L, pengelolaan limbah, dan prosedur keadaan darurat.',
             ],
             [
-                'name' => 'Instrumentasi Lab',
-                'description' => 'Pelatihan penggunaan dan kalibrasi instrumen laboratorium seperti spektrofotometer, pH meter, turbidimeter, DO meter, dan instrumen analitik lainnya.',
+                'name' => 'Analisis Data',
+                'description' => 'Pelatihan analisis statistik dan interpretasi hasil pengujian kualitas air untuk pengambilan keputusan yang tepat dalam pengelolaan lingkungan.',
             ],
             [
-                'name' => 'Kalibrasi Alat',
-                'description' => 'Pelatihan prosedur kalibrasi alat laboratorium sesuai standar ISO 17025. Meliputi verifikasi, validasi, dan dokumentasi kalibrasi.',
+                'name' => 'Manajemen',
+                'description' => 'Pelatihan sistem manajemen mutu laboratorium sesuai ISO/IEC 17025. Meliputi audit internal, dokumentasi, dan continuous improvement.',
             ],
             [
-                'name' => 'Keselamatan Kerja Lab',
-                'description' => 'Pelatihan keselamatan dan kesehatan kerja di laboratorium. Meliputi penggunaan APD, penanganan bahan kimia berbahaya, dan prosedur keadaan darurat.',
-            ],
-            [
-                'name' => 'Manajemen Kualitas',
-                'description' => 'Pelatihan sistem manajemen kualitas laboratorium ISO 17025. Meliputi dokumentasi, internal audit, dan continuous improvement.',
-            ],
-            [
-                'name' => 'Pengelolaan Limbah',
-                'description' => 'Pelatihan pengelolaan limbah laboratorium dan limbah cair. Meliputi klasifikasi, treatment, dan disposal limbah B3 sesuai regulasi.',
-            ],
-            [
-                'name' => 'Monitoring Lingkungan',
-                'description' => 'Pelatihan monitoring kualitas lingkungan meliputi air permukaan, air tanah, air limbah, dan udara ambient sesuai peraturan perundangan.',
+                'name' => 'Kalibrasi',
+                'description' => 'Pelatihan prosedur kalibrasi dan pemeliharaan instrument analisis kualitas air untuk memastikan akurasi dan keandalan hasil pengujian.',
             ],
         ];
 
         foreach ($categories as $category) {
             TrainingCategory::create($category);
         }
-
-        // Create additional random categories
-        TrainingCategory::factory()->count(5)->create();
     }
 }

@@ -12,18 +12,12 @@ Route::get('/', function () {
 })->name('home');
 
 // Katalog Pelatihan
-Route::get('/katalog', function () {
-    return view('pages.landing.catalog.index');
-})->name('katalog');
+Route::get('/katalog', [App\Http\Controllers\TrainingController::class, 'catalog'])->name('katalog');
 
-Route::get('/catalog', function () {
-    return view('pages.landing.catalog.index');
-})->name('catalog');
+Route::get('/catalog', [App\Http\Controllers\TrainingController::class, 'catalog'])->name('catalog');
 
 // Pengajar
-Route::get('/pengajar', function () {
-    return view('pages.landing.instructor.index');
-})->name('pengajar');
+Route::get('/pengajar', [App\Http\Controllers\InstructorController::class, 'index'])->name('pengajar');
 
 // Jadwal
 Route::get('/jadwal', function () {

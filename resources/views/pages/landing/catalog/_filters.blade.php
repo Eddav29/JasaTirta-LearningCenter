@@ -33,13 +33,9 @@
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 bg-white"
                     >
                         <option value="semua">Semua Kategori</option>
-                        <option value="Analisis Lab">Analisis Lab</option>
-                        <option value="Sampling Lingkungan">Sampling Lingkungan</option>
-                        <option value="Sampling Air">Sampling Air</option>
-                        <option value="K3L">K3L</option>
-                        <option value="Analisis Data">Analisis Data</option>
-                        <option value="Manajemen">Manajemen</option>
-                        <option value="Kalibrasi">Kalibrasi</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }} ({{ $category->trainings_count }})</option>
+                        @endforeach
                     </select>
                 </div>
 

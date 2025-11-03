@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Instructor;
-use App\Models\InstructorCertification;
 use Illuminate\Database\Seeder;
 
 class InstructorSeeder extends Seeder
@@ -13,129 +12,145 @@ class InstructorSeeder extends Seeder
      */
     public function run(): void
     {
-        // Instruktur 1: Dr. Sarah Wijaya - Expert Water Quality
-        $instructor1 = Instructor::create([
-            'name' => 'Dr. Sarah Wijaya',
-            'email' => 'sarah.wijaya@jtlc.com',
-            'phone' => '+62 811-2233-4455',
-            'specialization' => 'Water Quality Testing',
-            'education' => 'PhD Environmental Chemistry - UI',
-            'experience' => '12 years',
-            'bio' => 'Experienced environmental scientist with expertise in water quality analysis and laboratory management. Passionate about teaching and developing future environmental professionals.',
-            'image' => 'https://ui-avatars.com/api/?name=Sarah+Wijaya&background=4F46E5&color=fff&size=200',
-            'instructor_type' => 'internal',
-            'company' => 'JTLC',
-        ]);
+        $instructors = [
+            [
+                'name' => 'Dr. Sari Indrawati',
+                'email' => 'sari.indrawati@jtlc.com',
+                'phone' => '+62 811-2233-4455',
+                'specialization' => 'Spektrofotometri & Analisis Instrumental',
+                'education' => 'PhD Analytical Chemistry - UI',
+                'experience' => '12 years',
+                'bio' => 'Expert in instrumental analysis and spectrophotometry with extensive experience in laboratory management and analytical method development. Passionate about training future analysts.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+            [
+                'name' => 'Ir. Bambang Suryanto',
+                'email' => 'bambang.suryanto@jtlc.com',
+                'phone' => '+62 812-3344-5566',
+                'specialization' => 'Sampling Udara & Lingkungan',
+                'education' => 'S1 Teknik Lingkungan - ITB',
+                'experience' => '10 years',
+                'bio' => 'Environmental sampling specialist with focus on air quality monitoring and ambient air sampling techniques. Expert in field instrumentation and quality control.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+            [
+                'name' => 'Dr. Ahmad Hidayat',
+                'email' => 'ahmad.hidayat@jtlc.com',
+                'phone' => '+62 813-4455-6677',
+                'specialization' => 'Sampling Air & Hidrologi',
+                'education' => 'PhD Hydrology - UGM',
+                'experience' => '15 years',
+                'bio' => 'Water sampling and hydrology expert specializing in river and groundwater sampling according to national standards. Extensive field experience across Indonesia.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+            [
+                'name' => 'Prof. Dr. Sari Wahyuni',
+                'email' => 'sari.wahyuni@jtlc.com',
+                'phone' => '+62 814-5566-7788',
+                'specialization' => 'Water Quality Analysis',
+                'education' => 'Professor of Environmental Chemistry - UI',
+                'experience' => '20 years',
+                'bio' => 'Professor and senior researcher in water quality analysis with expertise in physical, chemical, and biological parameters. Author of multiple research publications.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+            [
+                'name' => 'Ir. Budi Santoso',
+                'email' => 'budi.santoso@jtlc.com',
+                'phone' => '+62 815-6677-8899',
+                'specialization' => 'K3L & Manajemen Laboratorium',
+                'education' => 'S1 Teknik Kimia - ITS',
+                'experience' => '8 years',
+                'bio' => 'Laboratory safety and environmental management specialist. Focus on implementing K3L systems and risk assessment in laboratory settings.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+            [
+                'name' => 'Dr. Rina Marlina',
+                'email' => 'rina.marlina@jtlc.com',
+                'phone' => '+62 816-7788-9900',
+                'specialization' => 'Hydrogeology & Groundwater',
+                'education' => 'PhD Hydrogeology - ITB',
+                'experience' => '12 years',
+                'bio' => 'Hydrogeology expert with specialization in groundwater sampling and aquifer characterization. Experience in environmental impact assessment.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+            [
+                'name' => 'Dr. Indra Kusuma',
+                'email' => 'indra.kusuma@jtlc.com',
+                'phone' => '+62 817-8899-0011',
+                'specialization' => 'Data Analysis & Statistics',
+                'education' => 'PhD Statistics - UGM',
+                'experience' => '9 years',
+                'bio' => 'Statistics and data analysis expert specializing in environmental data interpretation. Proficient in statistical software and data visualization.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+            [
+                'name' => 'Dr. Maya Sari',
+                'email' => 'maya.sari@jtlc.com',
+                'phone' => '+62 818-9900-1122',
+                'specialization' => 'Microbiology & Sanitasi',
+                'education' => 'PhD Microbiology - IPB',
+                'experience' => '11 years',
+                'bio' => 'Microbiology specialist with expertise in water microbiology and sanitation. Experience in pathogen detection and microbiological quality control.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+            [
+                'name' => 'Ir. Hendra Wijaya',
+                'email' => 'hendra.wijaya@jtlc.com',
+                'phone' => '+62 819-0011-2233',
+                'specialization' => 'ISO 17025 & Quality Management',
+                'education' => 'S1 Teknik Kimia - UI',
+                'experience' => '14 years',
+                'bio' => 'ISO/IEC 17025 expert and lead auditor with extensive experience in laboratory accreditation and quality management systems implementation.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+            [
+                'name' => 'Ir. Joko Susilo',
+                'email' => 'joko.susilo@jtlc.com',
+                'phone' => '+62 820-1122-3344',
+                'specialization' => 'Kalibrasi & Metrologi',
+                'education' => 'S1 Teknik Fisika - ITS',
+                'experience' => '13 years',
+                'bio' => 'Calibration and metrology specialist with expertise in laboratory instrument calibration and uncertainty calculation. KAN certified calibration technician.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+            [
+                'name' => 'Dr. Lina Hartati',
+                'email' => 'lina.hartati@jtlc.com',
+                'phone' => '+62 821-2233-4455',
+                'specialization' => 'Waste Management & B3',
+                'education' => 'PhD Environmental Engineering - ITB',
+                'experience' => '10 years',
+                'bio' => 'Hazardous waste management expert specializing in laboratory waste treatment and B3 regulations. Certified environmental consultant.',
+                'image' => null,
+                'instructor_type' => 'internal',
+                'company' => 'JTLC',
+            ],
+        ];
 
-        $instructor1->certifications()->createMany([
-            ['certification_name' => 'ISO 17025 Lead Auditor'],
-            ['certification_name' => 'Water Quality Specialist'],
-            ['certification_name' => 'Environmental Consultant'],
-        ]);
+        foreach ($instructors as $instructorData) {
+            Instructor::create($instructorData);
+        }
 
-        // Instruktur 2: Muhammad Rizki - Senior Field Specialist
-        $instructor2 = Instructor::create([
-            'name' => 'Muhammad Rizki, S.T.',
-            'email' => 'rizki.muhammad@jtlc.com',
-            'phone' => '+62 812-3344-5566',
-            'specialization' => 'Sampling Techniques',
-            'education' => 'S1 Teknik Lingkungan - ITB',
-            'experience' => '8 years',
-            'bio' => 'Field specialist with extensive experience in sampling and testing procedures. Expert in quality control and field testing methodologies.',
-            'image' => 'https://ui-avatars.com/api/?name=Muhammad+Rizki&background=10B981&color=fff&size=200',
-            'instructor_type' => 'internal',
-            'company' => 'JTLC',
-        ]);
-
-        $instructor2->certifications()->createMany([
-            ['certification_name' => 'Sampling Technician Level II'],
-            ['certification_name' => 'Quality Control Specialist'],
-        ]);
-
-        // Instruktur 3: Dr. Lisa Chen - Expert Microbiology
-        $instructor3 = Instructor::create([
-            'name' => 'Dr. Lisa Chen',
-            'email' => 'lisa.chen@jtlc.com',
-            'phone' => '+62 813-4455-6677',
-            'specialization' => 'Microbiology',
-            'education' => 'PhD Microbiology - NTU Singapore',
-            'experience' => '15 years',
-            'bio' => 'Microbiology expert specializing in pathogen detection and food safety. International experience in laboratory management and quality assurance.',
-            'image' => 'https://ui-avatars.com/api/?name=Lisa+Chen&background=8B5CF6&color=fff&size=200',
-            'instructor_type' => 'internal',
-            'company' => 'JTLC',
-        ]);
-
-        $instructor3->certifications()->createMany([
-            ['certification_name' => 'Microbiologist Certified'],
-            ['certification_name' => 'Food Safety Auditor'],
-            ['certification_name' => 'HACCP Lead Auditor'],
-        ]);
-
-        // Instruktur 4: Ahmad Fadli - Senior Chemist
-        $instructor4 = Instructor::create([
-            'name' => 'Ahmad Fadli, M.Sc.',
-            'email' => 'ahmad.fadli@jtlc.com',
-            'phone' => '+62 814-5566-7788',
-            'specialization' => 'Chemical Analysis',
-            'education' => 'M.Sc Chemistry - UGM',
-            'experience' => '10 years',
-            'bio' => 'Analytical chemistry specialist with focus on method development and instrumentation. Dedicated to advancing laboratory analytical capabilities.',
-            'image' => 'https://ui-avatars.com/api/?name=Ahmad+Fadli&background=F59E0B&color=fff&size=200',
-            'instructor_type' => 'internal',
-            'company' => 'JTLC',
-        ]);
-
-        $instructor4->certifications()->createMany([
-            ['certification_name' => 'Analytical Chemist'],
-            ['certification_name' => 'Instrument Specialist'],
-        ]);
-
-        // Instruktur 5: Maya Sari - Junior Training Specialist
-        $instructor5 = Instructor::create([
-            'name' => 'Maya Sari, S.Si.',
-            'email' => 'maya.sari@jtlc.com',
-            'phone' => '+62 815-6677-8899',
-            'specialization' => 'Training Development',
-            'education' => 'S1 Pendidikan Kimia - UNJ',
-            'experience' => '3 years',
-            'bio' => 'Education specialist focused on training development and curriculum design. Enthusiastic about creating engaging learning experiences for adult learners.',
-            'image' => 'https://ui-avatars.com/api/?name=Maya+Sari&background=EC4899&color=fff&size=200',
-            'instructor_type' => 'internal',
-            'company' => 'JTLC',
-        ]);
-
-        $instructor5->certifications()->createMany([
-            ['certification_name' => 'Certified Trainer'],
-            ['certification_name' => 'Adult Education Specialist'],
-        ]);
-
-        // Instruktur 6-10: Vendor Instructors dengan data random
-        Instructor::factory()
-            ->count(5)
-            ->vendor()
-            ->create()
-            ->each(function (Instructor $instructor): void {
-                // Setiap instruktur vendor memiliki 1-3 sertifikasi
-                InstructorCertification::factory()
-                    ->count(rand(1, 3))
-                    ->create([
-                        'instructor_id' => $instructor->id,
-                    ]);
-            });
-
-        // Instruktur 11-15: Internal Instructors dengan data random
-        Instructor::factory()
-            ->count(5)
-            ->internal()
-            ->create()
-            ->each(function (Instructor $instructor): void {
-                // Setiap instruktur internal memiliki 2-4 sertifikasi
-                InstructorCertification::factory()
-                    ->count(rand(2, 4))
-                    ->create([
-                        'instructor_id' => $instructor->id,
-                    ]);
-            });
+        $this->command->info('11 instructors created successfully!');
     }
 }
