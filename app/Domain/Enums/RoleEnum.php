@@ -5,6 +5,8 @@ namespace App\Domain\Enums;
 enum RoleEnum: string
 {
     case Admin = 'admin';
+    case Instructor = 'instructor';
+    case Participant = 'participant';
     case User = 'user';
 
     /**

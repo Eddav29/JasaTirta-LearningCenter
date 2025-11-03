@@ -23,11 +23,14 @@ class TrainingScheduleFactory extends Factory
         $methods = ['offline', 'online', 'hybrid'];
         $statuses = ['buka_pendaftaran', 'tutup_pendaftaran', 'berlangsung', 'penuh', 'selesai'];
         $locations = [
-            'Jakarta Training Center',
-            'Bandung Training Center',
+            'Jakarta Lab Center',
             'Surabaya Training Center',
+            'Bandung Lab Center',
+            'Yogyakarta Training Center',
+            'Semarang Lab Facility',
             'Online Platform',
-            'Hybrid Learning Center',
+            'Zoom Meeting',
+            'Google Meet',
         ];
 
         $startDate = fake()->dateTimeBetween('now', '+6 months');

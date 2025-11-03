@@ -16,30 +16,48 @@ class InstructorFactory extends Factory
      */
     public function definition(): array
     {
+        $specializations = [
+            'Water Quality Testing',
+            'Environmental Analysis',
+            'Laboratory Management',
+            'Sampling Techniques',
+            'Field Testing',
+            'Quality Control',
+            'Microbiology',
+            'Pathogen Detection',
+            'Food Safety',
+            'Chemical Analysis',
+            'Instrumentation',
+            'Method Development',
+            'Training Development',
+            'Adult Education',
+            'Curriculum Design',
+        ];
+
+        $educations = [
+            'PhD Environmental Chemistry - UI',
+            'PhD Microbiology - NTU Singapore',
+            'M.Sc Environmental Science - ITB',
+            'M.Sc Chemistry - UGM',
+            'S1 Teknik Lingkungan - ITB',
+            'S1 Kimia - UI',
+            'S1 Biologi - UGM',
+            'S1 Pendidikan Kimia - UNJ',
+        ];
+
+        $yearsExp = $this->faker->numberBetween(2, 20);
+
         return [
             'name' => $this->faker->name(),
-            'specialization' => $this->faker->randomElement([
-                'Web Development',
-                'Mobile Development',
-                'Data Science',
-                'Cybersecurity',
-                'Cloud Computing',
-                'DevOps',
-                'AI/Machine Learning',
-            ]),
-            'education' => $this->faker->randomElement([
-                'Bachelor of Computer Science',
-                'Master of Information Technology',
-                'Bachelor of Software Engineering',
-                'Master of Computer Science',
-                'Bachelor of Information Systems',
-            ]),
-            'experience' => $this->faker->numberBetween(1, 20),
+            'specialization' => $this->faker->randomElement($specializations),
+            'education' => $this->faker->randomElement($educations),
+            'experience' => $yearsExp.' years',
             'bio' => $this->faker->paragraph(3),
             'email' => $this->faker->unique()->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
+            'phone' => '+62 '.$this->faker->numerify('###-####-####'),
+            'image' => 'https://ui-avatars.com/api/?name='.urlencode($this->faker->name()).'&background=random&size=200',
             'instructor_type' => $this->faker->randomElement(['internal', 'vendor']),
-            'company' => $this->faker->randomElement(['JTLC', 'Tech Solutions Inc', 'Digital Experts', 'Code Academy', 'Innovation Labs']),
+            'company' => null,
         ];
     }
 
