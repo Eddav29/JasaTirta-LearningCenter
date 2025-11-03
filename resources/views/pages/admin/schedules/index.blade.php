@@ -16,118 +16,98 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('schedulesManager', () => ({
-            searchQuery: '',
-            statusFilter: 'all',
-            methodFilter: 'all',
-            instructorFilter: 'all',
-            monthFilter: 'all',
-            currentPage: 1,
-            itemsPerPage: 5,
             selectedSchedules: [],
-            schedules: [],
-            
-            get filteredSchedules() {
-                return this.schedules.filter(schedule => {
-                    const matchesSearch = 
-                        schedule.trainingTitle.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                        schedule.instructorName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                        schedule.location.toLowerCase().includes(this.searchQuery.toLowerCase());
-                    
-                    const matchesStatus = this.statusFilter === 'all' || schedule.status === this.statusFilter;
-                    const matchesMethod = this.methodFilter === 'all' || schedule.method === this.methodFilter;
-                    const matchesInstructor = this.instructorFilter === 'all' || schedule.instructorName === this.instructorFilter;
-                    
-                    const scheduleMonth = new Date(schedule.startDate).toLocaleDateString('id-ID', { month: 'long' });
-                    const matchesMonth = this.monthFilter === 'all' || scheduleMonth === this.monthFilter;
-                    
-                    return matchesSearch && matchesStatus && matchesMethod && matchesInstructor && matchesMonth;
-                });
-            },
-            
-            get paginatedSchedules() {
-                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-                return this.filteredSchedules.slice(startIndex, startIndex + this.itemsPerPage);
-            },
-            
-            get totalPages() {
-                return Math.ceil(this.filteredSchedules.length / this.itemsPerPage);
-            },
+            bulkStatusValue: '',
             
             get showBulkActions() {
                 return this.selectedSchedules.length > 0;
             },
             
             get stats() {
+                // Calculate stats from static data for now
                 return {
-                    total: this.schedules.length,
-                    scheduled: this.schedules.filter(s => s.status === 'Scheduled').length,
-                    completed: this.schedules.filter(s => s.status === 'Completed').length,
-                    totalParticipants: this.schedules.reduce((sum, s) => sum + s.registeredCount, 0)
+                    total: 0,
+                    scheduled: 0,
+                    completed: 0,
+                    totalParticipants: 0
                 };
             },
             
-            toggleSelect(id) {
-                const index = this.selectedSchedules.indexOf(id);
-                if (index > -1) {
-                    this.selectedSchedules.splice(index, 1);
-                } else {
-                    this.selectedSchedules.push(id);
-                }
-            },
-            
-            selectAll() {
-                if (this.selectedSchedules.length === this.paginatedSchedules.length) {
-                    this.selectedSchedules = [];
-                } else {
-                    this.selectedSchedules = this.paginatedSchedules.map(s => s.id);
-                }
-            },
-            
-            isSelected(id) {
-                return this.selectedSchedules.includes(id);
-            },
-            
-            deleteSchedule(id) {
-                if (confirm('Apakah Anda yakin ingin menghapus jadwal ini?')) {
-                    this.schedules = this.schedules.filter(s => s.id !== id);
-                }
-            },
-            
-            bulkDelete() {
-                if (confirm(`Hapus ${this.selectedSchedules.length} jadwal?`)) {
-                    this.schedules = this.schedules.filter(s => !this.selectedSchedules.includes(s.id));
-                    this.selectedSchedules = [];
-                }
-            },
-            
-            bulkStatusChange(status) {
-                this.schedules = this.schedules.map(s => 
-                    this.selectedSchedules.includes(s.id) ? {...s, status} : s
-                );
+            clearSelection() {
                 this.selectedSchedules = [];
+                this.bulkStatusValue = '';
             },
             
-            formatDate(dateString) {
-                return new Date(dateString).toLocaleDateString('id-ID', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric'
-                });
-            },
-            
-            formatDateRange(startDate, endDate) {
-                if (startDate === endDate) {
-                    return this.formatDate(startDate);
+            async bulkDelete() {
+                if (this.selectedSchedules.length === 0) {
+                    alert('Pilih jadwal yang akan dihapus terlebih dahulu');
+                    return;
                 }
-                return `${this.formatDate(startDate)} - ${this.formatDate(endDate)}`;
+                
+                if (!confirm(`Hapus ${this.selectedSchedules.length} jadwal terpilih?`)) {
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('{{ route("admin.schedules.bulk-destroy") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            ids: this.selectedSchedules
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok && result.success) {
+                        alert(result.message);
+                        window.location.reload();
+                    } else {
+                        alert(result.error || 'Terjadi kesalahan');
+                    }
+                } catch (error) {
+                    alert('Terjadi kesalahan: ' + error.message);
+                }
             },
             
-            init() {
-                this.$watch('searchQuery', () => this.currentPage = 1);
-                this.$watch('statusFilter', () => this.currentPage = 1);
-                this.$watch('methodFilter', () => this.currentPage = 1);
-                this.$watch('instructorFilter', () => this.currentPage = 1);
-                this.$watch('monthFilter', () => this.currentPage = 1);
+            async bulkUpdateStatus() {
+                if (this.selectedSchedules.length === 0) {
+                    alert('Pilih jadwal yang akan diperbarui terlebih dahulu');
+                    return;
+                }
+                
+                if (!this.bulkStatusValue) {
+                    alert('Pilih status baru terlebih dahulu');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('{{ route("admin.schedules.bulk-status") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            ids: this.selectedSchedules,
+                            status: this.bulkStatusValue
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok && result.success) {
+                        alert(result.message);
+                        window.location.reload();
+                    } else {
+                        alert(result.error || 'Terjadi kesalahan');
+                    }
+                } catch (error) {
+                    alert('Terjadi kesalahan: ' + error.message);
+                }
             }
         }));
     });

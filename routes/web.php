@@ -88,10 +88,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/trainings/create', fn () => 'Create Training Page')->name('trainings.create');
 
     // Schedules routes
-    Route::get('/schedules', function () {
-        return view('pages.admin.schedules.index');
-    })->name('schedules.index');
-    Route::get('/schedules/create', fn () => 'Create Schedule Page')->name('schedules.create');
+    Route::resource('schedules', App\Http\Controllers\Admin\ScheduleController::class);
+    Route::post('/schedules/bulk-destroy', [App\Http\Controllers\Admin\ScheduleController::class, 'bulkDestroy'])->name('schedules.bulk-destroy');
+    Route::post('/schedules/bulk-status', [App\Http\Controllers\Admin\ScheduleController::class, 'bulkUpdateStatus'])->name('schedules.bulk-status');
+    Route::post('/schedules/{schedule}/duplicate', [App\Http\Controllers\Admin\ScheduleController::class, 'duplicate'])->name('schedules.duplicate');
 
     // Instructors routes
     Route::get('/instructors', function () {
