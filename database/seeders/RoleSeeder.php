@@ -17,23 +17,87 @@ class RoleSeeder extends Seeder
 
         // Buat permissions
         $permissions = [
+            // User management
             'users.view',
             'users.create',
             'users.update',
             'users.delete',
+
+            // Training management
+            'trainings.view',
+            'trainings.create',
+            'trainings.update',
+            'trainings.delete',
+
+            // Schedule management
+            'schedules.view',
+            'schedules.create',
+            'schedules.update',
+            'schedules.delete',
+
+            // Category management
+            'categories.view',
+            'categories.create',
+            'categories.update',
+            'categories.delete',
+
+            // Instructor management
+            'instructors.view',
+            'instructors.create',
+            'instructors.update',
+            'instructors.delete',
+
+            // Participant management
+            'participants.view',
+            'participants.create',
+            'participants.update',
+            'participants.delete',
+
+            // Registration management
+            'registrations.view',
+            'registrations.create',
+            'registrations.update',
+            'registrations.delete',
+
+            // Reports
+            'reports.view',
+            'reports.export',
         ];
+
         foreach ($permissions as $perm) {
             Permission::firstOrCreate(['name' => $perm]);
         }
 
         // Buat roles
         $admin = Role::firstOrCreate(['name' => RoleEnum::Admin->value]);
+        $instructor = Role::firstOrCreate(['name' => RoleEnum::Instructor->value]);
+        $participant = Role::firstOrCreate(['name' => RoleEnum::Participant->value]);
         $user = Role::firstOrCreate(['name' => RoleEnum::User->value]);
 
-        // Assign all permissions to admin role
+        // Admin: semua permissions
         $admin->syncPermissions(Permission::all());
 
-        // User role: (default none) - bisa ditambah sesuai kebutuhan
-        $user->syncPermissions([]);
+        // Instructor: bisa view trainings, schedules, participants, dan manage materials
+        $instructor->syncPermissions([
+            'trainings.view',
+            'schedules.view',
+            'participants.view',
+            'registrations.view',
+            'reports.view',
+        ]);
+
+        // Participant: bisa view trainings, schedules, dan manage own registrations
+        $participant->syncPermissions([
+            'trainings.view',
+            'schedules.view',
+            'registrations.view',
+            'registrations.create',
+        ]);
+
+        // User: basic permissions
+        $user->syncPermissions([
+            'trainings.view',
+            'schedules.view',
+        ]);
     }
 }

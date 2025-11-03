@@ -22,38 +22,16 @@ class TrainingScheduleSeeder extends Seeder
             return;
         }
 
-        // Buat jadwal spesifik untuk training populer
-        $laravelTraining = Training::where('title', 'Laravel Advanced Development')->first();
-        if ($laravelTraining) {
-            $this->createSchedulesForTraining($laravelTraining, 'hybrid');
-        }
-
-        $flutterTraining = Training::where('title', 'Flutter Mobile App Development')->first();
-        if ($flutterTraining) {
-            $this->createSchedulesForTraining($flutterTraining, 'online');
-        }
-
-        $datascienceTraining = Training::where('title', 'Data Science with Python')->first();
-        if ($datascienceTraining) {
-            $this->createSchedulesForTraining($datascienceTraining, 'hybrid');
-        }
-
-        $awsTraining = Training::where('title', 'AWS Cloud Practitioner')->first();
-        if ($awsTraining) {
-            $this->createSchedulesForTraining($awsTraining, 'online');
-        }
-
-        $cyberTraining = Training::where('title', 'Cybersecurity Fundamentals')->first();
-        if ($cyberTraining) {
-            $this->createSchedulesForTraining($cyberTraining, 'offline');
+        // Buat jadwal untuk training yang ada
+        foreach ($trainings->take(5) as $index => $training) {
+            $method = ['offline', 'online', 'hybrid', 'offline', 'hybrid'][$index] ?? 'offline';
+            $this->createSchedulesForTraining($training, $method);
         }
 
         // Buat jadwal untuk training lainnya
-        foreach ($trainings as $training) {
-            if (! $training->schedules()->exists()) {
-                $method = $training->training_type ?? 'hybrid';
-                $this->createSchedulesForTraining($training, $method, 2);
-            }
+        foreach ($trainings->skip(5) as $training) {
+            $method = fake()->randomElement(['offline', 'online', 'hybrid']);
+            $this->createSchedulesForTraining($training, $method, 2);
         }
     }
 
@@ -63,9 +41,9 @@ class TrainingScheduleSeeder extends Seeder
     private function createSchedulesForTraining(Training $training, string $method = 'hybrid', int $count = 3): void
     {
         $locations = [
-            'offline' => ['Jakarta Training Center', 'Bandung Training Center', 'Surabaya Training Center'],
-            'online' => ['Zoom Meeting Platform', 'Google Meet Platform', 'Microsoft Teams Platform'],
-            'hybrid' => ['Jakarta Hybrid Center', 'Bandung Hybrid Center', 'Online Platform'],
+            'offline' => ['Jakarta Lab Center', 'Bandung Lab Center', 'Surabaya Training Center', 'Yogyakarta Training Center'],
+            'online' => ['Zoom Meeting Platform', 'Google Meet Platform', 'Microsoft Teams Platform', 'Online Platform'],
+            'hybrid' => ['Jakarta Hybrid Center', 'Bandung Hybrid Center', 'Surabaya Training Center', 'Online Platform'],
         ];
 
         $location = $locations[$method] ?? $locations['hybrid'];
