@@ -232,25 +232,25 @@
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead>
-                        <tr class="bg-gray-50 border-b border-gray-200">
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Pelatihan</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Tanggal</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Pengajar</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Metode</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
-                            <th class="px-6 py-4 text-right text-sm font-semibold text-gray-900">Aksi</th>
+                        <tr class="bg-gray-50 border-b border-gray-100">
+                            <th class="px-8 py-6 text-left text-sm font-semibold text-gray-900">Nama Pelatihan</th>
+                            <th class="px-8 py-6 text-left text-sm font-semibold text-gray-900">Tanggal</th>
+                            <th class="px-8 py-6 text-left text-sm font-semibold text-gray-900">Pengajar</th>
+                            <th class="px-8 py-6 text-left text-sm font-semibold text-gray-900">Metode</th>
+                            <th class="px-8 py-6 text-left text-sm font-semibold text-gray-900">Status</th>
+                            <th class="px-8 py-6 text-right text-sm font-semibold text-gray-900">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200">
+                    <tbody class="divide-y divide-gray-100">
                         @foreach($scheduleData as $schedule)
                             @php
                                 $status = getTrainingStatus($schedule['startDate'], $schedule['endDate'], $schedule['registered'], $schedule['capacity']);
                                 $isDisabled = in_array($status, ['Penuh', 'Tutup Pendaftaran', 'Berlangsung', 'Selesai']);
                             @endphp
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-6 py-4">
-                                    <div class="space-y-1">
-                                        <div class="font-medium text-sm text-gray-900 leading-tight">
+                            <tr class="hover:bg-gray-25 transition-colors">
+                                <td class="px-8 py-6">
+                                    <div class="space-y-2">
+                                        <div class="font-medium text-sm text-gray-900 leading-relaxed">
                                             {{ $schedule['trainingName'] }}
                                         </div>
                                         <div class="text-xs text-gray-600 flex items-center space-x-4">
@@ -266,7 +266,7 @@
                                     </div>
                                 </td>
                                 
-                                <td class="px-6 py-4">
+                                <td class="px-8 py-6">
                                     <div class="flex items-center space-x-2">
                                         <svg class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -275,21 +275,21 @@
                                     </div>
                                 </td>
                                 
-                                <td class="px-6 py-4">
+                                <td class="px-8 py-6">
                                     <div class="text-sm text-gray-900">{{ $schedule['instructor'] }}</div>
                                 </td>
                                 
-                                <td class="px-6 py-4">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ getMethodBadge($schedule['method']) }}">
+                                <td class="px-8 py-6">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ getMethodBadge($schedule['method']) }}">
                                         {{ $schedule['method'] }}
                                     </span>
                                 </td>
                                 
-                                <td class="px-6 py-4">
+                                <td class="px-8 py-6">
                                     <div class="space-y-2">
                                         <div class="flex items-center space-x-2">
                                             <span class="text-sm">{{ getStatusIcon($status) }}</span>
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ getStatusBadge($status) }}">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ getStatusBadge($status) }}">
                                                 {{ $status }}
                                             </span>
                                         </div>
@@ -301,9 +301,9 @@
                                     </div>
                                 </td>
                                 
-                                <td class="px-6 py-4 text-right">
+                                <td class="px-8 py-6 text-right">
                                     <button 
-                                        class="inline-flex items-center px-4 py-2 text-xs font-medium rounded-lg transition {{ $isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700' }}"
+                                        class="inline-flex items-center px-5 py-2.5 text-xs font-medium rounded-lg transition {{ $isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700' }}"
                                         {{ $isDisabled ? 'disabled' : '' }}
                                     >
                                         @if($status === 'Penuh')

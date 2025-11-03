@@ -1,5 +1,5 @@
 {{-- Hero Section --}}
-<section class="relative min-h-[70vh] flex items-center overflow-hidden">
+<section class="relative min-h-screen flex items-center overflow-hidden">
     {{-- Dynamic Gradient Background (Same as Schedule) --}}
     <div class="absolute inset-0 bg-linear-to-br from-slate-900 via-blue-900 to-indigo-900">
         {{-- Animated Mesh Gradient --}}
@@ -17,18 +17,10 @@
         <div class="absolute inset-0 bg-noise opacity-30"></div>
     </div>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-16">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-20">
             {{-- Left Content --}}
-            <div class="space-y-8">
-                {{-- Badge --}}
-                <div class="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white text-sm font-medium">
-                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    Tim Ahli Berpengalaman
-                </div>
-
+            <div class="lg:order-1 order-2 space-y-8 flex flex-col justify-center">
                 {{-- Main Headline --}}
                 <div class="space-y-6">
                     <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight">
