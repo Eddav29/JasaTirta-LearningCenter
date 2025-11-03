@@ -1,5 +1,5 @@
 {{-- Search and Filter Section --}}
-<section id="filters" class="py-12 bg-gray-50" x-data="catalogFilters()">
+<section id="filters" class="py-12 bg-gray-50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Search and Filter Controls --}}
         <div class="bg-white rounded-2xl p-8 shadow-lg mb-8">
@@ -12,16 +12,23 @@
                     <input 
                         type="text" 
                         x-model="searchQuery"
+                        @input.debounce.300ms="filterTrainings()"
                         placeholder="Cari nama pelatihan atau pengajar..." 
                         class="w-full pl-12 pr-4 py-4 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
                     />
                 </div>
-                <button class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    Cari
-                </button>
+                <div class="flex items-center gap-2">
+                    <button 
+                        @click="resetFilters()" 
+                        x-show="searchQuery || selectedCategory !== 'semua' || selectedType !== 'semua' || selectedPrice !== 'semua'"
+                        class="px-6 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all duration-300 flex items-center gap-2"
+                    >
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        Reset
+                    </button>
+                </div>
             </div>
 
             {{-- Filter Dropdowns --}}
@@ -30,11 +37,14 @@
                 <div>
                     <select 
                         x-model="selectedCategory"
+                        @change="filterTrainings()"
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 bg-white"
                     >
                         <option value="semua">Semua Kategori</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }} ({{ $category->trainings_count }})</option>
+                            <option value="{{ $category->id }}">
+                                {{ $category->name }} ({{ $category->trainings_count }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -43,6 +53,7 @@
                 <div>
                     <select 
                         x-model="selectedType"
+                        @change="filterTrainings()"
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 bg-white"
                     >
                         <option value="semua">Semua Tipe</option>
@@ -56,6 +67,7 @@
                 <div>
                     <select 
                         x-model="selectedPrice"
+                        @change="filterTrainings()"
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 bg-white"
                     >
                         <option value="semua">Semua Harga</option>
@@ -69,6 +81,7 @@
                 <div>
                     <select 
                         x-model="sortBy"
+                        @change="filterTrainings()"
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 bg-white"
                     >
                         <option value="terbaru">Urutkan: Terbaru</option>
@@ -82,22 +95,22 @@
         </div>
 
         {{-- Results Summary --}}
-        <div class="mb-8">
-            <p class="text-gray-600 text-lg" x-text="`Menampilkan ${filteredCount} dari ${totalCount} pelatihan`"></p>
+        <div class="mb-8 flex items-center justify-between">
+            <p class="text-gray-600 text-lg">
+                Menampilkan <span class="font-semibold text-gray-900" x-text="filteredCount"></span> dari <span class="font-semibold text-gray-900" x-text="totalCount"></span> pelatihan
+            </p>
+            
+            <div x-show="searchQuery && searchQuery.trim() !== ''" class="flex items-center gap-2">
+                <span class="text-sm text-gray-500">Hasil pencarian untuk:</span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                    "<span x-text="searchQuery"></span>"
+                    <button @click="searchQuery = ''; filterTrainings();" class="ml-2 hover:text-blue-900">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </span>
+            </div>
         </div>
     </div>
 </section>
-
-<script>
-function catalogFilters() {
-    return {
-        searchQuery: '',
-        selectedCategory: 'semua',
-        selectedType: 'semua',
-        selectedPrice: 'semua',
-        sortBy: 'terbaru',
-        filteredCount: 11,
-        totalCount: 11
-    }
-}
-</script>
