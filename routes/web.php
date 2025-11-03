@@ -94,9 +94,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/schedules/create', fn () => 'Create Schedule Page')->name('schedules.create');
 
     // Instructors routes
-    Route::get('/instructors', function () {
-        return view('pages.admin.instructors.index');
-    })->name('instructors.index');
+    Route::get('/instructors', [App\Http\Controllers\Admin\InstructorController::class, 'index'])->name('instructors.index');
     Route::get('/instructors/create', fn () => 'Create Instructor Page')->name('instructors.create');
 
     // Participants routes

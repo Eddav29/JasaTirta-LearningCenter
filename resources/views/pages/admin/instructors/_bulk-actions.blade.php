@@ -1,5 +1,5 @@
 {{-- Bulk Actions Bar --}}
-<div x-data="instructorsManager()" x-show="showBulkActions" x-transition class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+<div x-show="showBulkActions" x-transition class="bg-blue-50 border border-blue-200 rounded-lg p-4">
     <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
             <span class="text-sm font-medium text-blue-900" x-text="`${selectedInstructors.length} instructor dipilih`"></span>

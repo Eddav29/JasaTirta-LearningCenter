@@ -3,11 +3,22 @@
 @section('title', 'Manajemen Instructor')
 
 @section('content')
-<div class="space-y-6">
+<div class="space-y-6" x-data="instructorsManager()" x-init="instructors = {{ json_encode($instructors->map(fn($i) => [
+    'id' => $i->id,
+    'name' => $i->name,
+    'email' => $i->email,
+    'phone' => $i->phone ?? null,
+    'specialization' => explode(',', $i->specialization ?? ''),
+    'experienceLevel' => $i->experience ?? null,
+    'status' => 'Active',
+    'coursesCount' => $i->trainings_count ?? 0,
+    'studentsCount' => 0,
+    'rating' => null,
+    'joinDate' => optional($i->created_at)->format('Y-m-d')
+])) }}">
     @include('pages.admin.instructors._header')
-    @include('pages.admin.instructors._search-filter')
-    @include('pages.admin.instructors._bulk-actions')
     @include('pages.admin.instructors._statistics')
+    @include('pages.admin.instructors._search-filter')
     @include('pages.admin.instructors._table')
 </div>
 @endsection
