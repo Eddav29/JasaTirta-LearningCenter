@@ -1,5 +1,5 @@
 {{-- Categories Search & Filter --}}
-<div class="bg-white rounded-lg border border-gray-200 p-6" x-data="categoriesManager()">
+<div class="bg-white rounded-lg border border-gray-200 p-6">
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div class="flex flex-col sm:flex-row gap-4 flex-1">
             {{-- Search --}}
@@ -85,25 +85,13 @@
                     ></textarea>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Icon (Emoji)</label>
-                        <input 
-                            type="text" 
-                            x-model="formData.icon"
-                            placeholder="🔬"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Warna</label>
-                        <input 
-                            type="color" 
-                            x-model="formData.color"
-                            class="w-full h-10 px-1 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Warna</label>
+                    <input 
+                        type="color" 
+                        x-model="formData.color"
+                        class="w-full h-10 px-1 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
                 </div>
 
                 <div class="flex items-center gap-2">

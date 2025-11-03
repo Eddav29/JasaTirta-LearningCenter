@@ -1,81 +1,102 @@
 {{-- Categories Table --}}
-@php
-    $categories = [
-        [
-            'id' => 1,
-            'name' => 'Teknik Sampling',
-            'slug' => 'teknik-sampling',
-            'description' => 'Pelatihan tentang teknik pengambilan sampel air dan lingkungan',
-            'icon' => '🔬',
-            'color' => '#3b82f6',
-            'trainingCount' => 5,
-            'isActive' => true,
-            'createdAt' => '2024-01-15'
-        ],
-        [
-            'id' => 2,
-            'name' => 'Analisis Laboratorium',
-            'slug' => 'analisis-laboratorium',
-            'description' => 'Pelatihan analisis kualitas air dan parameter lingkungan di laboratorium',
-            'icon' => '🧪',
-            'color' => '#10b981',
-            'trainingCount' => 8,
-            'isActive' => true,
-            'createdAt' => '2024-01-20'
-        ],
-        [
-            'id' => 3,
-            'name' => 'Mikrobiologi Air',
-            'slug' => 'mikrobiologi-air',
-            'description' => 'Pelatihan tentang analisis mikrobiologi dalam air',
-            'icon' => '🦠',
-            'color' => '#f59e0b',
-            'trainingCount' => 4,
-            'isActive' => true,
-            'createdAt' => '2024-02-01'
-        ],
-        [
-            'id' => 4,
-            'name' => 'Pengolahan Air',
-            'slug' => 'pengolahan-air',
-            'description' => 'Pelatihan sistem pengolahan air bersih dan air limbah',
-            'icon' => '💧',
-            'color' => '#06b6d4',
-            'trainingCount' => 6,
-            'isActive' => true,
-            'createdAt' => '2024-02-10'
-        ],
-        [
-            'id' => 5,
-            'name' => 'Instrumentasi Lab',
-            'slug' => 'instrumentasi-lab',
-            'description' => 'Pelatihan penggunaan dan kalibrasi instrumen laboratorium',
-            'icon' => '⚙️',
-            'color' => '#8b5cf6',
-            'trainingCount' => 3,
-            'isActive' => false,
-            'createdAt' => '2024-03-01'
-        ]
-    ];
 
-    function getStatusColor($isActive) {
-        return $isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
-    }
-@endphp
-
-<div class="bg-white rounded-lg border border-gray-200" x-data="categoriesManager()" x-init="categories = {{ json_encode($categories) }}">
+<div class="bg-white rounded-lg border border-gray-200">
     <div class="p-6 border-b border-gray-200">
-        <h3 class="text-lg font-bold text-gray-900">Daftar Kategori</h3>
-        <p class="text-sm text-gray-600 mt-1">
-            Kelola dan organisir kategori pelatihan
-        </p>
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-lg font-bold text-gray-900">Daftar Kategori</h3>
+                <p class="text-sm text-gray-600 mt-1">
+                    Kelola dan organisir kategori pelatihan
+                </p>
+            </div>
+            <div class="text-sm text-gray-600">
+                <span x-show="searchQuery || statusFilter" x-cloak>
+                    Menampilkan <span class="font-medium text-gray-900" x-text="filteredCategories.length"></span> 
+                    dari <span class="font-medium text-gray-900" x-text="categories.length"></span> kategori
+                </span>
+                <span x-show="!searchQuery && !statusFilter">
+                    Total <span class="font-medium text-gray-900" x-text="categories.length"></span> kategori
+                </span>
+            </div>
+        </div>
     </div>
     
     <div class="p-6">
-        <div class="overflow-x-auto">
+        {{-- Bulk Actions Bar --}}
+        <div 
+            x-show="selectedIds.length > 0" 
+            x-cloak
+            class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between"
+        >
+            <div class="flex items-center gap-3">
+                <span class="text-sm font-medium text-blue-900">
+                    <span x-text="selectedIds.length"></span> kategori dipilih
+                </span>
+                <button 
+                    @click="selectedIds = []"
+                    class="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                >
+                    Batal Pilih
+                </button>
+            </div>
+            <div class="flex items-center gap-2">
+                <button 
+                    @click="bulkActivate()"
+                    class="inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
+                >
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Aktifkan
+                </button>
+                <button 
+                    @click="bulkDeactivate()"
+                    class="inline-flex items-center px-3 py-1.5 bg-yellow-600 text-white text-sm rounded-lg hover:bg-yellow-700 transition-colors"
+                >
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+                    </svg>
+                    Nonaktifkan
+                </button>
+                <button 
+                    @click="bulkDelete()"
+                    class="inline-flex items-center px-3 py-1.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
+                >
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                    Hapus
+                </button>
+            </div>
+        </div>
+
+        {{-- Empty State for No Results --}}
+        <div x-show="filteredCategories.length === 0" x-cloak class="text-center py-12">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Tidak ada kategori ditemukan</h3>
+            <p class="mt-1 text-sm text-gray-500">Coba ubah kriteria pencarian atau filter Anda</p>
+            <button 
+                @click="searchQuery = ''; statusFilter = ''"
+                class="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+            >
+                Reset Filter
+            </button>
+        </div>
+
+        <div x-show="filteredCategories.length > 0" class="overflow-x-auto">
             <table class="w-full">
                 <thead>
                     <tr class="border-b border-gray-200">
+                        <th class="w-12 py-3 px-4">
+                            <input 
+                                type="checkbox" 
+                                :checked="allSelected"
+                                @change="toggleAll()"
+                                class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            />
+                        </th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Kategori</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Deskripsi</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Pelatihan</th>
@@ -86,19 +107,20 @@
                 </thead>
                 <tbody>
                     <template x-for="category in paginatedCategories" :key="category.id">
-                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                        <tr class="border-b border-gray-100 hover:bg-gray-50" :class="selectedIds.includes(category.id) ? 'bg-blue-50' : ''">
                             <td class="py-4 px-4">
-                                <div class="flex items-center gap-3">
-                                    <div 
-                                        class="w-10 h-10 rounded-lg flex items-center justify-center text-xl"
-                                        :style="`background-color: ${category.color}20`"
-                                    >
-                                        <span x-text="category.icon || '📁'"></span>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-900" x-text="category.name"></p>
-                                        <p class="text-xs text-gray-500" x-text="category.slug"></p>
-                                    </div>
+                                <input 
+                                    type="checkbox" 
+                                    :checked="selectedIds.includes(category.id)"
+                                    @change="toggleSelect(category.id)"
+                                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                />
+                            </td>
+                            <td class="py-4 px-4">
+                                <div>
+                                    <p class="font-medium text-gray-900" x-text="category.name"></p>
+                                    <p class="text-xs text-gray-500" x-text="category.slug"></p>
+                                </div>
                                 </div>
                             </td>
                             <td class="py-4 px-4 text-gray-600 max-w-xs">
@@ -110,11 +132,11 @@
                                 </span>
                             </td>
                             <td class="py-4 px-4">
-                                @foreach($categories as $cat)
-                                <template x-if="category.id === {{ $cat['id'] }}">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium {{ getStatusColor($cat['isActive']) }}" x-text="category.isActive ? 'Aktif' : 'Tidak Aktif'"></span>
-                                </template>
-                                @endforeach
+                                <span 
+                                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                                    :class="category.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+                                    x-text="category.isActive ? 'Aktif' : 'Tidak Aktif'"
+                                ></span>
                             </td>
                             <td class="py-4 px-4 text-gray-600" x-text="formatDate(category.createdAt)"></td>
                             <td class="py-4 px-4">
@@ -231,24 +253,13 @@
                     ></textarea>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Icon (Emoji)</label>
-                        <input 
-                            type="text" 
-                            x-model="formData.icon"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Warna</label>
-                        <input 
-                            type="color" 
-                            x-model="formData.color"
-                            class="w-full h-10 px-1 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Warna</label>
+                    <input 
+                        type="color" 
+                        x-model="formData.color"
+                        class="w-full h-10 px-1 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
                 </div>
 
                 <div class="flex items-center gap-2">

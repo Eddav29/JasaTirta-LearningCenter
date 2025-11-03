@@ -106,9 +106,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/participants/create', fn () => 'Create Participant Page')->name('participants.create');
 
     // Categories routes
-    Route::get('/categories', function () {
-        return view('pages.admin.categories.index');
-    })->name('categories.index');
+    Route::get('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', fn () => 'Create Category Page')->name('categories.create');
 
     // Notifications routes
