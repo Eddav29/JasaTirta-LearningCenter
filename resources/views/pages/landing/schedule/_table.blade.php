@@ -32,7 +32,7 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         {{-- Alpine.js Template for Schedule Rows --}}
-                        <template x-for="schedule in filteredSchedules" :key="schedule.id">
+                        <template x-for="schedule in paginatedSchedules" :key="schedule.id">
                             <tr class="hover:bg-gray-50 transition-colors duration-150">
                                 {{-- Training Name --}}
                                 <td class="px-6 py-4">
@@ -132,7 +132,7 @@
         {{-- Mobile Card View --}}
         <div class="lg:hidden space-y-4">
             {{-- Alpine.js Template for Mobile Cards --}}
-            <template x-for="schedule in filteredSchedules" :key="schedule.id">
+            <template x-for="schedule in paginatedSchedules" :key="schedule.id">
                 <div class="bg-white rounded-xl shadow-md overflow-hidden">
                     <div class="p-6">
                         {{-- Header --}}
@@ -231,6 +231,53 @@
                 >
                     Reset Filter
                 </button>
+            </div>
+        </div>
+
+        {{-- Pagination --}}
+        <div x-show="totalPages > 1" class="mt-8">
+            <nav class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
+                <div class="-mt-px flex w-0 flex-1">
+                    <button
+                        @click="previousPage()"
+                        :disabled="currentPage === 1"
+                        :class="currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:border-gray-300 hover:text-gray-700'"
+                        class="inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium text-gray-500"
+                    >
+                        <svg class="mr-3 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                        </svg>
+                        Sebelumnya
+                    </button>
+                </div>
+                <div class="hidden md:-mt-px md:flex">
+                    <template x-for="page in pageNumbers" :key="page">
+                        <button
+                            @click="goToPage(page)"
+                            :class="currentPage === page ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="inline-flex items-center border-t-2 px-4 pt-4 text-sm font-medium"
+                            x-text="page"
+                        ></button>
+                    </template>
+                </div>
+                <div class="-mt-px flex w-0 flex-1 justify-end">
+                    <button
+                        @click="nextPage()"
+                        :disabled="currentPage === totalPages"
+                        :class="currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:border-gray-300 hover:text-gray-700'"
+                        class="inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium text-gray-500"
+                    >
+                        Berikutnya
+                        <svg class="ml-3 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+            
+            {{-- Mobile Pagination Info --}}
+            <div class="mt-4 flex items-center justify-center text-sm text-gray-700 md:hidden">
+                <span>Halaman <span x-text="currentPage"></span> dari <span x-text="totalPages"></span></span>
             </div>
         </div>
     </div>

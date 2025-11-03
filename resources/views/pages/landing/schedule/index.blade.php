@@ -22,6 +22,9 @@ function scheduleApp() {
     return {
         allSchedules: @json($schedules),
         filteredSchedules: [],
+        paginatedSchedules: [],
+        currentPage: 1,
+        perPage: 10,
         searchQuery: '{{ request('search') }}',
         selectedCategory: '{{ request('category', 'semua') }}',
         selectedMethod: '{{ request('method', 'semua') }}',
@@ -67,6 +70,31 @@ function scheduleApp() {
             }
             
             this.filteredSchedules = results;
+            this.currentPage = 1; // Reset to first page when filters change
+            this.updatePagination();
+        },
+        
+        updatePagination() {
+            const start = (this.currentPage - 1) * this.perPage;
+            const end = start + this.perPage;
+            this.paginatedSchedules = this.filteredSchedules.slice(start, end);
+        },
+        
+        goToPage(page) {
+            if (page >= 1 && page <= this.totalPages) {
+                this.currentPage = page;
+                this.updatePagination();
+                // Scroll to top of schedule table
+                document.getElementById('schedule-table')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        },
+        
+        nextPage() {
+            this.goToPage(this.currentPage + 1);
+        },
+        
+        previousPage() {
+            this.goToPage(this.currentPage - 1);
         },
         
         resetFilters() {
@@ -84,6 +112,26 @@ function scheduleApp() {
         
         get totalCount() {
             return this.allSchedules.length;
+        },
+        
+        get totalPages() {
+            return Math.ceil(this.filteredSchedules.length / this.perPage);
+        },
+        
+        get pageNumbers() {
+            const pages = [];
+            const maxVisible = 5;
+            let start = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
+            let end = Math.min(this.totalPages, start + maxVisible - 1);
+            
+            if (end - start + 1 < maxVisible) {
+                start = Math.max(1, end - maxVisible + 1);
+            }
+            
+            for (let i = start; i <= end; i++) {
+                pages.push(i);
+            }
+            return pages;
         },
         
         formatDate(startDate, endDate) {

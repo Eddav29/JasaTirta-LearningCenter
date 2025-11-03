@@ -60,6 +60,7 @@ class ScheduleController extends Controller
             }
         }
 
+        // Get all schedules (client-side filtering will handle display)
         $schedules = $query->get();
 
         return view('pages.landing.schedule.index', compact(
