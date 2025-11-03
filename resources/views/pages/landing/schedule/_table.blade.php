@@ -5,7 +5,7 @@
         <div class="hidden lg:block bg-white rounded-xl shadow-md overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gradient-to-r from-blue-600 to-blue-700">
+                    <thead class="bg-linear-to-r from-blue-600 to-blue-700">
                         <tr>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                 Nama Pelatihan
