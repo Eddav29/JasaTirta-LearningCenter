@@ -79,9 +79,7 @@ Route::middleware('auth')->group(function () {
 // Admin Routes
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Dashboard
-    Route::get('/dashboard', function () {
-        return view('pages.admin.dashboard.index');
-    })->name('dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
     // Trainings routes
     Route::get('/trainings', function () {
