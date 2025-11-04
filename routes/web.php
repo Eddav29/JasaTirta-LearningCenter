@@ -82,10 +82,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
     // Trainings routes
-    Route::get('/trainings', function () {
-        return view('pages.admin.trainings.index');
-    })->name('trainings.index');
+    Route::get('/trainings', [App\Http\Controllers\Admin\TrainingController::class, 'index'])->name('trainings.index');
     Route::get('/trainings/create', fn () => 'Create Training Page')->name('trainings.create');
+    Route::post('/trainings/bulk-delete', [App\Http\Controllers\Admin\TrainingController::class, 'bulkDelete'])->name('trainings.bulk-delete');
+    Route::post('/trainings/bulk-status', [App\Http\Controllers\Admin\TrainingController::class, 'bulkUpdateStatus'])->name('trainings.bulk-status');
 
     // Schedules routes
     Route::resource('schedules', App\Http\Controllers\Admin\ScheduleController::class);

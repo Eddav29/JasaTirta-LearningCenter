@@ -79,7 +79,7 @@
     }
 @endphp
 
-<div class="bg-white rounded-lg border border-gray-200" x-data="participantsManager()" x-init="participants = {{ json_encode($participants) }}">
+<div class="mt-6 bg-white rounded-lg border border-gray-200" x-data="participantsManager()" x-init="participants = {{ json_encode($participants) }}">
     <div class="p-6 border-b border-gray-200">
         <h3 class="text-lg font-bold text-gray-900">Daftar Peserta</h3>
         <p class="text-sm text-gray-600 mt-1">

@@ -1,4 +1,4 @@
-<div class="bg-white p-6 rounded-lg border border-gray-200">
+<div class="mt-6 bg-white p-6 rounded-lg border border-gray-200">
     <div class="flex flex-col lg:flex-row gap-4 items-center justify-between">
         <div class="flex items-center gap-4 w-full lg:w-auto">
             <div class="relative flex-1 lg:w-80">

@@ -1,5 +1,5 @@
 {{-- Bulk Actions Bar --}}
-<div x-data="participantsManager()" x-show="showBulkActions" x-transition class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+<div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4" x-show="showBulkActions" x-transition>
     <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
             <span class="text-sm font-medium text-blue-900" x-text="`${selectedParticipants.length} peserta dipilih`"></span>
