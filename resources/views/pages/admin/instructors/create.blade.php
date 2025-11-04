@@ -40,7 +40,7 @@
                         name="name" 
                         value="{{ old('name') }}"
                         required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('name') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('name') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Masukkan nama lengkap instructor"
                     >
                     @error('name')
@@ -58,7 +58,7 @@
                         name="email" 
                         value="{{ old('email') }}"
                         required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('email') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('email') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="instructor@example.com"
                     >
                     @error('email')
@@ -75,8 +75,8 @@
                         id="phone" 
                         name="phone" 
                         value="{{ old('phone') }}"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('phone') border-red-300 @enderror"
-                        placeholder="Masukkan nomor telepon"
+                        class="w-full px-3 py-2 border {{ $errors->has('phone') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="08123456789"
                     >
                     @error('phone')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -91,7 +91,7 @@
                         id="instructor_type" 
                         name="instructor_type" 
                         required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('instructor_type') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('instructor_type') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
                         <option value="">Pilih tipe instructor</option>
                         <option value="internal" {{ old('instructor_type') === 'internal' ? 'selected' : '' }}>Internal</option>
@@ -118,7 +118,7 @@
                             name="specialization" 
                             value="{{ old('specialization') }}"
                             required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('specialization') border-red-300 @enderror"
+                            class="w-full px-3 py-2 border {{ $errors->has('specialization') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="Contoh: Water Quality, Environmental, Microbiology"
                         >
                         @error('specialization')
@@ -137,7 +137,7 @@
                             name="education" 
                             value="{{ old('education') }}"
                             required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('education') border-red-300 @enderror"
+                            class="w-full px-3 py-2 border {{ $errors->has('education') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="Contoh: S1 Teknik Lingkungan, S2 Kimia"
                         >
                         @error('education')
@@ -155,7 +155,7 @@
                             name="experience" 
                             value="{{ old('experience') }}"
                             required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('experience') border-red-300 @enderror"
+                            class="w-full px-3 py-2 border {{ $errors->has('experience') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="Contoh: 5 tahun di bidang lingkungan"
                         >
                         @error('experience')
@@ -173,7 +173,7 @@
                         name="bio" 
                         rows="4"
                         required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('bio') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('bio') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Deskripsi singkat tentang latar belakang dan pengalaman instructor"
                     >{{ old('bio') }}</textarea>
                     @error('bio')

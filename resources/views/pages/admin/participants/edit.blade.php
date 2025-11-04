@@ -50,7 +50,7 @@
                         name="first_name" 
                         value="{{ old('first_name', $user->first_name) }}"
                         required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('first_name') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('first_name') ? 'border-red-300' : 'border-gray-300' }}"
                         placeholder="Masukkan nama depan"
                     >
                     @error('first_name')
@@ -67,7 +67,7 @@
                         id="last_name" 
                         name="last_name" 
                         value="{{ old('last_name', $user->last_name) }}"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('last_name') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('last_name') ? 'border-red-300' : 'border-gray-300' }}"
                         placeholder="Masukkan nama belakang"
                     >
                     @error('last_name')
@@ -85,7 +85,7 @@
                         name="email" 
                         value="{{ old('email', $user->email) }}"
                         required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('email') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('email') ? 'border-red-300' : 'border-gray-300' }}"
                         placeholder="peserta@example.com"
                     >
                     @error('email')
@@ -102,7 +102,7 @@
                         id="phone" 
                         name="phone" 
                         value="{{ old('phone', $user->phone) }}"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('phone') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('phone') ? 'border-red-300' : 'border-gray-300' }}"
                         placeholder="+62 812-3456-7890"
                     >
                     @error('phone')
@@ -118,7 +118,7 @@
                         type="password" 
                         id="password" 
                         name="password" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('password') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('password') ? 'border-red-300' : 'border-gray-300' }}"
                         placeholder="Kosongkan jika tidak ingin mengubah"
                     >
                     @error('password')
@@ -148,7 +148,7 @@
                         id="role" 
                         name="role" 
                         required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('role') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('role') ? 'border-red-300' : 'border-gray-300' }}"
                     >
                         <option value="">Pilih role</option>
                         <option value="student" {{ old('role', $user->getRoleNames()->first()) === 'student' ? 'selected' : '' }}>Student</option>
@@ -169,7 +169,7 @@
                     <select 
                         id="status" 
                         name="status" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('status') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('status') ? 'border-red-300' : 'border-gray-300' }}"
                     >
                         <option value="active" {{ old('status', $user->email_verified_at ? 'active' : 'inactive') === 'active' ? 'selected' : '' }}>Active</option>
                         <option value="inactive" {{ old('status', $user->email_verified_at ? 'active' : 'inactive') === 'inactive' ? 'selected' : '' }}>Inactive</option>
@@ -194,7 +194,7 @@
                             id="company_name" 
                             name="company_name" 
                             value="{{ old('company_name', $user->company_name) }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('company_name') border-red-300 @enderror"
+                            class="w-full px-3 py-2 border {{ $errors->has('company_name') ? 'border-red-300' : 'border-gray-300' }}"
                             placeholder="PT/CV/Universitas"
                         >
                         @error('company_name')
@@ -211,7 +211,7 @@
                             id="position" 
                             name="position" 
                             value="{{ old('position', $user->position) }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('position') border-red-300 @enderror"
+                            class="w-full px-3 py-2 border {{ $errors->has('position') ? 'border-red-300' : 'border-gray-300' }}"
                             placeholder="Staff, Manager, Mahasiswa, dll"
                         >
                         @error('position')
@@ -227,7 +227,7 @@
                             id="address" 
                             name="address" 
                             rows="3"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('address') border-red-300 @enderror"
+                            class="w-full px-3 py-2 border {{ $errors->has('address') ? 'border-red-300' : 'border-gray-300' }}"
                             placeholder="Alamat lengkap"
                         >{{ old('address', $user->address) }}</textarea>
                         @error('address')
@@ -254,3 +254,4 @@
     </div>
 </div>
 @endsection
+

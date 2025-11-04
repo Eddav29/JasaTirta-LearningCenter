@@ -35,7 +35,7 @@
                         Judul Pelatihan <span class="text-red-500">*</span>
                     </label>
                     <input type="text" id="title" name="title" value="{{ old('title') }}" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('title') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('title') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Masukkan judul pelatihan">
                     @error('title')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -47,7 +47,7 @@
                         Kategori <span class="text-red-500">*</span>
                     </label>
                     <select id="category_id" name="category_id" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('category_id') border-red-300 @enderror">
+                        class="w-full px-3 py-2 border {{ $errors->has('category_id') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option value="">Pilih Kategori</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -65,7 +65,7 @@
                         Instruktur <span class="text-red-500">*</span>
                     </label>
                     <select id="instructor_id" name="instructor_id" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('instructor_id') border-red-300 @enderror">
+                        class="w-full px-3 py-2 border {{ $errors->has('instructor_id') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option value="">Pilih Instruktur</option>
                         @foreach ($instructors as $instructor)
                             <option value="{{ $instructor->id }}" {{ old('instructor_id') == $instructor->id ? 'selected' : '' }}>
@@ -83,7 +83,7 @@
                         Tingkat Kesulitan <span class="text-red-500">*</span>
                     </label>
                     <select id="training_type" name="training_type" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('training_type') border-red-300 @enderror">
+                        class="w-full px-3 py-2 border {{ $errors->has('training_type') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option value="">Pilih Tingkat</option>
                         <option value="Beginner" {{ old('training_type') == 'Beginner' ? 'selected' : '' }}>Beginner</option>
                         <option value="Intermediate" {{ old('training_type') == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
@@ -101,7 +101,7 @@
                     Deskripsi Singkat <span class="text-red-500">*</span>
                 </label>
                 <textarea id="description" name="description" rows="3" required
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('description') border-red-300 @enderror"
+                    class="w-full px-3 py-2 border {{ $errors->has('description') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Masukkan deskripsi singkat pelatihan">{{ old('description') }}</textarea>
                 @error('description')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -113,7 +113,7 @@
                     Deskripsi Lengkap
                 </label>
                 <textarea id="long_description" name="long_description" rows="5"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('long_description') border-red-300 @enderror"
+                    class="w-full px-3 py-2 border {{ $errors->has('long_description') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Masukkan deskripsi lengkap pelatihan">{{ old('long_description') }}</textarea>
                 @error('long_description')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -127,7 +127,7 @@
                         Durasi (hari) <span class="text-red-500">*</span>
                     </label>
                     <input type="number" id="duration" name="duration" value="{{ old('duration') }}" required min="1"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('duration') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('duration') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="0">
                     @error('duration')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -139,7 +139,7 @@
                         Harga (Rp) <span class="text-red-500">*</span>
                     </label>
                     <input type="number" id="price" name="price" value="{{ old('price') }}" required min="0" step="0.01"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('price') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('price') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="0">
                     @error('price')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -151,7 +151,7 @@
                         Kapasitas <span class="text-red-500">*</span>
                     </label>
                     <input type="number" id="capacity" name="capacity" value="{{ old('capacity') }}" required min="1"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('capacity') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('capacity') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="0">
                     @error('capacity')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -165,7 +165,7 @@
                         Jam Pembelajaran
                     </label>
                     <input type="number" id="learning_hours" name="learning_hours" value="{{ old('learning_hours') }}" min="1"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('learning_hours') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('learning_hours') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="0">
                     @error('learning_hours')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -177,7 +177,7 @@
                         Metode Pelatihan
                     </label>
                     <input type="text" id="training_methods" name="training_methods" value="{{ old('training_methods') }}"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('training_methods') border-red-300 @enderror"
+                        class="w-full px-3 py-2 border {{ $errors->has('training_methods') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Contoh: Online, Offline, Hybrid">
                     @error('training_methods')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -190,7 +190,7 @@
                     Catatan Sertifikasi
                 </label>
                 <textarea id="certification_note" name="certification_note" rows="2"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('certification_note') border-red-300 @enderror"
+                    class="w-full px-3 py-2 border {{ $errors->has('certification_note') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Masukkan catatan sertifikasi">{{ old('certification_note') }}</textarea>
                 @error('certification_note')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
