@@ -98,10 +98,13 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/instructors/create', fn () => 'Create Instructor Page')->name('instructors.create');
 
     // Participants routes
-    Route::get('/participants', function () {
-        return view('pages.admin.participants.index');
-    })->name('participants.index');
+    Route::get('/participants', [App\Http\Controllers\Admin\ParticipantController::class, 'index'])->name('participants.index');
     Route::get('/participants/create', fn () => 'Create Participant Page')->name('participants.create');
+    Route::get('/participants/{user}', [App\Http\Controllers\Admin\ParticipantController::class, 'show'])->name('participants.show');
+    Route::get('/participants/{user}/edit', [App\Http\Controllers\Admin\ParticipantController::class, 'edit'])->name('participants.edit');
+    Route::delete('/participants/{user}', [App\Http\Controllers\Admin\ParticipantController::class, 'destroy'])->name('participants.destroy');
+    Route::post('/participants/bulk-delete', [App\Http\Controllers\Admin\ParticipantController::class, 'bulkDelete'])->name('participants.bulk-delete');
+    Route::post('/participants/bulk-status', [App\Http\Controllers\Admin\ParticipantController::class, 'bulkUpdateStatus'])->name('participants.bulk-status');
 
     // Categories routes
     Route::get('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');

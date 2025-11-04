@@ -7,6 +7,8 @@ enum RoleEnum: string
     case Admin = 'admin';
     case Instructor = 'instructor';
     case Participant = 'participant';
+    case Corporate = 'corporate';
+    case Student = 'student';
     case User = 'user';
 
     /**

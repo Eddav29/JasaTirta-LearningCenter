@@ -72,6 +72,8 @@ class RoleSeeder extends Seeder
         $admin = Role::firstOrCreate(['name' => RoleEnum::Admin->value]);
         $instructor = Role::firstOrCreate(['name' => RoleEnum::Instructor->value]);
         $participant = Role::firstOrCreate(['name' => RoleEnum::Participant->value]);
+        $corporate = Role::firstOrCreate(['name' => RoleEnum::Corporate->value]);
+        $student = Role::firstOrCreate(['name' => RoleEnum::Student->value]);
         $user = Role::firstOrCreate(['name' => RoleEnum::User->value]);
 
         // Admin: semua permissions
@@ -88,6 +90,22 @@ class RoleSeeder extends Seeder
 
         // Participant: bisa view trainings, schedules, dan manage own registrations
         $participant->syncPermissions([
+            'trainings.view',
+            'schedules.view',
+            'registrations.view',
+            'registrations.create',
+        ]);
+
+        // Corporate: sama seperti participant tapi untuk perusahaan
+        $corporate->syncPermissions([
+            'trainings.view',
+            'schedules.view',
+            'registrations.view',
+            'registrations.create',
+        ]);
+
+        // Student: sama seperti participant untuk pelajar/mahasiswa
+        $student->syncPermissions([
             'trainings.view',
             'schedules.view',
             'registrations.view',
