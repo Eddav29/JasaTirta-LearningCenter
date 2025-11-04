@@ -16,14 +16,28 @@
     
     @stack('styles')
 </head>
-<body class="antialiased bg-gray-50" x-data="{ sidebarOpen: true, profileOpen: false }">
+<body class="antialiased bg-gray-50" x-data="{ sidebarOpen: false, desktopSidebarOpen: true, profileOpen: false }">
     <div class="min-h-screen">
+        {{-- Mobile Overlay --}}
+        <div 
+            x-show="sidebarOpen" 
+            @click="sidebarOpen = false"
+            x-transition:enter="transition-opacity ease-linear duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-30 bg-gray-900 bg-opacity-50 lg:hidden"
+            style="display: none;"
+        ></div>
+
         @include('layouts.admin._sidebar')
         @include('layouts.admin._navbar')
         
         {{-- Main Content --}}
-        <div class="transition-all duration-300" :class="sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'">
-            <div class="pt-20 px-4 sm:px-6 lg:px-8 py-8">
+        <div class="transition-all duration-300" :class="desktopSidebarOpen ? 'lg:ml-64' : 'lg:ml-20'">
+            <div class="pt-24 px-4 sm:px-6 lg:px-8 py-8">
                 @yield('content')
             </div>
         </div>

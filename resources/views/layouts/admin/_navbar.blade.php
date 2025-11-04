@@ -1,7 +1,7 @@
 {{-- Admin Navbar --}}
 <nav 
-    class="fixed top-0 right-0 z-30 h-16 bg-white border-b border-gray-200 transition-all duration-300"
-    :class="sidebarOpen ? 'lg:left-64' : 'lg:left-20'"
+    class="fixed top-0 right-0 z-30 h-20 bg-white border-b border-gray-200 transition-all duration-300 left-0"
+    :class="desktopSidebarOpen ? 'lg:left-64' : 'lg:left-20'"
 >
     <div class="flex items-center justify-between h-full px-4 sm:px-6 lg:px-8">
         {{-- Left Side --}}
@@ -10,6 +10,7 @@
             <button 
                 @click="sidebarOpen = !sidebarOpen"
                 class="lg:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                aria-label="Toggle Sidebar"
             >
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
