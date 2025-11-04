@@ -23,17 +23,15 @@ class StoreInstructorRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:instructors',
+            'phone' => 'nullable|string|max:20',
+            'instructor_type' => 'required|in:internal,vendor',
             'specialization' => 'required|string|max:255',
             'education' => 'required|string|max:255',
-            'experience' => 'required|integer|min:0|max:50',
+            'experience' => 'required|string|max:50',
             'bio' => 'required|string',
-            'email' => 'required|string|email|max:255|unique:instructors',
-            'phone' => 'required|string|max:20',
-            'image' => 'nullable|string|max:255',
-            'instructor_type' => 'required|in:internal,vendor',
-            'company' => 'nullable|string|max:255',
             'certifications' => 'nullable|array',
-            'certifications.*' => 'string|max:255',
+            'certifications.*' => 'nullable|string|max:255',
         ];
     }
 
@@ -46,16 +44,15 @@ class StoreInstructorRequest extends FormRequest
     {
         return [
             'name.required' => 'Nama instruktur wajib diisi.',
+            'email.required' => 'Email instruktur wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan oleh instruktur lain.',
+            'instructor_type.required' => 'Tipe instruktur wajib dipilih.',
+            'instructor_type.in' => 'Tipe instruktur harus internal atau vendor.',
             'specialization.required' => 'Spesialisasi instruktur wajib diisi.',
             'education.required' => 'Pendidikan instruktur wajib diisi.',
             'experience.required' => 'Pengalaman instruktur wajib diisi.',
             'bio.required' => 'Bio instruktur wajib diisi.',
-            'email.required' => 'Email instruktur wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah digunakan oleh instruktur lain.',
-            'phone.required' => 'Nomor telepon wajib diisi.',
-            'instructor_type.required' => 'Tipe instruktur wajib dipilih.',
-            'instructor_type.in' => 'Tipe instruktur harus internal atau vendor.',
         ];
     }
 }
