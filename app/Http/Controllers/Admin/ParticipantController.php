@@ -14,7 +14,7 @@ class ParticipantController extends Controller
     {
         $query = User::query();
 
-        // Search functionality
+        // Search
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -25,7 +25,7 @@ class ParticipantController extends Controller
             });
         }
 
-                // Filter by role
+        // Filter by role
         if ($request->filled('role') && $request->role !== 'all') {
             $query->whereHas('roles', function ($q) use ($request) {
                 $q->where('name', $request->role);
@@ -64,14 +64,111 @@ class ParticipantController extends Controller
         ));
     }
 
+    public function create()
+    {
+        return view('pages.admin.participants.create');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'nullable|string|max:100',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'nullable|string|max:20',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|string|in:student,corporate,participant,instructor',
+            'status' => 'nullable|string|in:active,inactive',
+            'company_name' => 'nullable|string|max:255',
+            'position' => 'nullable|string|max:255',
+            'address' => 'nullable|string',
+        ]);
+
+        // Hash password
+        $validated['password'] = bcrypt($validated['password']);
+
+        // Set email_verified_at based on status
+        if (isset($validated['status']) && $validated['status'] === 'active') {
+            $validated['email_verified_at'] = now();
+        }
+
+        // Remove status from validated data as it's not a column
+        unset($validated['status']);
+
+        // Extract role
+        $role = $validated['role'];
+        unset($validated['role']);
+
+        // Create user
+        $user = User::create($validated);
+
+        // Assign role
+        $user->assignRole($role);
+
+        return redirect()->route('admin.participants.index')
+            ->with('success', 'Peserta berhasil ditambahkan');
+    }
+
     public function show(User $user)
     {
+        $user->load('roles');
+
         return view('pages.admin.participants.show', compact('user'));
     }
 
     public function edit(User $user)
     {
+        $user->load('roles');
+
         return view('pages.admin.participants.edit', compact('user'));
+    }
+
+    public function update(Request $request, User $user): RedirectResponse
+    {
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'nullable|string|max:100',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'phone' => 'nullable|string|max:20',
+            'password' => 'nullable|string|min:8|confirmed',
+            'role' => 'required|string|in:student,corporate,participant,instructor,admin',
+            'status' => 'nullable|string|in:active,inactive',
+            'company_name' => 'nullable|string|max:255',
+            'position' => 'nullable|string|max:255',
+            'address' => 'nullable|string',
+        ]);
+
+        // Hash password if provided
+        if (! empty($validated['password'])) {
+            $validated['password'] = bcrypt($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        // Set email_verified_at based on status
+        if (isset($validated['status'])) {
+            if ($validated['status'] === 'active') {
+                $validated['email_verified_at'] = now();
+            } else {
+                $validated['email_verified_at'] = null;
+            }
+        }
+
+        // Remove status from validated data
+        unset($validated['status']);
+
+        // Extract role
+        $role = $validated['role'];
+        unset($validated['role']);
+
+        // Update user
+        $user->update($validated);
+
+        // Sync role
+        $user->syncRoles([$role]);
+
+        return redirect()->route('admin.participants.index')
+            ->with('success', 'Peserta berhasil diperbarui');
     }
 
     public function destroy(User $user): RedirectResponse

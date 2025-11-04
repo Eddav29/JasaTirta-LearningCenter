@@ -163,7 +163,7 @@
                                 </div>
                             </td>
                             <td class="py-4 px-4 text-gray-600">{{ $participant->email }}</td>
-                            <td class="py-4 px-4 text-gray-600">{{ $participant->phone_number ?? '-' }}</td>
+                            <td class="py-4 px-4 text-gray-600">{{ $participant->phone ?? '-' }}</td>
                             <td class="py-4 px-4">
                                 @php
                                     $role = $participant->getRoleNames()->first() ?? 'student';
