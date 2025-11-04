@@ -42,8 +42,8 @@
 
 <div class="space-y-6">
     @include('pages.admin.trainings._header')
-    @include('pages.admin.trainings._search-filter')
     @include('pages.admin.trainings._statistics')
+    @include('pages.admin.trainings._search-filter')
     @include('pages.admin.trainings._table')
 </div>
 @endsection

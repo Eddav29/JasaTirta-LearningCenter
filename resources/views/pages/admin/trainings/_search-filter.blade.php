@@ -1,5 +1,5 @@
 {{-- Search and Filter Section --}}
-<div class="bg-white p-6 rounded-lg border border-gray-200">
+<div class="bg-white p-6 rounded-lg border border-gray-200 mt-6">
     <form method="GET" action="{{ route('admin.trainings.index') }}" class="space-y-4">
         {{-- Header Section --}}
         <div class="flex items-center justify-between">
