@@ -83,7 +83,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Trainings routes
     Route::get('/trainings', [App\Http\Controllers\Admin\TrainingController::class, 'index'])->name('trainings.index');
-    Route::get('/trainings/create', fn () => 'Create Training Page')->name('trainings.create');
+    Route::get('/trainings/create', [App\Http\Controllers\Admin\TrainingController::class, 'create'])->name('trainings.create');
+    Route::post('/trainings', [App\Http\Controllers\Admin\TrainingController::class, 'store'])->name('trainings.store');
+    Route::get('/trainings/{training}', [App\Http\Controllers\Admin\TrainingController::class, 'show'])->name('trainings.show');
+    Route::get('/trainings/{training}/edit', [App\Http\Controllers\Admin\TrainingController::class, 'edit'])->name('trainings.edit');
+    Route::put('/trainings/{training}', [App\Http\Controllers\Admin\TrainingController::class, 'update'])->name('trainings.update');
+    Route::delete('/trainings/{training}', [App\Http\Controllers\Admin\TrainingController::class, 'destroy'])->name('trainings.destroy');
     Route::post('/trainings/bulk-delete', [App\Http\Controllers\Admin\TrainingController::class, 'bulkDelete'])->name('trainings.bulk-delete');
     Route::post('/trainings/bulk-status', [App\Http\Controllers\Admin\TrainingController::class, 'bulkUpdateStatus'])->name('trainings.bulk-status');
 
@@ -100,9 +105,11 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Participants routes
     Route::get('/participants', [App\Http\Controllers\Admin\ParticipantController::class, 'index'])->name('participants.index');
-    Route::get('/participants/create', fn () => 'Create Participant Page')->name('participants.create');
+    Route::get('/participants/create', [App\Http\Controllers\Admin\ParticipantController::class, 'create'])->name('participants.create');
+    Route::post('/participants', [App\Http\Controllers\Admin\ParticipantController::class, 'store'])->name('participants.store');
     Route::get('/participants/{user}', [App\Http\Controllers\Admin\ParticipantController::class, 'show'])->name('participants.show');
     Route::get('/participants/{user}/edit', [App\Http\Controllers\Admin\ParticipantController::class, 'edit'])->name('participants.edit');
+    Route::put('/participants/{user}', [App\Http\Controllers\Admin\ParticipantController::class, 'update'])->name('participants.update');
     Route::delete('/participants/{user}', [App\Http\Controllers\Admin\ParticipantController::class, 'destroy'])->name('participants.destroy');
     Route::post('/participants/bulk-delete', [App\Http\Controllers\Admin\ParticipantController::class, 'bulkDelete'])->name('participants.bulk-delete');
     Route::post('/participants/bulk-status', [App\Http\Controllers\Admin\ParticipantController::class, 'bulkUpdateStatus'])->name('participants.bulk-status');

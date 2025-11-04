@@ -124,4 +124,80 @@ class TrainingController extends Controller
 
         return redirect()->back()->with('success', count($ids).' pelatihan berhasil '.$status);
     }
+
+    public function create(): View
+    {
+        $categories = TrainingCategory::orderBy('name')->get();
+        $instructors = Instructor::orderBy('name')->get();
+
+        return view('pages.admin.trainings.create', compact('categories', 'instructors'));
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:training_categories,id',
+            'instructor_id' => 'required|exists:instructors,id',
+            'description' => 'required|string',
+            'long_description' => 'nullable|string',
+            'duration' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'capacity' => 'required|integer|min:1',
+            'training_type' => 'required|in:Beginner,Intermediate,Advanced,Expert',
+            'learning_hours' => 'nullable|integer|min:1',
+            'training_methods' => 'nullable|string',
+            'certification_note' => 'nullable|string',
+            'is_active' => 'required|boolean',
+        ]);
+
+        Training::create($validated);
+
+        return redirect()->route('admin.trainings.index')->with('success', 'Pelatihan berhasil ditambahkan');
+    }
+
+    public function show(Training $training): View
+    {
+        $training->load(['category', 'instructor', 'schedules', 'learningObjectives', 'prerequisites', 'materials', 'syllabus.topics']);
+
+        return view('pages.admin.trainings.show', compact('training'));
+    }
+
+    public function edit(Training $training): View
+    {
+        $categories = TrainingCategory::orderBy('name')->get();
+        $instructors = Instructor::orderBy('name')->get();
+
+        return view('pages.admin.trainings.edit', compact('training', 'categories', 'instructors'));
+    }
+
+    public function update(Request $request, Training $training): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:training_categories,id',
+            'instructor_id' => 'required|exists:instructors,id',
+            'description' => 'required|string',
+            'long_description' => 'nullable|string',
+            'duration' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'capacity' => 'required|integer|min:1',
+            'training_type' => 'required|in:Beginner,Intermediate,Advanced,Expert',
+            'learning_hours' => 'nullable|integer|min:1',
+            'training_methods' => 'nullable|string',
+            'certification_note' => 'nullable|string',
+            'is_active' => 'required|boolean',
+        ]);
+
+        $training->update($validated);
+
+        return redirect()->route('admin.trainings.index')->with('success', 'Pelatihan berhasil diperbarui');
+    }
+
+    public function destroy(Training $training): RedirectResponse
+    {
+        $training->delete();
+
+        return redirect()->route('admin.trainings.index')->with('success', 'Pelatihan berhasil dihapus');
+    }
 }
