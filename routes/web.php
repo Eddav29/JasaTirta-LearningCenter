@@ -94,8 +94,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('/schedules/{schedule}/duplicate', [App\Http\Controllers\Admin\ScheduleController::class, 'duplicate'])->name('schedules.duplicate');
 
     // Instructors routes
-    Route::get('/instructors', [App\Http\Controllers\Admin\InstructorController::class, 'index'])->name('instructors.index');
-    Route::get('/instructors/create', fn () => 'Create Instructor Page')->name('instructors.create');
+    Route::resource('instructors', App\Http\Controllers\Admin\InstructorController::class);
+    Route::post('/instructors/bulk-destroy', [App\Http\Controllers\Admin\InstructorController::class, 'bulkDestroy'])->name('instructors.bulk-destroy');
+    Route::post('/instructors/{instructor}/duplicate', [App\Http\Controllers\Admin\InstructorController::class, 'duplicate'])->name('instructors.duplicate');
 
     // Participants routes
     Route::get('/participants', function () {

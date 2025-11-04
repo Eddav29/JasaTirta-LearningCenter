@@ -49,6 +49,14 @@ class Instructor extends Model
     }
 
     /**
+     * Get the trainings for the instructor.
+     */
+    public function trainings(): HasMany
+    {
+        return $this->hasMany(Training::class);
+    }
+
+    /**
      * Get the full name attribute.
      */
     public function getFullNameAttribute(): string

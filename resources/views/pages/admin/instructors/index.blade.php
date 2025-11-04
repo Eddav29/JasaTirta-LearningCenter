@@ -11,9 +11,9 @@
     'specialization' => explode(',', $i->specialization ?? ''),
     'experienceLevel' => $i->experience ?? null,
     'status' => 'Active',
-    'coursesCount' => $i->trainings_count ?? 0,
+    'coursesCount' => intval($i->trainings_count ?? 0),
     'studentsCount' => 0,
-    'rating' => null,
+    'rating' => 4.5,
     'joinDate' => optional($i->created_at)->format('Y-m-d')
 ])) }}">
     @include('pages.admin.instructors._header')
@@ -113,16 +113,51 @@
                 return name.split(' ').map(n => n[0]).join('');
             },
             
-            deleteInstructor(id) {
+            deleteInstructorWithForm(id) {
                 if (confirm('Apakah Anda yakin ingin menghapus instructor ini?')) {
-                    this.instructors = this.instructors.filter(i => i.id !== id);
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/admin/instructors/${id}`;
+                    
+                    const csrfToken = document.createElement('input');
+                    csrfToken.type = 'hidden';
+                    csrfToken.name = '_token';
+                    csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    
+                    const methodField = document.createElement('input');
+                    methodField.type = 'hidden';
+                    methodField.name = '_method';
+                    methodField.value = 'DELETE';
+                    
+                    form.appendChild(csrfToken);
+                    form.appendChild(methodField);
+                    document.body.appendChild(form);
+                    form.submit();
                 }
             },
             
             bulkDelete() {
                 if (confirm(`Hapus ${this.selectedInstructors.length} instructor?`)) {
-                    this.instructors = this.instructors.filter(i => !this.selectedInstructors.includes(i.id));
-                    this.selectedInstructors = [];
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/admin/instructors/bulk-destroy';
+                    
+                    const csrfToken = document.createElement('input');
+                    csrfToken.type = 'hidden';
+                    csrfToken.name = '_token';
+                    csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    
+                    this.selectedInstructors.forEach((id, index) => {
+                        const idField = document.createElement('input');
+                        idField.type = 'hidden';
+                        idField.name = `instructor_ids[${index}]`;
+                        idField.value = id;
+                        form.appendChild(idField);
+                    });
+                    
+                    form.appendChild(csrfToken);
+                    document.body.appendChild(form);
+                    form.submit();
                 }
             },
             
