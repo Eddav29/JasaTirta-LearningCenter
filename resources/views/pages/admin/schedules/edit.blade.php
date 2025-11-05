@@ -65,7 +65,7 @@
                         Pelatihan <span class="text-red-500">*</span>
                     </label>
                     <select name="training_id" id="training_id" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('training_id') border-red-500 @enderror">
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('training_id') @enderror">
                         <option value="">Pilih Pelatihan</option>
                         @foreach($trainings as $training)
                             <option value="{{ $training->id }}" {{ (old('training_id', $schedule->training_id) == $training->id) ? 'selected' : '' }}>
@@ -86,7 +86,7 @@
                         </label>
                         <input type="date" name="start_date" id="start_date" required 
                                value="{{ old('start_date', $schedule->start_date->format('Y-m-d')) }}"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('start_date') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('start_date') @enderror">
                         @error('start_date')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -98,7 +98,7 @@
                         </label>
                         <input type="date" name="end_date" id="end_date" required 
                                value="{{ old('end_date', $schedule->end_date->format('Y-m-d')) }}"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('end_date') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('end_date') @enderror">
                         @error('end_date')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -113,7 +113,7 @@
                         </label>
                         <input type="time" name="start_time" id="start_time" required 
                                value="{{ old('start_time', $schedule->start_time ? \Carbon\Carbon::parse($schedule->start_time)->format('H:i') : '09:00') }}"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('start_time') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('start_time') @enderror">
                         @error('start_time')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -125,7 +125,7 @@
                         </label>
                         <input type="time" name="end_time" id="end_time" required 
                                value="{{ old('end_time', $schedule->end_time ? \Carbon\Carbon::parse($schedule->end_time)->format('H:i') : '17:00') }}"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('end_time') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('end_time') @enderror">
                         @error('end_time')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -141,7 +141,7 @@
                         <input type="text" name="location" id="location" required 
                                value="{{ old('location', $schedule->location) }}"
                                placeholder="Contoh: Jakarta Training Center"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('location') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('location') @enderror">
                         @error('location')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -152,7 +152,7 @@
                             Metode <span class="text-red-500">*</span>
                         </label>
                         <select name="method" id="method" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('method') border-red-500 @enderror">
+                                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('method') border-red-500 @enderror">
                             <option value="">Pilih Metode</option>
                             <option value="online" {{ (old('method', $schedule->method) == 'online') ? 'selected' : '' }}>Online</option>
                             <option value="offline" {{ (old('method', $schedule->method) == 'offline') ? 'selected' : '' }}>Offline</option>
@@ -172,7 +172,7 @@
                         </label>
                         <input type="number" name="total_slots" id="total_slots" required 
                                value="{{ old('total_slots', $schedule->total_slots) }}" min="1" max="100"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('total_slots') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('total_slots') border-red-500 @enderror">
                         @if($schedule->registered_count > 0)
                             <p class="mt-1 text-sm text-gray-600">
                                 <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -191,7 +191,7 @@
                             Status <span class="text-red-500">*</span>
                         </label>
                         <select name="status" id="status" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('status') border-red-500 @enderror">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('status') @enderror">
                             <option value="buka_pendaftaran" {{ (old('status', $schedule->status) == 'buka_pendaftaran') ? 'selected' : '' }}>Buka Pendaftaran</option>
                             <option value="penuh" {{ (old('status', $schedule->status) == 'penuh') ? 'selected' : '' }}>Penuh</option>
                             <option value="berlangsung" {{ (old('status', $schedule->status) == 'berlangsung') ? 'selected' : '' }}>Berlangsung</option>

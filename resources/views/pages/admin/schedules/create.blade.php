@@ -54,7 +54,7 @@
                         Pelatihan <span class="text-red-500">*</span>
                     </label>
                     <select name="training_id" id="training_id" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('training_id') border-red-500 @enderror">
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('training_id') border-red-500 @enderror">
                         <option value="">Pilih Pelatihan</option>
                         @foreach($trainings as $training)
                             <option value="{{ $training->id }}" {{ old('training_id') == $training->id ? 'selected' : '' }}>
@@ -75,7 +75,7 @@
                         </label>
                         <input type="date" name="start_date" id="start_date" required 
                                value="{{ old('start_date') }}"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('start_date') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('start_date') border-red-500 @enderror">
                         @error('start_date')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -87,7 +87,7 @@
                         </label>
                         <input type="date" name="end_date" id="end_date" required 
                                value="{{ old('end_date') }}"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('end_date') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('end_date') @enderror">
                         @error('end_date')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -102,7 +102,7 @@
                         </label>
                         <input type="time" name="start_time" id="start_time" required 
                                value="{{ old('start_time', '09:00') }}"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('start_time') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('start_time') @enderror">
                         @error('start_time')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -114,7 +114,7 @@
                         </label>
                         <input type="time" name="end_time" id="end_time" required 
                                value="{{ old('end_time', '17:00') }}"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('end_time') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('end_time') @enderror">
                         @error('end_time')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -130,7 +130,7 @@
                         <input type="text" name="location" id="location" required 
                                value="{{ old('location') }}"
                                placeholder="Contoh: Jakarta Training Center"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('location') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('location') @enderror">
                         @error('location')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -141,7 +141,7 @@
                             Metode <span class="text-red-500">*</span>
                         </label>
                         <select name="method" id="method" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('method') border-red-500 @enderror">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('method') @enderror">
                             <option value="">Pilih Metode</option>
                             <option value="online" {{ old('method') == 'online' ? 'selected' : '' }}>Online</option>
                             <option value="offline" {{ old('method') == 'offline' ? 'selected' : '' }}>Offline</option>
@@ -161,7 +161,7 @@
                         </label>
                         <input type="number" name="total_slots" id="total_slots" required 
                                value="{{ old('total_slots', 20) }}" min="1" max="100"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('total_slots') border-red-500 @enderror">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('total_slots') @enderror">
                         @error('total_slots')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -172,7 +172,7 @@
                             Status <span class="text-red-500">*</span>
                         </label>
                         <select name="status" id="status" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('status') border-red-500 @enderror">
+                                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('status') border-red-500 @enderror">
                             <option value="buka_pendaftaran" {{ old('status', 'buka_pendaftaran') == 'buka_pendaftaran' ? 'selected' : '' }}>Buka Pendaftaran</option>
                             <option value="penuh" {{ old('status') == 'penuh' ? 'selected' : '' }}>Penuh</option>
                             <option value="berlangsung" {{ old('status') == 'berlangsung' ? 'selected' : '' }}>Berlangsung</option>
