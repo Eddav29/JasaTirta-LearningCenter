@@ -14,6 +14,17 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // Buat super admin user
+        $superAdmin = User::create([
+            'first_name' => 'Super',
+            'last_name' => 'Admin',
+            'email' => 'superadmin@jasatirta.com',
+            'phone' => '+62 813-4567-8901',
+            'email_verified' => true,
+            'password' => Hash::make('password'),
+        ]);
+        $superAdmin->assignRole(RoleEnum::SuperAdmin->value);
+
         // Buat admin users
         $admin = User::create([
             'first_name' => 'Admin',
@@ -24,16 +35,6 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
         $admin->assignRole(RoleEnum::Admin->value);
-
-        $superAdmin = User::create([
-            'first_name' => 'Super',
-            'last_name' => 'Admin',
-            'email' => 'superadmin@jasatirta.com',
-            'phone' => '+62 813-4567-8901',
-            'email_verified' => true,
-            'password' => Hash::make('password'),
-        ]);
-        $superAdmin->assignRole(RoleEnum::Admin->value);
 
         // Buat instructor users (sesuai dengan instructor yang ada)
         $instructorData = [

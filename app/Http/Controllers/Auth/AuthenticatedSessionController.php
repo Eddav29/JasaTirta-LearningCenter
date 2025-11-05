@@ -48,7 +48,30 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('admin.dashboard'));
+        // Redirect based on user role
+        return $this->redirectBasedOnRole($user);
+    }
+
+    /**
+     * Redirect user to appropriate dashboard based on their role.
+     */
+    protected function redirectBasedOnRole($user): RedirectResponse
+    {
+        // Get user roles (assuming Spatie permission package is installed)
+        $userRoles = $user->roles->pluck('name')->toArray();
+
+        // Admin or Super Admin
+        if (in_array('admin', $userRoles) || in_array('super-admin', $userRoles)) {
+            return redirect()->intended(route('admin.dashboard'));
+        }
+
+        // Instructor
+        if (in_array('instructor', $userRoles)) {
+            return redirect()->intended(route('instructor.dashboard'));
+        }
+
+        // Default to user dashboard for participants and other roles
+        return redirect()->intended(route('user.dashboard'));
     }
 
     /**

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Welcome page - Landing Home
@@ -70,14 +71,25 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
-    // User Dashboard
+    // Default dashboard route - will redirect based on role
     Route::get('/dashboard', function () {
-        return view('pages.dashboard');
+        $user = Auth::user();
+        $userRoles = $user->roles->pluck('name')->toArray();
+
+        if (in_array('admin', $userRoles) || in_array('super-admin', $userRoles)) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if (in_array('instructor', $userRoles)) {
+            return redirect()->route('instructor.dashboard');
+        }
+
+        return redirect()->route('user.dashboard');
     })->name('dashboard');
 });
 
 // Admin Routes
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-admin'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
@@ -135,6 +147,80 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Profile routes
     Route::get('/profile', function () {
         return view('pages.admin.profile.index');
+    })->name('profile');
+});
+
+// User Routes (Participants)
+Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
+
+    // My Courses
+    Route::get('/courses', function () {
+        return view('pages.user.courses.index');
+    })->name('courses');
+
+    // Course Catalog
+    Route::get('/catalog', function () {
+        return view('pages.user.catalog.index');
+    })->name('catalog');
+
+    // Schedules
+    Route::get('/schedules', function () {
+        return view('pages.user.schedules.index');
+    })->name('schedules');
+
+    // Certificates
+    Route::get('/certificates', function () {
+        return view('pages.user.certificates.index');
+    })->name('certificates');
+
+    // Achievements
+    Route::get('/achievements', function () {
+        return view('pages.user.achievements.index');
+    })->name('achievements');
+
+    // Forum
+    Route::get('/forum', function () {
+        return view('pages.user.forum.index');
+    })->name('forum');
+
+    // Settings
+    Route::get('/settings', function () {
+        return view('pages.user.settings.index');
+    })->name('settings');
+
+    // Profile
+    Route::get('/profile', function () {
+        return view('pages.user.profile.index');
+    })->name('profile');
+});
+
+// Instructor Routes
+Route::prefix('instructor')->name('instructor.')->middleware(['auth', 'role:instructor'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return view('pages.instructor.dashboard.index');
+    })->name('dashboard');
+
+    // My Courses
+    Route::get('/courses', function () {
+        return view('pages.instructor.courses.index');
+    })->name('courses');
+
+    // Schedules
+    Route::get('/schedules', function () {
+        return view('pages.instructor.schedules.index');
+    })->name('schedules');
+
+    // Students
+    Route::get('/students', function () {
+        return view('pages.instructor.students.index');
+    })->name('students');
+
+    // Profile
+    Route::get('/profile', function () {
+        return view('pages.instructor.profile.index');
     })->name('profile');
 });
 

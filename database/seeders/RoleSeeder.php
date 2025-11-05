@@ -69,12 +69,16 @@ class RoleSeeder extends Seeder
         }
 
         // Buat roles
+        $superAdmin = Role::firstOrCreate(['name' => RoleEnum::SuperAdmin->value]);
         $admin = Role::firstOrCreate(['name' => RoleEnum::Admin->value]);
         $instructor = Role::firstOrCreate(['name' => RoleEnum::Instructor->value]);
         $participant = Role::firstOrCreate(['name' => RoleEnum::Participant->value]);
         $corporate = Role::firstOrCreate(['name' => RoleEnum::Corporate->value]);
         $student = Role::firstOrCreate(['name' => RoleEnum::Student->value]);
         $user = Role::firstOrCreate(['name' => RoleEnum::User->value]);
+
+        // Super Admin: semua permissions
+        $superAdmin->syncPermissions(Permission::all());
 
         // Admin: semua permissions
         $admin->syncPermissions(Permission::all());
