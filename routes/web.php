@@ -156,9 +156,8 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
     Route::get('/dashboard', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
 
     // My Courses
-    Route::get('/courses', function () {
-        return view('pages.user.courses.index');
-    })->name('courses');
+    Route::get('/courses', [App\Http\Controllers\User\CourseController::class, 'index'])->name('courses');
+    Route::get('/courses/{id}', [App\Http\Controllers\User\CourseController::class, 'show'])->name('courses.show');
 
     // Course Catalog
     Route::get('/catalog', function () {
