@@ -160,9 +160,7 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
     Route::get('/courses/{id}', [App\Http\Controllers\User\CourseController::class, 'show'])->name('courses.show');
 
     // Course Catalog
-    Route::get('/catalog', function () {
-        return view('pages.user.catalog.index');
-    })->name('catalog');
+    Route::get('/catalog', [App\Http\Controllers\User\CatalogController::class, 'index'])->name('catalog');
 
     // Schedules
     Route::get('/schedules', function () {
