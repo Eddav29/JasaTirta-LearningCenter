@@ -109,7 +109,7 @@
                                     <a :href="`/training/${training.id}`" @click.stop class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">
                                         Detail
                                     </a>
-                                    <a href="#" @click.stop @click.prevent="alert('Fitur pendaftaran akan segera tersedia!')" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition"
+                                    <a href="{{ route('register') }}" @click.stop class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition"
                                        :class="{'opacity-50 cursor-not-allowed': training.schedules && training.schedules[0] && training.schedules[0].available_slots === 0}"
                                        x-text="(training.schedules && training.schedules[0] && training.schedules[0].available_slots === 0) ? 'Penuh' : 'Daftar'">
                                     </a>

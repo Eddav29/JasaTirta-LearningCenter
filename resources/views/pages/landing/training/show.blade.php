@@ -255,9 +255,9 @@
 
                             {{-- Action Buttons --}}
                             <div class="space-y-3">
-                                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors">
+                                <a href="{{ route('register') }}" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors text-center block">
                                     Daftar Sekarang
-                                </button>
+                                </a>
                                 <button class="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 rounded-lg transition-colors">
                                     Hubungi Admin
                                 </button>
