@@ -97,7 +97,7 @@
         {{-- Results Summary --}}
         <div class="mb-8 flex items-center justify-between">
             <p class="text-gray-600 text-lg">
-                Menampilkan <span class="font-semibold text-gray-900" x-text="filteredCount"></span> dari <span class="font-semibold text-gray-900" x-text="totalCount"></span> pelatihan
+                Ditemukan <span class="font-semibold text-gray-900" x-text="filteredCount"></span> dari <span class="font-semibold text-gray-900" x-text="totalCount"></span> pelatihan
             </p>
             
             <div x-show="searchQuery && searchQuery.trim() !== ''" class="flex items-center gap-2">
