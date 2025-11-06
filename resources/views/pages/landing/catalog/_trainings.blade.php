@@ -4,7 +4,7 @@
         {{-- Training Cards Grid --}}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
             <template x-for="training in paginatedTrainings" :key="training.id">
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" @click="window.location.href = `/training/${training.id}`">
                     {{-- Image --}}
                     <div class="aspect-video overflow-hidden relative bg-linear-to-br from-blue-500 to-blue-700">
                         <div class="absolute inset-0 flex items-center justify-center">
@@ -106,10 +106,10 @@
                                     <span class="text-sm text-gray-500">per peserta</span>
                                 </div>
                                 <div class="grid grid-cols-2 gap-2">
-                                    <a href="#" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">
+                                    <a :href="`/training/${training.id}`" @click.stop class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">
                                         Detail
                                     </a>
-                                    <a href="#" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition"
+                                    <a href="#" @click.stop @click.prevent="alert('Fitur pendaftaran akan segera tersedia!')" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition"
                                        :class="{'opacity-50 cursor-not-allowed': training.schedules && training.schedules[0] && training.schedules[0].available_slots === 0}"
                                        x-text="(training.schedules && training.schedules[0] && training.schedules[0].available_slots === 0) ? 'Penuh' : 'Daftar'">
                                     </a>
