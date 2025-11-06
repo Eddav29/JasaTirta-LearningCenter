@@ -7,23 +7,23 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Welcome page - Landing Home
+/*
+|--------------------------------------------------------------------------
+| Public Landing Pages
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
     return view('pages.landing.home.index');
 })->name('home');
 
-// Katalog Pelatihan
 Route::get('/katalog', [App\Http\Controllers\TrainingController::class, 'catalog'])->name('katalog');
-
 Route::get('/catalog', [App\Http\Controllers\TrainingController::class, 'catalog'])->name('catalog');
 
-// Pengajar
 Route::get('/pengajar', [App\Http\Controllers\InstructorController::class, 'index'])->name('pengajar');
 
-// Jadwal
 Route::get('/jadwal', [App\Http\Controllers\ScheduleController::class, 'index'])->name('jadwal');
 
-// Kontak
 Route::get('/kontak', function () {
     return view('pages.landing.contact.index');
 })->name('kontak');
@@ -32,46 +32,46 @@ Route::get('/contact', function () {
     return view('pages.landing.contact.index');
 })->name('contact');
 
-// Guest routes (Login, Register, Password Reset)
+/*
+|--------------------------------------------------------------------------
+| Guest Routes (Authentication)
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('guest')->group(function () {
-    // Login routes
+    // Login
     Route::get('/login', function () {
         return view('pages.auth.login');
     })->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 
-    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-        ->name('login.store');
-
-    // Register routes
+    // Register
     Route::get('/register', function () {
         return view('pages.auth.register');
     })->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
 
-    Route::post('/register', [RegisteredUserController::class, 'store'])
-        ->name('register.store');
-
-    // Forgot password routes
+    // Forgot Password
     Route::get('/forgot-password', function () {
         return view('pages.auth.forgot-password');
     })->name('password.request');
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
 
-    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
-
-    // Reset password routes
-    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
-        ->name('password.reset');
-
-    Route::post('/reset-password', [NewPasswordController::class, 'store'])
-        ->name('password.store');
+    // Reset Password
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 });
 
-// Authenticated user routes
-Route::middleware('auth')->group(function () {
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+*/
 
-    // Default dashboard route - will redirect based on role
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+    // Dashboard - redirect based on role
     Route::get('/dashboard', function () {
         $user = Auth::user();
         $userRoles = $user->roles->pluck('name')->toArray();
@@ -88,12 +88,17 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 });
 
-// Admin Routes
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-admin'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
-    // Trainings routes
+    // Trainings
     Route::get('/trainings', [App\Http\Controllers\Admin\TrainingController::class, 'index'])->name('trainings.index');
     Route::get('/trainings/create', [App\Http\Controllers\Admin\TrainingController::class, 'create'])->name('trainings.create');
     Route::post('/trainings', [App\Http\Controllers\Admin\TrainingController::class, 'store'])->name('trainings.store');
@@ -104,18 +109,18 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-ad
     Route::post('/trainings/bulk-delete', [App\Http\Controllers\Admin\TrainingController::class, 'bulkDelete'])->name('trainings.bulk-delete');
     Route::post('/trainings/bulk-status', [App\Http\Controllers\Admin\TrainingController::class, 'bulkUpdateStatus'])->name('trainings.bulk-status');
 
-    // Schedules routes
+    // Schedules
     Route::resource('schedules', App\Http\Controllers\Admin\ScheduleController::class);
     Route::post('/schedules/bulk-destroy', [App\Http\Controllers\Admin\ScheduleController::class, 'bulkDestroy'])->name('schedules.bulk-destroy');
     Route::post('/schedules/bulk-status', [App\Http\Controllers\Admin\ScheduleController::class, 'bulkUpdateStatus'])->name('schedules.bulk-status');
     Route::post('/schedules/{schedule}/duplicate', [App\Http\Controllers\Admin\ScheduleController::class, 'duplicate'])->name('schedules.duplicate');
 
-    // Instructors routes
+    // Instructors
     Route::resource('instructors', App\Http\Controllers\Admin\InstructorController::class);
     Route::post('/instructors/bulk-destroy', [App\Http\Controllers\Admin\InstructorController::class, 'bulkDestroy'])->name('instructors.bulk-destroy');
     Route::post('/instructors/{instructor}/duplicate', [App\Http\Controllers\Admin\InstructorController::class, 'duplicate'])->name('instructors.duplicate');
 
-    // Participants routes
+    // Participants
     Route::get('/participants', [App\Http\Controllers\Admin\ParticipantController::class, 'index'])->name('participants.index');
     Route::get('/participants/create', [App\Http\Controllers\Admin\ParticipantController::class, 'create'])->name('participants.create');
     Route::post('/participants', [App\Http\Controllers\Admin\ParticipantController::class, 'store'])->name('participants.store');
@@ -126,31 +131,36 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-ad
     Route::post('/participants/bulk-delete', [App\Http\Controllers\Admin\ParticipantController::class, 'bulkDelete'])->name('participants.bulk-delete');
     Route::post('/participants/bulk-status', [App\Http\Controllers\Admin\ParticipantController::class, 'bulkUpdateStatus'])->name('participants.bulk-status');
 
-    // Categories routes
+    // Categories
     Route::get('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', fn () => 'Create Category Page')->name('categories.create');
 
-    // Notifications routes
+    // Notifications
     Route::get('/notifications', function () {
         return view('pages.admin.notifications.index');
     })->name('notifications.index');
     Route::get('/notifications/create', fn () => 'Create Notification Page')->name('notifications.create');
 
-    // Messages routes
+    // Messages
     Route::get('/messages', function () {
         return view('pages.admin.messages.index');
     })->name('messages.index');
 
-    // Reports routes
+    // Reports
     Route::get('/reports', fn () => 'Reports Page')->name('reports');
 
-    // Profile routes
+    // Profile
     Route::get('/profile', function () {
         return view('pages.admin.profile.index');
     })->name('profile');
 });
 
-// User Routes (Participants)
+/*
+|--------------------------------------------------------------------------
+| User Routes (Participants)
+|--------------------------------------------------------------------------
+*/
+
 Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
@@ -163,9 +173,7 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
     Route::get('/catalog', [App\Http\Controllers\User\CatalogController::class, 'index'])->name('catalog');
 
     // Schedules
-    Route::get('/schedules', function () {
-        return view('pages.user.schedules.index');
-    })->name('schedules');
+    Route::get('/schedules', [App\Http\Controllers\ScheduleController::class, 'index'])->name('schedules');
 
     // Certificates
     Route::get('/certificates', function () {
@@ -193,7 +201,12 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
     })->name('profile');
 });
 
-// Instructor Routes
+/*
+|--------------------------------------------------------------------------
+| Instructor Routes
+|--------------------------------------------------------------------------
+*/
+
 Route::prefix('instructor')->name('instructor.')->middleware(['auth', 'role:instructor'])->group(function () {
     // Dashboard
     Route::get('/dashboard', function () {
@@ -221,7 +234,12 @@ Route::prefix('instructor')->name('instructor.')->middleware(['auth', 'role:inst
     })->name('profile');
 });
 
-// API status endpoint
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/api-status', function () {
     return response()->json([
         'message' => 'JTLC Learning Center API',
