@@ -1,6 +1,6 @@
 {{-- User Navbar --}}
 <nav 
-    class="fixed top-0 right-0 z-30 h-20 bg-white border-b border-gray-200 transition-all duration-300"
+    class="fixed top-0 left-0 right-0 z-30 h-20 bg-white border-b border-gray-200 transition-all duration-300"
     :class="desktopSidebarOpen ? 'lg:left-64' : 'lg:left-20'"
 >
     <div class="h-full px-4 sm:px-6 lg:px-8">
