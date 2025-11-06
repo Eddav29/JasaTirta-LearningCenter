@@ -22,11 +22,14 @@ function catalogApp() {
     return {
         allTrainings: @json($trainings),
         filteredTrainings: [],
+        paginatedTrainings: [],
         searchQuery: '{{ request('search') }}',
         selectedCategory: '{{ request('category', 'semua') }}',
         selectedType: '{{ request('type', 'semua') }}',
         selectedPrice: '{{ request('price', 'semua') }}',
         sortBy: '{{ request('sort', 'terbaru') }}',
+        currentPage: 1,
+        itemsPerPage: 6,
         
         init() {
             this.filterTrainings();
@@ -70,6 +73,8 @@ function catalogApp() {
             results = this.sortTrainings(results);
             
             this.filteredTrainings = results;
+            this.currentPage = 1; // Reset to first page when filters change
+            this.updatePagination();
         },
         
         sortTrainings(trainings) {
@@ -92,6 +97,25 @@ function catalogApp() {
             }
         },
         
+        updatePagination() {
+            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            const endIndex = startIndex + this.itemsPerPage;
+            this.paginatedTrainings = this.filteredTrainings.slice(startIndex, endIndex);
+        },
+        
+        goToPage(page) {
+            if (page >= 1 && page <= this.totalPages) {
+                this.currentPage = page;
+                this.updatePagination();
+                
+                // Scroll to top of trainings section
+                document.getElementById('trainings-section').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        },
+        
         resetFilters() {
             this.searchQuery = '';
             this.selectedCategory = 'semua';
@@ -107,6 +131,19 @@ function catalogApp() {
         
         get totalCount() {
             return this.allTrainings.length;
+        },
+        
+        get totalPages() {
+            return Math.ceil(this.filteredTrainings.length / this.itemsPerPage);
+        },
+        
+        get showingStart() {
+            return this.filteredTrainings.length === 0 ? 0 : (this.currentPage - 1) * this.itemsPerPage + 1;
+        },
+        
+        get showingEnd() {
+            const end = this.currentPage * this.itemsPerPage;
+            return end > this.filteredTrainings.length ? this.filteredTrainings.length : end;
         }
     }
 }

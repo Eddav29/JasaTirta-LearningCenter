@@ -1,9 +1,9 @@
 {{-- Training Cards Grid Section --}}
-<section class="pb-12">
+<section id="trainings-section" class="pb-12">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Training Cards Grid --}}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-            <template x-for="training in filteredTrainings" :key="training.id">
+            <template x-for="training in paginatedTrainings" :key="training.id">
                 <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                     {{-- Image --}}
                     <div class="aspect-video overflow-hidden relative bg-linear-to-br from-blue-500 to-blue-700">
@@ -122,7 +122,7 @@
         </div>
         
         {{-- Empty State --}}
-        <div x-show="filteredTrainings.length === 0" class="col-span-full text-center py-12">
+        <div x-show="paginatedTrainings.length === 0 && filteredTrainings.length === 0" class="col-span-full text-center py-12">
             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
