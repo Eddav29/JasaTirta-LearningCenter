@@ -20,6 +20,10 @@ Route::get('/', function () {
 Route::get('/katalog', [App\Http\Controllers\TrainingController::class, 'catalog'])->name('katalog');
 Route::get('/catalog', [App\Http\Controllers\TrainingController::class, 'catalog'])->name('catalog');
 
+// Detail Pelatihan
+Route::get('/training/{training}', [App\Http\Controllers\TrainingController::class, 'show'])->name('training.show');
+
+// Pengajar
 Route::get('/pengajar', [App\Http\Controllers\InstructorController::class, 'index'])->name('pengajar');
 
 Route::get('/jadwal', [App\Http\Controllers\ScheduleController::class, 'index'])->name('jadwal');

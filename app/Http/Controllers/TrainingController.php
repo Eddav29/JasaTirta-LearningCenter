@@ -84,4 +84,37 @@ class TrainingController extends Controller
             'trainings'
         ));
     }
+
+    /**
+     * Display training detail page.
+     */
+    public function show(Training $training): View
+    {
+        // Load related data for the training
+        $training->load([
+            'category',
+            'instructor.certifications',
+            'schedules' => function ($query) {
+                $query->whereIn('status', ['buka_pendaftaran', 'berlangsung'])
+                    ->orderBy('start_date', 'asc');
+            },
+            'materials',
+            'prerequisites',
+            'learningObjectives',
+            'syllabus.topics',
+        ]);
+
+        // Get related trainings (same category, different training)
+        $relatedTrainings = Training::with(['category', 'schedules', 'instructor'])
+            ->where('category_id', $training->category_id)
+            ->where('id', '!=', $training->id)
+            ->where('is_active', true)
+            ->limit(3)
+            ->get();
+
+        return view('pages.landing.training.show', compact(
+            'training',
+            'relatedTrainings'
+        ));
+    }
 }
