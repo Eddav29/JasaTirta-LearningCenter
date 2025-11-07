@@ -21,7 +21,7 @@ class TrainingFactory extends Factory
      */
     public function definition(): array
     {
-        $trainingTypes = ['offline', 'online', 'hybrid'];
+        $trainingTypes = ['Beginner', 'Intermediate', 'Advanced', 'Expert'];
 
         return [
             'title' => fake()->sentence(4, true),
