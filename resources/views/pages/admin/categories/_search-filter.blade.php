@@ -25,19 +25,6 @@
                 <option value="inactive">Tidak Aktif</option>
             </select>
         </div>
-
-        {{-- Add Button --}}
-        <div class="shrink-0">
-            <button 
-                @click="openAddDialog()"
-                class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shrink-0 whitespace-nowrap"
-            >
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                </svg>
-                Tambah Kategori
-            </button>
-        </div>
     </div>
 
     {{-- Add Dialog --}}

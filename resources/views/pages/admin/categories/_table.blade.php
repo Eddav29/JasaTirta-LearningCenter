@@ -41,24 +41,6 @@
             </div>
             <div class="flex items-center gap-2">
                 <button 
-                    @click="bulkActivate()"
-                    class="inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
-                >
-                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    Aktifkan
-                </button>
-                <button 
-                    @click="bulkDeactivate()"
-                    class="inline-flex items-center px-3 py-1.5 bg-yellow-600 text-white text-sm rounded-lg hover:bg-yellow-700 transition-colors"
-                >
-                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
-                    </svg>
-                    Nonaktifkan
-                </button>
-                <button 
                     @click="bulkDelete()"
                     class="inline-flex items-center px-3 py-1.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
                 >
@@ -100,7 +82,6 @@
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Kategori</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Deskripsi</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Pelatihan</th>
-                        <th class="text-left py-3 px-4 font-medium text-gray-900">Status</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Dibuat</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Aksi</th>
                     </tr>
@@ -119,8 +100,6 @@
                             <td class="py-4 px-4">
                                 <div>
                                     <p class="font-medium text-gray-900" x-text="category.name"></p>
-                                    <p class="text-xs text-gray-500" x-text="category.slug"></p>
-                                </div>
                                 </div>
                             </td>
                             <td class="py-4 px-4 text-gray-600 max-w-xs">
@@ -131,25 +110,28 @@
                                     <span x-text="category.trainingCount"></span> pelatihan
                                 </span>
                             </td>
-                            <td class="py-4 px-4">
-                                <span 
-                                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                                    :class="category.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
-                                    x-text="category.isActive ? 'Aktif' : 'Tidak Aktif'"
-                                ></span>
-                            </td>
                             <td class="py-4 px-4 text-gray-600" x-text="formatDate(category.createdAt)"></td>
                             <td class="py-4 px-4">
                                 <div class="flex items-center gap-2">
-                                    <button 
-                                        @click="openEditDialog(category)"
+                                    <a 
+                                        :href="`{{ route('admin.categories.index') }}/${category.id}`"
+                                        class="p-1 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded transition-colors" 
+                                        title="Lihat Detail"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                        </svg>
+                                    </a>
+                                    <a 
+                                        :href="`{{ route('admin.categories.index') }}/${category.id}/edit`"
                                         class="p-1 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" 
                                         title="Edit"
                                     >
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                         </svg>
-                                    </button>
+                                    </a>
                                     <button 
                                         @click="deleteCategory(category.id)"
                                         class="p-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors"

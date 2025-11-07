@@ -136,8 +136,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-ad
     Route::post('/participants/bulk-status', [App\Http\Controllers\Admin\ParticipantController::class, 'bulkUpdateStatus'])->name('participants.bulk-status');
 
     // Categories
-    Route::get('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
-    Route::get('/categories/create', fn () => 'Create Category Page')->name('categories.create');
+    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+    Route::post('/categories/bulk-delete', [App\Http\Controllers\Admin\CategoryController::class, 'bulkDelete'])->name('categories.bulk-delete');
 
     // Notifications
     Route::get('/notifications', function () {
