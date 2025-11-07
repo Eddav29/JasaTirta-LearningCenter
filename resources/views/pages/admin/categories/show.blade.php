@@ -95,12 +95,15 @@
                                     <div class="text-sm text-gray-900">{{ $training->instructor->name }}</div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full
-                                        @if($training->training_type === 'Beginner') bg-green-100 text-green-800
-                                        @elseif($training->training_type === 'Intermediate') bg-blue-100 text-blue-800
-                                        @elseif($training->training_type === 'Advanced') bg-orange-100 text-orange-800
-                                        @else bg-red-100 text-red-800
-                                        @endif">
+                                    @php
+                                        $badgeClasses = match($training->training_type) {
+                                            'Beginner' => 'bg-green-100 text-green-800',
+                                            'Intermediate' => 'bg-blue-100 text-blue-800',
+                                            'Advanced' => 'bg-orange-100 text-orange-800',
+                                            default => 'bg-red-100 text-red-800',
+                                        };
+                                    @endphp
+                                    <span class="px-2 py-1 text-xs font-medium rounded-full {{ $badgeClasses }}">
                                         {{ $training->training_type }}
                                     </span>
                                 </td>
