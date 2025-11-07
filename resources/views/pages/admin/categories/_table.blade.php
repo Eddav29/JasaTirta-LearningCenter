@@ -1,5 +1,38 @@
 {{-- Categories Table --}}
 
+{{-- Bulk Actions Bar --}}
+<div 
+    x-show="selectedIds.length > 0" 
+    x-transition
+    x-cloak
+    class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4"
+>
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <span class="text-sm font-medium text-blue-900">
+                <span x-text="selectedIds.length"></span> kategori dipilih
+            </span>
+            <div class="flex items-center gap-2">
+                <button 
+                    @click="bulkDelete()"
+                    class="inline-flex items-center px-3 py-1.5 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                    Hapus
+                </button>
+            </div>
+        </div>
+        <button 
+            @click="selectedIds = []"
+            class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-colors"
+        >
+            Batal
+        </button>
+    </div>
+</div>
+
 <div class="bg-white rounded-lg border border-gray-200">
     <div class="p-6 border-b border-gray-200">
         <div class="flex items-center justify-between">
@@ -10,11 +43,11 @@
                 </p>
             </div>
             <div class="text-sm text-gray-600">
-                <span x-show="searchQuery || statusFilter" x-cloak>
+                <span x-show="searchQuery" x-cloak>
                     Menampilkan <span class="font-medium text-gray-900" x-text="filteredCategories.length"></span> 
                     dari <span class="font-medium text-gray-900" x-text="categories.length"></span> kategori
                 </span>
-                <span x-show="!searchQuery && !statusFilter">
+                <span x-show="!searchQuery">
                     Total <span class="font-medium text-gray-900" x-text="categories.length"></span> kategori
                 </span>
             </div>
@@ -22,36 +55,6 @@
     </div>
     
     <div class="p-6">
-        {{-- Bulk Actions Bar --}}
-        <div 
-            x-show="selectedIds.length > 0" 
-            x-cloak
-            class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between"
-        >
-            <div class="flex items-center gap-3">
-                <span class="text-sm font-medium text-blue-900">
-                    <span x-text="selectedIds.length"></span> kategori dipilih
-                </span>
-                <button 
-                    @click="selectedIds = []"
-                    class="text-sm text-blue-600 hover:text-blue-800 font-medium"
-                >
-                    Batal Pilih
-                </button>
-            </div>
-            <div class="flex items-center gap-2">
-                <button 
-                    @click="bulkDelete()"
-                    class="inline-flex items-center px-3 py-1.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
-                >
-                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                    Hapus
-                </button>
-            </div>
-        </div>
-
         {{-- Empty State for No Results --}}
         <div x-show="filteredCategories.length === 0" x-cloak class="text-center py-12">
             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
