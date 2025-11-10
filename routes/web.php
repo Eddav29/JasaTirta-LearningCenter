@@ -200,9 +200,11 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
     })->name('settings');
 
     // Profile
-    Route::get('/profile', function () {
-        return view('pages.user.profile.index');
-    })->name('profile');
+    Route::get('/profile', [App\Http\Controllers\User\ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile', [App\Http\Controllers\User\ProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/password', [App\Http\Controllers\User\ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    Route::put('/profile/preferences', [App\Http\Controllers\User\ProfileController::class, 'updatePreferences'])->name('profile.preferences.update');
+    Route::post('/profile/avatar', [App\Http\Controllers\User\ProfileController::class, 'uploadAvatar'])->name('profile.avatar.upload');
 });
 
 /*
