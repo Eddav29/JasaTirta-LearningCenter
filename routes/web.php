@@ -36,6 +36,9 @@ Route::get('/contact', function () {
     return view('pages.landing.contact.index');
 })->name('contact');
 
+// Public certificate verification
+Route::get('/verify-certificate/{code}', [App\Http\Controllers\User\CertificateController::class, 'verify'])->name('certificates.verify');
+
 /*
 |--------------------------------------------------------------------------
 | Guest Routes (Authentication)
@@ -190,9 +193,12 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
     Route::get('/schedules', [App\Http\Controllers\ScheduleController::class, 'index'])->name('schedules');
 
     // Certificates
-    Route::get('/certificates', function () {
-        return view('pages.user.certificates.index');
-    })->name('certificates');
+    Route::get('/certificates', [App\Http\Controllers\User\CertificateController::class, 'index'])->name('certificates');
+    Route::get('/certificates/{id}', [App\Http\Controllers\User\CertificateController::class, 'show'])->name('certificates.show');
+    Route::get('/certificates/{id}/download', [App\Http\Controllers\User\CertificateController::class, 'download'])->name('certificates.download');
+    Route::post('/certificates/{id}/share', [App\Http\Controllers\User\CertificateController::class, 'share'])->name('certificates.share');
+    Route::get('/certificates/statistics', [App\Http\Controllers\User\CertificateController::class, 'statistics'])->name('certificates.statistics');
+    Route::get('/certificates/portfolio/export', [App\Http\Controllers\User\CertificateController::class, 'exportPortfolio'])->name('certificates.portfolio');
 
     // Achievements
     Route::get('/achievements', function () {
@@ -210,9 +216,11 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
     })->name('settings');
 
     // Profile
-    Route::get('/profile', function () {
-        return view('pages.user.profile.index');
-    })->name('profile');
+    Route::get('/profile', [App\Http\Controllers\User\ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile', [App\Http\Controllers\User\ProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/password', [App\Http\Controllers\User\ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    Route::put('/profile/preferences', [App\Http\Controllers\User\ProfileController::class, 'updatePreferences'])->name('profile.preferences.update');
+    Route::post('/profile/avatar', [App\Http\Controllers\User\ProfileController::class, 'uploadAvatar'])->name('profile.avatar.upload');
 });
 
 /*
