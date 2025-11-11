@@ -198,6 +198,97 @@
                     </div>
                 </div>
             @endif
+
+            {{-- Kurikulum / Syllabus --}}
+            <div class="bg-white rounded-lg border border-gray-200">
+                <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-900">Kurikulum Pelatihan</h3>
+                    <a href="{{ route('admin.trainings.syllabus.create', $training) }}" 
+                       class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Tambah Kurikulum
+                    </a>
+                </div>
+                <div class="p-6">
+                    @if ($training->syllabus->count() > 0)
+                        <div class="space-y-4">
+                            @foreach ($training->syllabus as $syllabus)
+                                <div class="border border-gray-200 rounded-lg p-5 hover:border-blue-300 transition-colors">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center font-semibold">
+                                                {{ $syllabus->day }}
+                                            </div>
+                                            <div>
+                                                <h4 class="text-lg font-semibold text-gray-900">{{ $syllabus->title }}</h4>
+                                                <p class="text-sm text-gray-500">Hari ke-{{ $syllabus->day }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <a href="{{ route('admin.trainings.syllabus.edit', [$training, $syllabus]) }}" 
+                                               class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                                </svg>
+                                                Edit
+                                            </a>
+                                            <form action="{{ route('admin.trainings.syllabus.destroy', [$training, $syllabus]) }}" 
+                                                  method="POST" 
+                                                  class="inline"
+                                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus kurikulum ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                        class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                    </svg>
+                                                    Hapus
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                                    @if ($syllabus->topics->count() > 0)
+                                        <div class="mt-4 pl-15">
+                                            <h5 class="text-sm font-medium text-gray-700 mb-2">Topik yang Dibahas:</h5>
+                                            <ul class="space-y-1.5">
+                                                @foreach ($syllabus->topics as $topic)
+                                                    <li class="flex items-start gap-2 text-gray-600 text-sm">
+                                                        <svg class="w-4 h-4 text-blue-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                        </svg>
+                                                        {{ $topic->topic }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-center py-12">
+                            <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <h3 class="mt-4 text-lg font-medium text-gray-900">Belum ada kurikulum</h3>
+                            <p class="mt-2 text-sm text-gray-500">Mulai tambahkan kurikulum untuk pelatihan ini.</p>
+                            <div class="mt-6">
+                                <a href="{{ route('admin.trainings.syllabus.create', $training) }}" 
+                                   class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                    </svg>
+                                    Tambah Kurikulum
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
 
         {{-- Sidebar --}}

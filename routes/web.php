@@ -113,6 +113,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-ad
     Route::post('/trainings/bulk-delete', [App\Http\Controllers\Admin\TrainingController::class, 'bulkDelete'])->name('trainings.bulk-delete');
     Route::post('/trainings/bulk-status', [App\Http\Controllers\Admin\TrainingController::class, 'bulkUpdateStatus'])->name('trainings.bulk-status');
 
+    // Training Syllabus (nested resource)
+    Route::prefix('trainings/{training}/syllabus')->name('trainings.syllabus.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\SyllabusController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\SyllabusController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\SyllabusController::class, 'store'])->name('store');
+        Route::get('/{syllabus}/edit', [App\Http\Controllers\Admin\SyllabusController::class, 'edit'])->name('edit');
+        Route::put('/{syllabus}', [App\Http\Controllers\Admin\SyllabusController::class, 'update'])->name('update');
+        Route::delete('/{syllabus}', [App\Http\Controllers\Admin\SyllabusController::class, 'destroy'])->name('destroy');
+    });
+
     // Schedules
     Route::resource('schedules', App\Http\Controllers\Admin\ScheduleController::class);
     Route::post('/schedules/bulk-destroy', [App\Http\Controllers\Admin\ScheduleController::class, 'bulkDestroy'])->name('schedules.bulk-destroy');

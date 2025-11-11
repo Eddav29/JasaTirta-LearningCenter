@@ -183,21 +183,16 @@
                                         <button @click="toggleSection({{ $index }})"
                                                 class="w-full flex items-center justify-between p-5 bg-white hover:bg-gray-50 transition-colors">
                                             <div class="flex items-center gap-4 text-left">
-                                                <div class="shrink-0 w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center font-semibold">
-                                                    {{ $index + 1 }}
+                                                <div class="shrink-0 w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center font-bold text-lg">
+                                                    {{ $syllabusItem->day }}
                                                 </div>
                                                 <div>
                                                     <h4 class="text-lg font-semibold text-gray-900">
                                                         {{ $syllabusItem->title }}
                                                     </h4>
-                                                    @if($syllabusItem->duration)
                                                     <p class="text-sm text-gray-600 mt-1">
-                                                        <svg class="inline h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                        </svg>
-                                                        {{ $syllabusItem->duration }}
+                                                        Hari ke-{{ $syllabusItem->day }}
                                                     </p>
-                                                    @endif
                                                 </div>
                                             </div>
                                             <svg :class="{ 'rotate-180': expandedSection === {{ $index }} }"
@@ -216,20 +211,21 @@
                                              x-transition:leave-end="opacity-0 max-h-0"
                                              class="border-t border-gray-200 bg-gray-50">
                                             <div class="p-5 space-y-4">
-                                                @if($syllabusItem->description)
-                                                <p class="text-gray-700">{{ $syllabusItem->description }}</p>
-                                                @endif
-                                                
                                                 @if($syllabusItem->topics->count() > 0)
                                                 <div>
-                                                    <h5 class="font-medium text-gray-900 mb-3">Topik yang Dibahas:</h5>
-                                                    <ul class="space-y-2">
+                                                    <h5 class="font-medium text-gray-900 mb-3 flex items-center gap-2">
+                                                        <svg class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                                        </svg>
+                                                        Topik yang Dibahas
+                                                    </h5>
+                                                    <ul class="space-y-2.5">
                                                         @foreach($syllabusItem->topics as $topic)
-                                                        <li class="flex items-start gap-2">
+                                                        <li class="flex items-start gap-3 bg-white p-3 rounded-lg">
                                                             <svg class="h-5 w-5 text-blue-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                             </svg>
-                                                            <span class="text-gray-700">{{ $topic->topic_name }}</span>
+                                                            <span class="text-gray-700">{{ $topic->topic }}</span>
                                                         </li>
                                                         @endforeach
                                                     </ul>
@@ -488,6 +484,14 @@
                             <div class="mb-6 pb-6 border-b border-gray-200">
                                 <h4 class="font-semibold text-gray-900 mb-3">Yang Anda Dapatkan:</h4>
                                 <ul class="space-y-2">
+                                    @if($training->syllabus->count() > 0)
+                                    <li class="flex items-center gap-2 text-sm text-gray-700">
+                                        <svg class="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        Kurikulum terstruktur ({{ $training->syllabus->count() }} sesi)
+                                    </li>
+                                    @endif
                                     @if($training->materials->count() > 0)
                                     <li class="flex items-center gap-2 text-sm text-gray-700">
                                         <svg class="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
