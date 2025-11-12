@@ -7,25 +7,29 @@ use App\Models\Training;
 use App\Models\TrainingSchedule;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $period = $request->get('period', 'bulan-ini');
+        $dateRange = $this->getDateRange($period);
+
         // Summary Statistics
-        $summaryStats = $this->getSummaryStatistics();
+        $summaryStats = $this->getSummaryStatistics($dateRange);
 
         // User Statistics
-        $userStats = $this->getUserStatistics();
+        $userStats = $this->getUserStatistics($dateRange);
 
         // Training Statistics
-        $trainingStats = $this->getTrainingStatistics();
+        $trainingStats = $this->getTrainingStatistics($dateRange);
 
         // Revenue Statistics (placeholder - adjust based on your payment system)
-        $revenueStats = $this->getRevenueStatistics();
+        $revenueStats = $this->getRevenueStatistics($dateRange);
 
         // Certificate Statistics (placeholder - adjust based on your certificate system)
-        $certificateStats = $this->getCertificateStatistics();
+        $certificateStats = $this->getCertificateStatistics($dateRange);
 
         return view('pages.admin.reports.index', compact(
             'summaryStats',
@@ -36,22 +40,57 @@ class ReportsController extends Controller
         ));
     }
 
-    private function getSummaryStatistics(): array
+    private function getDateRange(string $period): array
     {
-        $currentMonth = Carbon::now()->startOfMonth();
-        $lastMonth = Carbon::now()->subMonth()->startOfMonth();
+        $now = Carbon::now();
 
+        return match ($period) {
+            'hari-ini' => [
+                'start' => $now->copy()->startOfDay(),
+                'end' => $now->copy()->endOfDay(),
+                'compare_start' => $now->copy()->subDay()->startOfDay(),
+                'compare_end' => $now->copy()->subDay()->endOfDay(),
+            ],
+            'minggu-ini' => [
+                'start' => $now->copy()->startOfWeek(),
+                'end' => $now->copy()->endOfWeek(),
+                'compare_start' => $now->copy()->subWeek()->startOfWeek(),
+                'compare_end' => $now->copy()->subWeek()->endOfWeek(),
+            ],
+            '3-bulan' => [
+                'start' => $now->copy()->subMonths(3)->startOfDay(),
+                'end' => $now->copy()->endOfDay(),
+                'compare_start' => $now->copy()->subMonths(6)->startOfDay(),
+                'compare_end' => $now->copy()->subMonths(3)->endOfDay(),
+            ],
+            'tahun-ini' => [
+                'start' => $now->copy()->startOfYear(),
+                'end' => $now->copy()->endOfYear(),
+                'compare_start' => $now->copy()->subYear()->startOfYear(),
+                'compare_end' => $now->copy()->subYear()->endOfYear(),
+            ],
+            default => [ // bulan-ini
+                'start' => $now->copy()->startOfMonth(),
+                'end' => $now->copy()->endOfMonth(),
+                'compare_start' => $now->copy()->subMonth()->startOfMonth(),
+                'compare_end' => $now->copy()->subMonth()->endOfMonth(),
+            ],
+        };
+    }
+
+    private function getSummaryStatistics(array $dateRange): array
+    {
         // Total Users
-        $totalUsers = User::count();
-        $usersLastMonth = User::where('created_at', '<', $currentMonth)->count();
-        $usersGrowth = $usersLastMonth > 0 ? (($totalUsers - $usersLastMonth) / $usersLastMonth * 100) : 0;
+        $totalUsers = User::whereBetween('created_at', [$dateRange['start'], $dateRange['end']])->count();
+        $usersLastPeriod = User::whereBetween('created_at', [$dateRange['compare_start'], $dateRange['compare_end']])->count();
+        $usersGrowth = $usersLastPeriod > 0 ? (($totalUsers - $usersLastPeriod) / $usersLastPeriod * 100) : 0;
 
         // Active Trainings
         $activeTrainings = Training::where('is_active', true)->count();
-        $activeTrainingsLastMonth = Training::where('is_active', true)
-            ->where('created_at', '<', $currentMonth)
+        $activeTrainingsLastPeriod = Training::where('is_active', true)
+            ->where('created_at', '<', $dateRange['start'])
             ->count();
-        $trainingsChange = $activeTrainings - $activeTrainingsLastMonth;
+        $trainingsChange = $activeTrainings - $activeTrainingsLastPeriod;
 
         // Total Revenue (placeholder)
         $totalRevenue = 0; // Implement based on your payment system
@@ -99,48 +138,44 @@ class ReportsController extends Controller
         ];
     }
 
-    private function getUserStatistics(): array
+    private function getUserStatistics(array $dateRange): array
     {
-        $currentMonth = Carbon::now()->startOfMonth();
-        $lastMonth = Carbon::now()->subMonth()->startOfMonth();
-        $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
+        $newUsersThisPeriod = User::whereBetween('created_at', [$dateRange['start'], $dateRange['end']])->count();
+        $newUsersLastPeriod = User::whereBetween('created_at', [$dateRange['compare_start'], $dateRange['compare_end']])->count();
+        $newUsersGrowth = $newUsersLastPeriod > 0 ? (($newUsersThisPeriod - $newUsersLastPeriod) / $newUsersLastPeriod * 100) : 0;
 
-        $newUsersThisMonth = User::where('created_at', '>=', $currentMonth)->count();
-        $newUsersLastMonth = User::whereBetween('created_at', [$lastMonth, $lastMonthEnd])->count();
-        $newUsersGrowth = $newUsersLastMonth > 0 ? (($newUsersThisMonth - $newUsersLastMonth) / $newUsersLastMonth * 100) : 0;
-
-        // Active users (logged in this month)
-        $activeUsersThisMonth = User::where('updated_at', '>=', $currentMonth)->count();
-        $activeUsersLastMonth = User::whereBetween('updated_at', [$lastMonth, $lastMonthEnd])->count();
-        $activeUsersGrowth = $activeUsersLastMonth > 0 ? (($activeUsersThisMonth - $activeUsersLastMonth) / $activeUsersLastMonth * 100) : 0;
+        // Active users (logged in this period)
+        $activeUsersThisPeriod = User::whereBetween('updated_at', [$dateRange['start'], $dateRange['end']])->count();
+        $activeUsersLastPeriod = User::whereBetween('updated_at', [$dateRange['compare_start'], $dateRange['compare_end']])->count();
+        $activeUsersGrowth = $activeUsersLastPeriod > 0 ? (($activeUsersThisPeriod - $activeUsersLastPeriod) / $activeUsersLastPeriod * 100) : 0;
 
         $totalUsersNow = User::count();
-        $totalUsersLastMonth = User::where('created_at', '<', $currentMonth)->count();
-        $totalUsersGrowth = $totalUsersLastMonth > 0 ? (($totalUsersNow - $totalUsersLastMonth) / $totalUsersLastMonth * 100) : 0;
+        $totalUsersLastPeriod = User::where('created_at', '<', $dateRange['start'])->count();
+        $totalUsersGrowth = $totalUsersLastPeriod > 0 ? (($totalUsersNow - $totalUsersLastPeriod) / $totalUsersLastPeriod * 100) : 0;
 
         return [
             [
                 'category' => 'Pengguna Baru',
-                'thisMonth' => $newUsersThisMonth,
-                'lastMonth' => $newUsersLastMonth,
+                'thisMonth' => $newUsersThisPeriod,
+                'lastMonth' => $newUsersLastPeriod,
                 'growth' => ($newUsersGrowth > 0 ? '+' : '').number_format($newUsersGrowth, 1).'%',
             ],
             [
                 'category' => 'Pengguna Aktif',
-                'thisMonth' => $activeUsersThisMonth,
-                'lastMonth' => $activeUsersLastMonth,
+                'thisMonth' => $activeUsersThisPeriod,
+                'lastMonth' => $activeUsersLastPeriod,
                 'growth' => ($activeUsersGrowth > 0 ? '+' : '').number_format($activeUsersGrowth, 1).'%',
             ],
             [
                 'category' => 'Total Pengguna Terdaftar',
                 'thisMonth' => $totalUsersNow,
-                'lastMonth' => $totalUsersLastMonth,
+                'lastMonth' => $totalUsersLastPeriod,
                 'growth' => ($totalUsersGrowth > 0 ? '+' : '').number_format($totalUsersGrowth, 1).'%',
             ],
         ];
     }
 
-    private function getTrainingStatistics(): array
+    private function getTrainingStatistics(array $dateRange): array
     {
         return Training::with('schedules')
             ->where('is_active', true)
@@ -163,7 +198,7 @@ class ReportsController extends Controller
             ->toArray();
     }
 
-    private function getRevenueStatistics(): array
+    private function getRevenueStatistics(array $dateRange): array
     {
         // Placeholder - implement based on your payment/enrollment system
         $months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'];
@@ -181,7 +216,7 @@ class ReportsController extends Controller
         return $stats;
     }
 
-    private function getCertificateStatistics(): array
+    private function getCertificateStatistics(array $dateRange): array
     {
         // Placeholder - implement based on your certificate system
         return Training::with('schedules')
