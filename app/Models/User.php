@@ -30,6 +30,9 @@ class User extends Authenticatable
         'company_name',
         'position',
         'address',
+        'google_id',
+        'avatar',
+        'email_verified_at',
     ];
 
     /**
