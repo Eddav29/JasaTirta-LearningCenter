@@ -164,7 +164,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-ad
     })->name('messages.index');
 
     // Reports
-    Route::get('/reports', fn () => 'Reports Page')->name('reports');
+    Route::get('/reports', [App\Http\Controllers\Admin\ReportsController::class, 'index'])->name('reports');
 
     // Profile
     Route::get('/profile', function () {
