@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -18,8 +17,8 @@ return new class extends Migration
         });
 
         Schema::table('trainings', function (Blueprint $table) {
-            $table->enum('training_type', ['Beginner', 'Intermediate', 'Advanced', 'Expert'])
-                ->default('Beginner')
+            $table->enum('training_type', ['offline', 'online', 'hybrid'])
+                ->default('offline')
                 ->after('capacity');
         });
     }
@@ -34,8 +33,8 @@ return new class extends Migration
         });
 
         Schema::table('trainings', function (Blueprint $table) {
-            $table->enum('training_type', ['offline', 'online', 'hybrid'])
-                ->default('offline')
+            $table->enum('training_type', ['Beginner', 'Intermediate', 'Advanced', 'Expert'])
+                ->default('Beginner')
                 ->after('capacity');
         });
     }
