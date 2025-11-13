@@ -1,5 +1,76 @@
 {{-- Main Contact Section --}}
 <section id="contact-form" class="py-20 bg-white" x-data="contactForm()">
+    {{-- Login Required Modal --}}
+    <div x-show="showLoginModal" 
+         x-cloak
+         @keydown.escape.window="showLoginModal = false"
+         class="fixed inset-0 z-50 overflow-y-auto" 
+         aria-labelledby="modal-title" 
+         role="dialog" 
+         aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div x-show="showLoginModal"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
+                 @click="showLoginModal = false"
+                 aria-hidden="true"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <!-- Modal panel -->
+            <div x-show="showLoginModal"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                Login Diperlukan
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    Untuk mengirim pesan kepada kami, Anda perlu login terlebih dahulu. 
+                                    Jika belum memiliki akun, silakan daftar terlebih dahulu.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-3">
+                    <a href="{{ route('login') }}" 
+                       class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Login
+                    </a>
+                    <a href="{{ route('register') }}" 
+                       class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Daftar
+                    </a>
+                    <button type="button" 
+                            @click="showLoginModal = false"
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
             {{-- Contact Information --}}
@@ -135,45 +206,32 @@
 
                     {{-- Form --}}
                     <form @submit.prevent="submitForm" class="p-6 space-y-6">
-                        {{-- Personal Information --}}
+                        @auth
+                        {{-- User Info Display --}}
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                            <div class="flex items-center space-x-3">
+                                <svg class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-blue-900">Login sebagai: {{ Auth::user()->name }}</p>
+                                    <p class="text-xs text-blue-700">{{ Auth::user()->email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        @endauth
+
+                        {{-- Additional Info for Logged Users --}}
+                        {{-- Additional Info for Logged Users --}}
                         <div class="space-y-4">
                             <div class="flex items-center space-x-2 mb-4">
                                 <svg class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                <h3 class="font-medium text-gray-900">Informasi Personal</h3>
+                                <h3 class="font-medium text-gray-900">Informasi Tambahan (Opsional)</h3>
                                 <div class="flex-1 border-t border-gray-200"></div>
                             </div>
                             
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div class="space-y-3">
-                                    <label for="name" class="block text-sm font-medium text-gray-900">
-                                        Nama Lengkap *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        x-model="formData.name"
-                                        placeholder="Masukkan nama lengkap"
-                                        required
-                                        class="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                                    />
-                                </div>
-                                <div class="space-y-3">
-                                    <label for="email" class="block text-sm font-medium text-gray-900">
-                                        Alamat Email *
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        x-model="formData.email"
-                                        placeholder="nama@contoh.com"
-                                        required
-                                        class="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                                    />
-                                </div>
-                            </div>
-
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div class="space-y-3">
                                     <label for="phone" class="block text-sm font-medium text-gray-900">
@@ -272,14 +330,27 @@
                         </div>
 
                         {{-- Success Message --}}
-                        <div x-show="showSuccess" x-transition class="hidden p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <div x-show="showSuccess" x-transition class="p-4 bg-green-50 border border-green-200 rounded-lg">
                             <div class="flex items-center space-x-3">
-                                <svg class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg class="h-5 w-5 text-green-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 <div>
                                     <h4 class="font-medium text-green-900">Pesan Terkirim!</h4>
                                     <p class="text-sm text-green-700">Terima kasih atas pesan Anda. Kami akan segera menghubungi Anda kembali.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Error Message --}}
+                        <div x-show="showError" x-transition class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <div class="flex items-start space-x-3">
+                                <svg class="h-5 w-5 text-red-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <div>
+                                    <h4 class="font-medium text-red-900">Gagal Mengirim Pesan</h4>
+                                    <p class="text-sm text-red-700" x-text="errorMessage"></p>
                                 </div>
                             </div>
                         </div>
@@ -294,39 +365,79 @@
 function contactForm() {
     return {
         formData: {
-            name: '',
-            email: '',
-            phone: '',
-            company: '',
             subject: '',
-            message: ''
+            message: '',
+            phone: '',
+            company: ''
         },
         isSubmitting: false,
         showSuccess: false,
+        showError: false,
+        errorMessage: '',
+        showLoginModal: false,
+        isAuthenticated: {{ Auth::check() ? 'true' : 'false' }},
         
         async submitForm() {
+            // Check if user is authenticated
+            if (!this.isAuthenticated) {
+                this.showLoginModal = true;
+                return;
+            }
+
+            // Reset messages
+            this.showSuccess = false;
+            this.showError = false;
             this.isSubmitting = true;
             
-            // Simulate form submission
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            this.showSuccess = true;
-            this.isSubmitting = false;
-            
-            // Reset form
-            this.formData = {
-                name: '',
-                email: '',
-                phone: '',
-                company: '',
-                subject: '',
-                message: ''
-            };
-            
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                this.showSuccess = false;
-            }, 5000);
+            try {
+                const response = await fetch('{{ route('contact.store') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(this.formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    this.showSuccess = true;
+                    
+                    // Reset form
+                    this.formData = {
+                        subject: '',
+                        message: '',
+                        phone: '',
+                        company: ''
+                    };
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        this.showSuccess = false;
+                    }, 5000);
+                } else {
+                    // Show error message
+                    this.errorMessage = data.message || 'Terjadi kesalahan. Silakan coba lagi.';
+                    this.showError = true;
+                    
+                    // Hide error message after 10 seconds
+                    setTimeout(() => {
+                        this.showError = false;
+                    }, 10000);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                this.errorMessage = 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.';
+                this.showError = true;
+                
+                setTimeout(() => {
+                    this.showError = false;
+                }, 10000);
+            } finally {
+                this.isSubmitting = false;
+            }
         }
     }
 }

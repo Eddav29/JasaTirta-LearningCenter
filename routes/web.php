@@ -28,13 +28,10 @@ Route::get('/pengajar', [App\Http\Controllers\InstructorController::class, 'inde
 
 Route::get('/jadwal', [App\Http\Controllers\ScheduleController::class, 'index'])->name('jadwal');
 
-Route::get('/kontak', function () {
-    return view('pages.landing.contact.index');
-})->name('kontak');
-
-Route::get('/contact', function () {
-    return view('pages.landing.contact.index');
-})->name('contact');
+// Contact / Kontak
+Route::get('/kontak', [App\Http\Controllers\ContactController::class, 'index'])->name('kontak');
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
 // Public certificate verification
 Route::get('/verify-certificate/{code}', [App\Http\Controllers\User\CertificateController::class, 'verify'])->name('certificates.verify');
@@ -158,10 +155,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-ad
     })->name('notifications.index');
     Route::get('/notifications/create', fn () => 'Create Notification Page')->name('notifications.create');
 
-    // Messages
-    Route::get('/messages', function () {
-        return view('pages.admin.messages.index');
-    })->name('messages.index');
+    // Messages (Contact Messages from Landing Page)
+    Route::get('/messages', [App\Http\Controllers\Admin\MessagesController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{message}', [App\Http\Controllers\Admin\MessagesController::class, 'show'])->name('messages.show');
+    Route::patch('/messages/{message}/status', [App\Http\Controllers\Admin\MessagesController::class, 'updateStatus'])->name('messages.updateStatus');
+    Route::delete('/messages/{message}', [App\Http\Controllers\Admin\MessagesController::class, 'destroy'])->name('messages.destroy');
 
     // Reports
     Route::get('/reports', [App\Http\Controllers\Admin\ReportsController::class, 'index'])->name('reports');
