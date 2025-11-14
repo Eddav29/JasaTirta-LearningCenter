@@ -80,15 +80,14 @@
 
                 <div>
                     <label for="training_type" class="block text-sm font-medium text-gray-700 mb-2">
-                        Tingkat Kesulitan <span class="text-red-500">*</span>
+                        Tipe Pelatihan <span class="text-red-500">*</span>
                     </label>
                     <select id="training_type" name="training_type" required
                         class="w-full px-3 py-2 border {{ $errors->has('training_type') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">Pilih Tingkat</option>
-                        <option value="Beginner" {{ old('training_type') == 'Beginner' ? 'selected' : '' }}>Beginner</option>
-                        <option value="Intermediate" {{ old('training_type') == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
-                        <option value="Advanced" {{ old('training_type') == 'Advanced' ? 'selected' : '' }}>Advanced</option>
-                        <option value="Expert" {{ old('training_type') == 'Expert' ? 'selected' : '' }}>Expert</option>
+                        <option value="">Pilih Tipe</option>
+                        <option value="offline" {{ old('training_type') == 'offline' ? 'selected' : '' }}>Offline</option>
+                        <option value="online" {{ old('training_type') == 'online' ? 'selected' : '' }}>Online</option>
+                        <option value="hybrid" {{ old('training_type') == 'hybrid' ? 'selected' : '' }}>Hybrid</option>
                     </select>
                     @error('training_type')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -176,9 +175,14 @@
                     <label for="training_methods" class="block text-sm font-medium text-gray-700 mb-2">
                         Metode Pelatihan
                     </label>
-                    <input type="text" id="training_methods" name="training_methods" value="{{ old('training_methods') }}"
-                        class="w-full px-3 py-2 border {{ $errors->has('training_methods') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Contoh: Online, Offline, Hybrid">
+                    <select id="training_methods" name="training_methods"
+                        class="w-full px-3 py-2 border {{ $errors->has('training_methods') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="">Pilih Metode</option>
+                        <option value="Offline" {{ old('training_methods') == 'Offline' ? 'selected' : '' }}>Offline</option>
+                        <option value="Online" {{ old('training_methods') == 'Online' ? 'selected' : '' }}>Online</option>
+                        <option value="Hybrid" {{ old('training_methods') == 'Hybrid' ? 'selected' : '' }}>Hybrid</option>
+                        <option value="Blended Learning" {{ old('training_methods') == 'Blended Learning' ? 'selected' : '' }}>Blended Learning</option>
+                    </select>
                     @error('training_methods')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
