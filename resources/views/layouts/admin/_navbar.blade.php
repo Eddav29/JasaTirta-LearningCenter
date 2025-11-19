@@ -93,7 +93,7 @@
                             <template x-for="notification in notifications" :key="notification.id">
                                 <div 
                                     @click="markAsRead(notification.id)"
-                                    :class="!notification.read ? 'bg-blue-50/50' : ''"
+                                    :class="!notification.read_at ? 'bg-blue-50/50' : ''"
                                     class="px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors"
                                 >
                                     <div class="flex items-start gap-3">
@@ -101,18 +101,18 @@
                                         <div class="flex-1 min-w-0">
                                             <div class="flex items-start justify-between gap-2">
                                                 <h4 
-                                                    :class="!notification.read ? 'text-gray-900' : 'text-gray-700'"
+                                                    :class="!notification.read_at ? 'text-gray-900' : 'text-gray-700'"
                                                     class="text-sm font-medium"
                                                     x-text="notification.title"
                                                 ></h4>
                                                 <div 
-                                                    x-show="!notification.read"
+                                                    x-show="!notification.read_at"
                                                     class="w-2 h-2 rounded-full bg-blue-600 shrink-0 mt-1.5"
                                                 ></div>
                                             </div>
                                             <p class="text-xs text-gray-600 mt-0.5 line-clamp-2" x-text="notification.message"></p>
                                             <div class="flex items-center justify-between mt-2">
-                                                <span class="text-xs text-gray-500" x-text="notification.time"></span>
+                                                <span class="text-xs text-gray-500" x-text="notification.created_at"></span>
                                                 <button
                                                     @click.stop="deleteNotification(notification.id)"
                                                     class="text-xs text-red-600 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded transition-colors"

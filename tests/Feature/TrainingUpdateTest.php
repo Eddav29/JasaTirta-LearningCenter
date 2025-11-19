@@ -17,7 +17,7 @@ class TrainingUpdateTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Create roles
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'super-admin']);

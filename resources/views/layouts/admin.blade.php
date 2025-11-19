@@ -46,70 +46,89 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('notificationsManager', () => ({
-                notifications: [
-                    {
-                        id: 1,
-                        type: 'training',
-                        title: 'Pelatihan Baru Ditambahkan',
-                        message: 'Pelatihan "Teknik Sampling Air" telah ditambahkan ke sistem',
-                        time: '5 menit yang lalu',
-                        read: false
-                    },
-                    {
-                        id: 2,
-                        type: 'enrollment',
-                        title: 'Pendaftaran Baru',
-                        message: 'Ahmad Hidayat mendaftar pelatihan Analisis Laboratorium',
-                        time: '15 menit yang lalu',
-                        read: false
-                    },
-                    {
-                        id: 3,
-                        type: 'schedule',
-                        title: 'Jadwal Pelatihan Berubah',
-                        message: 'Jadwal pelatihan Mikrobiologi Air dipindahkan ke tanggal 15 November',
-                        time: '1 jam yang lalu',
-                        read: false
-                    },
-                    {
-                        id: 4,
-                        type: 'message',
-                        title: 'Pesan Baru dari Peserta',
-                        message: 'Anda memiliki pesan baru dari Sari Wahyuni',
-                        time: '2 jam yang lalu',
-                        read: true
-                    },
-                    {
-                        id: 5,
-                        type: 'certificate',
-                        title: 'Sertifikat Telah Diterbitkan',
-                        message: 'Sertifikat untuk Budi Santoso telah berhasil diterbitkan',
-                        time: '3 jam yang lalu',
-                        read: true
-                    }
-                ],
+                notifications: [],
+                unreadCount: 0,
+                loading: false,
 
-                get unreadCount() {
-                    return this.notifications.filter(n => !n.read).length;
+                init() {
+                    this.fetchNotifications();
                 },
 
-                markAsRead(id) {
+                async fetchNotifications() {
+                    this.loading = true;
+                    try {
+                        const response = await fetch('{{ route("admin.notifications.data") }}?limit=10');
+                        const data = await response.json();
+                        this.notifications = data.notifications;
+                        this.unreadCount = data.unread_count;
+                    } catch (error) {
+                        console.error('Error fetching notifications:', error);
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+
+                async markAsRead(id) {
                     const notification = this.notifications.find(n => n.id === id);
-                    if (notification) {
-                        notification.read = true;
+                    if (notification && !notification.read_at) {
+                        try {
+                            await fetch(`/admin/notifications/${id}/read`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                }
+                            });
+                            notification.read_at = new Date();
+                            this.unreadCount = Math.max(0, this.unreadCount - 1);
+                            
+                            // Navigate to URL if exists
+                            if (notification.url && notification.url !== '#') {
+                                window.location.href = notification.url;
+                            }
+                        } catch (error) {
+                            console.error('Error marking notification as read:', error);
+                        }
                     }
                 },
 
-                markAllAsRead() {
-                    this.notifications.forEach(n => n.read = true);
+                async markAllAsRead() {
+                    try {
+                        await fetch('{{ route("admin.notifications.readAll") }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        });
+                        this.notifications.forEach(n => n.read_at = new Date());
+                        this.unreadCount = 0;
+                    } catch (error) {
+                        console.error('Error marking all as read:', error);
+                    }
                 },
 
-                deleteNotification(id) {
-                    this.notifications = this.notifications.filter(n => n.id !== id);
+                async deleteNotification(id) {
+                    try {
+                        await fetch(`/admin/notifications/${id}/delete`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        });
+                        this.notifications = this.notifications.filter(n => n.id !== id);
+                        // Recalculate unread count
+                        this.unreadCount = this.notifications.filter(n => !n.read_at).length;
+                    } catch (error) {
+                        console.error('Error deleting notification:', error);
+                    }
                 },
 
                 getNotificationIcon(type) {
                     const icons = {
+                        new_training: '📚',
+                        new_schedule: '📅',
                         training: '📚',
                         enrollment: '👤',
                         schedule: '📅',

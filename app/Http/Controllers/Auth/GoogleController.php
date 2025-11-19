@@ -17,7 +17,7 @@ class GoogleController extends Controller
     public function redirect(): RedirectResponse
     {
         Log::info('Google OAuth redirect initiated');
-        
+
         return Socialite::driver('google')->redirect();
     }
 
@@ -25,9 +25,9 @@ class GoogleController extends Controller
     {
         try {
             Log::info('Google OAuth callback initiated');
-            
+
             $googleUser = Socialite::driver('google')->user();
-            
+
             Log::info('Google user data received', [
                 'id' => $googleUser->getId(),
                 'email' => $googleUser->getEmail(),
@@ -42,21 +42,21 @@ class GoogleController extends Controller
 
             if ($user) {
                 Log::info('Existing user found', ['user_id' => $user->id, 'email' => $user->email]);
-                
+
                 // Update existing user with Google data
                 $user->update([
                     'google_id' => $googleUser->getId(),
                     'avatar' => $googleUser->getAvatar(),
                     'email_verified_at' => now(),
                 ]);
-                
+
                 Log::info('User updated successfully');
             } else {
                 Log::info('Creating new user from Google data');
-                
+
                 // Ensure 'user' role exists
                 $userRole = Role::firstOrCreate(['name' => 'user']);
-                
+
                 // Create new user
                 $nameParts = explode(' ', $googleUser->getName(), 2);
                 $user = User::create([
@@ -71,16 +71,16 @@ class GoogleController extends Controller
 
                 // Assign default user role
                 $user->assignRole('user');
-                
+
                 Log::info('New user created successfully', ['user_id' => $user->id]);
             }
 
             // Login the user
             Auth::login($user);
-            
+
             Log::info('User logged in successfully', [
                 'user_id' => $user->id,
-                'email' => $user->email
+                'email' => $user->email,
             ]);
 
             // Redirect to dashboard
@@ -89,22 +89,22 @@ class GoogleController extends Controller
         } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
             Log::error('Google OAuth Invalid State Exception', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
-            
+
             return redirect()->route('login')
                 ->withErrors(['google' => 'Session expired. Please try logging in again.']);
-                
+
         } catch (\Exception $e) {
             Log::error('Google OAuth Exception', [
                 'error' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
-            
+
             return redirect()->route('login')
-                ->withErrors(['google' => 'Google authentication failed: ' . $e->getMessage()]);
+                ->withErrors(['google' => 'Google authentication failed: '.$e->getMessage()]);
         }
     }
 }

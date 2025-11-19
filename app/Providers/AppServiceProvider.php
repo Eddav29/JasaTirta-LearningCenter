@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Training;
+use App\Models\TrainingSchedule;
+use App\Observers\ScheduleObserver;
+use App\Observers\TrainingObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Training::observe(TrainingObserver::class);
+        TrainingSchedule::observe(ScheduleObserver::class);
     }
 }

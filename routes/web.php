@@ -155,10 +155,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-ad
     Route::post('/categories/bulk-delete', [App\Http\Controllers\Admin\CategoryController::class, 'bulkDelete'])->name('categories.bulk-delete');
 
     // Notifications
-    Route::get('/notifications', function () {
-        return view('pages.admin.notifications.index');
-    })->name('notifications.index');
-    Route::get('/notifications/create', fn () => 'Create Notification Page')->name('notifications.create');
+    Route::get('/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/data', [App\Http\Controllers\Admin\NotificationController::class, 'getNotifications'])->name('notifications.data');
+    Route::post('/notifications/{id}/read', [App\Http\Controllers\Admin\NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [App\Http\Controllers\Admin\NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
+    Route::delete('/notifications/{id}', [App\Http\Controllers\Admin\NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::post('/notifications/{id}/delete', [App\Http\Controllers\Admin\NotificationController::class, 'delete'])->name('notifications.delete');
 
     // Messages (Contact Messages from Landing Page)
     Route::get('/messages', [App\Http\Controllers\Admin\MessagesController::class, 'index'])->name('messages.index');
@@ -207,6 +209,12 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
     Route::get('/achievements', function () {
         return view('pages.user.achievements.index');
     })->name('achievements');
+
+    // Notifications
+    Route::get('/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/data', [App\Http\Controllers\Admin\NotificationController::class, 'getNotifications'])->name('notifications.data');
+    Route::post('/notifications/{id}/read', [App\Http\Controllers\Admin\NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [App\Http\Controllers\Admin\NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
 
     // Forum
     Route::get('/forum', function () {

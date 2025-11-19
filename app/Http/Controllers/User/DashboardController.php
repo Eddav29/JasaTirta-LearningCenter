@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -15,7 +14,7 @@ class DashboardController extends Controller
     public function index(): View
     {
         $user = Auth::user();
-        
+
         // Mock data - replace with actual database queries
         $userStats = [
             'coursesEnrolled' => 8,

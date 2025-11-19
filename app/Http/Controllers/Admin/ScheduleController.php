@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Training;
-use App\Models\Instructor;
-use App\Models\TrainingSchedule;
 use App\Http\Requests\TrainingSchedule\StoreTrainingScheduleRequest;
 use App\Http\Requests\TrainingSchedule\UpdateTrainingScheduleRequest;
-use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use App\Models\Instructor;
+use App\Models\Training;
+use App\Models\TrainingSchedule;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ScheduleController extends Controller
 {
@@ -27,9 +27,9 @@ class ScheduleController extends Controller
             $search = $request->search;
             $query->whereHas('training', function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhereHas('instructor', function ($instructorQ) use ($search) {
-                      $instructorQ->where('name', 'like', "%{$search}%");
-                  });
+                    ->orWhereHas('instructor', function ($instructorQ) use ($search) {
+                        $instructorQ->where('name', 'like', "%{$search}%");
+                    });
             })->orWhere('location', 'like', "%{$search}%");
         }
 
@@ -66,7 +66,7 @@ class ScheduleController extends Controller
     public function create(): View
     {
         $trainings = Training::active()->with('instructor')->get();
-        
+
         return view('pages.admin.schedules.create', compact('trainings'));
     }
 
@@ -77,22 +77,22 @@ class ScheduleController extends Controller
     {
         try {
             $validated = $request->validated();
-            
+
             // Auto-calculate month from start_date
             $validated['month'] = date('Y-m', strtotime($validated['start_date']));
-            
+
             // Set initial values
             $validated['available_slots'] = $validated['total_slots'];
             $validated['registered_count'] = 0;
-            
+
             TrainingSchedule::create($validated);
 
             return redirect()->route('admin.schedules.index')
-                           ->with('success', 'Jadwal berhasil ditambahkan!');
+                ->with('success', 'Jadwal berhasil ditambahkan!');
         } catch (\Exception $e) {
             return redirect()->back()
-                           ->withInput()
-                           ->with('error', 'Gagal menambahkan jadwal: ' . $e->getMessage());
+                ->withInput()
+                ->with('error', 'Gagal menambahkan jadwal: '.$e->getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ class ScheduleController extends Controller
     public function show(TrainingSchedule $schedule): View
     {
         $schedule->load(['training.category', 'training.instructor']);
-        
+
         return view('pages.admin.schedules.show', compact('schedule'));
     }
 
@@ -113,7 +113,7 @@ class ScheduleController extends Controller
     {
         $trainings = Training::active()->with('instructor')->get();
         $schedule->load(['training']);
-        
+
         return view('pages.admin.schedules.edit', compact('schedule', 'trainings'));
     }
 
@@ -124,23 +124,23 @@ class ScheduleController extends Controller
     {
         try {
             $validated = $request->validated();
-            
+
             // Auto-calculate month from start_date
             $validated['month'] = date('Y-m', strtotime($validated['start_date']));
-            
+
             // Update available slots if total slots changed
             if (isset($validated['total_slots']) && $validated['total_slots'] != $schedule->total_slots) {
                 $validated['available_slots'] = $validated['total_slots'] - $schedule->registered_count;
             }
-            
+
             $schedule->update($validated);
 
             return redirect()->route('admin.schedules.index')
-                           ->with('success', 'Jadwal berhasil diperbarui!');
+                ->with('success', 'Jadwal berhasil diperbarui!');
         } catch (\Exception $e) {
             return redirect()->back()
-                           ->withInput()
-                           ->with('error', 'Gagal memperbarui jadwal: ' . $e->getMessage());
+                ->withInput()
+                ->with('error', 'Gagal memperbarui jadwal: '.$e->getMessage());
         }
     }
 
@@ -152,16 +152,16 @@ class ScheduleController extends Controller
         try {
             if ($schedule->registered_count > 0) {
                 return redirect()->back()
-                               ->with('error', 'Tidak dapat menghapus jadwal yang sudah memiliki peserta terdaftar!');
+                    ->with('error', 'Tidak dapat menghapus jadwal yang sudah memiliki peserta terdaftar!');
             }
-            
+
             $schedule->delete();
-            
+
             return redirect()->route('admin.schedules.index')
-                           ->with('success', 'Jadwal berhasil dihapus!');
+                ->with('success', 'Jadwal berhasil dihapus!');
         } catch (\Exception $e) {
             return redirect()->back()
-                           ->with('error', 'Gagal menghapus jadwal: ' . $e->getMessage());
+                ->with('error', 'Gagal menghapus jadwal: '.$e->getMessage());
         }
     }
 
@@ -172,30 +172,30 @@ class ScheduleController extends Controller
     {
         try {
             $ids = $request->input('ids', []);
-            
+
             if (empty($ids)) {
                 return response()->json(['error' => 'Tidak ada jadwal yang dipilih'], 400);
             }
-            
+
             // Check if any selected schedule has registered participants
             $schedulesWithParticipants = TrainingSchedule::whereIn('id', $ids)
-                                                       ->where('registered_count', '>', 0)
-                                                       ->count();
-            
+                ->where('registered_count', '>', 0)
+                ->count();
+
             if ($schedulesWithParticipants > 0) {
                 return response()->json([
-                    'error' => 'Tidak dapat menghapus jadwal yang sudah memiliki peserta terdaftar!'
+                    'error' => 'Tidak dapat menghapus jadwal yang sudah memiliki peserta terdaftar!',
                 ], 400);
             }
-            
+
             $deleted = TrainingSchedule::whereIn('id', $ids)->delete();
-            
+
             return response()->json([
                 'success' => true,
-                'message' => "{$deleted} jadwal berhasil dihapus!"
+                'message' => "{$deleted} jadwal berhasil dihapus!",
             ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Gagal menghapus jadwal: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Gagal menghapus jadwal: '.$e->getMessage()], 500);
         }
     }
 
@@ -207,24 +207,24 @@ class ScheduleController extends Controller
         try {
             $request->validate([
                 'ids' => 'required|array',
-                'status' => 'required|in:buka_pendaftaran,penuh,berlangsung,selesai,dibatalkan'
+                'status' => 'required|in:buka_pendaftaran,penuh,berlangsung,selesai,dibatalkan',
             ]);
-            
+
             $ids = $request->input('ids', []);
             $status = $request->input('status');
-            
+
             if (empty($ids)) {
                 return response()->json(['error' => 'Tidak ada jadwal yang dipilih'], 400);
             }
-            
+
             $updated = TrainingSchedule::whereIn('id', $ids)->update(['status' => $status]);
-            
+
             return response()->json([
                 'success' => true,
-                'message' => "{$updated} jadwal berhasil diperbarui statusnya!"
+                'message' => "{$updated} jadwal berhasil diperbarui statusnya!",
             ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Gagal memperbarui status: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Gagal memperbarui status: '.$e->getMessage()], 500);
         }
     }
 
@@ -235,24 +235,24 @@ class ScheduleController extends Controller
     {
         try {
             $newSchedule = $schedule->replicate();
-            
+
             // Reset some fields for the duplicate
             $newSchedule->registered_count = 0;
             $newSchedule->available_slots = $newSchedule->total_slots;
             $newSchedule->status = 'buka_pendaftaran';
-            
+
             // Increment dates by 1 week as default
-            $newSchedule->start_date = date('Y-m-d', strtotime($schedule->start_date . ' +1 week'));
-            $newSchedule->end_date = date('Y-m-d', strtotime($schedule->end_date . ' +1 week'));
+            $newSchedule->start_date = date('Y-m-d', strtotime($schedule->start_date.' +1 week'));
+            $newSchedule->end_date = date('Y-m-d', strtotime($schedule->end_date.' +1 week'));
             $newSchedule->month = date('Y-m', strtotime($newSchedule->start_date));
-            
+
             $newSchedule->save();
-            
+
             return redirect()->route('admin.schedules.edit', $newSchedule)
-                           ->with('success', 'Jadwal berhasil diduplikasi! Silakan sesuaikan detailnya.');
+                ->with('success', 'Jadwal berhasil diduplikasi! Silakan sesuaikan detailnya.');
         } catch (\Exception $e) {
             return redirect()->back()
-                           ->with('error', 'Gagal menduplikasi jadwal: ' . $e->getMessage());
+                ->with('error', 'Gagal menduplikasi jadwal: '.$e->getMessage());
         }
     }
 }
