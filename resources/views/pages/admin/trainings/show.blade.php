@@ -106,6 +106,16 @@
                         </div>
                     </div>
 
+                    {{-- Training Image --}}
+                    @if($training->image)
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Gambar Pelatihan</label>
+                            <div class="mt-2">
+                                <img src="{{ Storage::url($training->image) }}" alt="{{ $training->title }}" class="h-48 w-auto rounded-lg border border-gray-300 object-cover">
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-600 mb-1">Kategori</label>

@@ -6,12 +6,17 @@
             <template x-for="training in paginatedTrainings" :key="training.id">
                 <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" @click="window.location.href = `/training/${training.id}`">
                     {{-- Image --}}
-                    <div class="aspect-video overflow-hidden relative bg-linear-to-br from-blue-500 to-blue-700">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <svg class="h-16 w-16 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                            </svg>
-                        </div>
+                    <div class="aspect-video overflow-hidden relative">
+                        <template x-if="training.image">
+                            <img :src="'/storage/' + training.image" :alt="training.title" class="w-full h-full object-cover">
+                        </template>
+                        <template x-if="!training.image">
+                            <div class="bg-linear-to-br from-blue-500 to-blue-700 w-full h-full flex items-center justify-center">
+                                <svg class="h-16 w-16 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                </svg>
+                            </div>
+                        </template>
                     </div>
                     
                     {{-- Card Header --}}
@@ -20,11 +25,12 @@
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800" x-text="training.category?.name"></span>
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                                   :class="{
-                                      'bg-blue-100 text-blue-800': training.training_type === 'offline',
-                                      'bg-purple-100 text-purple-800': training.training_type === 'online',
-                                      'bg-green-100 text-green-800': training.training_type === 'hybrid'
+                                      'bg-green-100 text-green-800': training.training_type === 'Beginner',
+                                      'bg-blue-100 text-blue-800': training.training_type === 'Intermediate',
+                                      'bg-purple-100 text-purple-800': training.training_type === 'Advanced',
+                                      'bg-red-100 text-red-800': training.training_type === 'Expert'
                                   }"
-                                  x-text="training.training_type === 'offline' ? 'Tatap Muka' : training.training_type === 'online' ? 'Daring' : 'Hybrid'">
+                                  x-text="training.training_type">
                             </span>
                         </div>
                         <h3 class="text-lg font-semibold leading-tight line-clamp-2 text-gray-900 mb-2" x-text="training.title"></h3>

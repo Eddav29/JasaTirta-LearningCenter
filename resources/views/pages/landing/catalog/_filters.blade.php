@@ -56,10 +56,11 @@
                         @change="filterTrainings()"
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 bg-white"
                     >
-                        <option value="semua">Semua Tipe</option>
-                        <option value="offline">Tatap Muka</option>
-                        <option value="online">Daring</option>
-                        <option value="hybrid">Hybrid</option>
+                        <option value="semua">Semua Level</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                        <option value="Expert">Expert</option>
                     </select>
                 </div>
 
