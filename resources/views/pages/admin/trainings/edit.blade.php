@@ -25,7 +25,7 @@
             <p class="text-sm text-gray-600 mt-1">Perbarui data pelatihan dengan benar</p>
         </div>
 
-        <form action="{{ route('admin.trainings.update', $training) }}" method="POST" class="p-6 space-y-6">
+        <form action="{{ route('admin.trainings.update', $training) }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-6">
             @csrf
             @method('PUT')
             
@@ -86,9 +86,10 @@
                     <select id="training_type" name="training_type" required
                         class="w-full px-3 py-2 border {{ $errors->has('training_type') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option value="">Pilih Tipe</option>
-                        <option value="offline" {{ old('training_type', $training->training_type) == 'offline' ? 'selected' : '' }}>Offline</option>
-                        <option value="online" {{ old('training_type', $training->training_type) == 'online' ? 'selected' : '' }}>Online</option>
-                        <option value="hybrid" {{ old('training_type', $training->training_type) == 'hybrid' ? 'selected' : '' }}>Hybrid</option>
+                        <option value="Beginner" {{ old('training_type', $training->training_type) == 'Beginner' ? 'selected' : '' }}>Beginner</option>
+                        <option value="Intermediate" {{ old('training_type', $training->training_type) == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
+                        <option value="Advanced" {{ old('training_type', $training->training_type) == 'Advanced' ? 'selected' : '' }}>Advanced</option>
+                        <option value="Expert" {{ old('training_type', $training->training_type) == 'Expert' ? 'selected' : '' }}>Expert</option>
                     </select>
                     @error('training_type')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -116,6 +117,49 @@
                     class="w-full px-3 py-2 border {{ $errors->has('long_description') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Masukkan deskripsi lengkap pelatihan">{{ old('long_description', $training->long_description) }}</textarea>
                 @error('long_description')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Image Upload --}}
+            <div>
+                <label for="image" class="block text-sm font-medium text-gray-700 mb-2">
+                    Gambar Pelatihan <span class="text-gray-400">(Opsional)</span>
+                </label>
+                
+                {{-- Current Image Preview --}}
+                @if($training->image)
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2">Gambar saat ini:</p>
+                        <div class="relative inline-block">
+                            <img src="{{ Storage::url($training->image) }}" alt="Current image" class="h-32 w-auto rounded-lg border border-gray-300">
+                            <div class="mt-2">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="remove_image" value="1" class="form-checkbox">
+                                    <span class="ml-2 text-sm text-red-600">Hapus gambar saat ini</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
+                    <div class="space-y-1 text-center">
+                        <div class="flex text-sm text-gray-600">
+                            <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                <span>{{ $training->image ? 'Ganti gambar' : 'Upload gambar' }}</span>
+                                <input id="image" name="image" type="file" class="sr-only" accept="image/*" onchange="previewImage(event)">
+                            </label>
+                            <p class="pl-1">atau drag and drop</p>
+                        </div>
+                        <p class="text-xs text-gray-500">PNG, JPG, JPEG, GIF hingga 2MB</p>
+                        <div id="image-preview" class="mt-4 hidden">
+                            <img id="preview-img" src="#" alt="Preview" class="mx-auto h-32 w-auto rounded-lg">
+                            <button type="button" onclick="removeNewImage()" class="mt-2 text-sm text-red-600 hover:text-red-500">Hapus gambar baru</button>
+                        </div>
+                    </div>
+                </div>
+                @error('image')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
@@ -179,10 +223,12 @@
                     <select id="training_methods" name="training_methods"
                         class="w-full px-3 py-2 border {{ $errors->has('training_methods') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option value="">Pilih Metode</option>
-                        <option value="Offline" {{ old('training_methods', $training->training_methods) == 'Offline' ? 'selected' : '' }}>Offline</option>
-                        <option value="Online" {{ old('training_methods', $training->training_methods) == 'Online' ? 'selected' : '' }}>Online</option>
-                        <option value="Hybrid" {{ old('training_methods', $training->training_methods) == 'Hybrid' ? 'selected' : '' }}>Hybrid</option>
-                        <option value="Blended Learning" {{ old('training_methods', $training->training_methods) == 'Blended Learning' ? 'selected' : '' }}>Blended Learning</option>
+                        <option value="Presentasi" {{ old('training_methods', $training->training_methods) == 'Presentasi' ? 'selected' : '' }}>Presentasi</option>
+                        <option value="Workshop" {{ old('training_methods', $training->training_methods) == 'Workshop' ? 'selected' : '' }}>Workshop</option>
+                        <option value="Simulasi" {{ old('training_methods', $training->training_methods) == 'Simulasi' ? 'selected' : '' }}>Simulasi</option>
+                        <option value="Studi Kasus" {{ old('training_methods', $training->training_methods) == 'Studi Kasus' ? 'selected' : '' }}>Studi Kasus</option>
+                        <option value="Diskusi Kelompok" {{ old('training_methods', $training->training_methods) == 'Diskusi Kelompok' ? 'selected' : '' }}>Diskusi Kelompok</option>
+                        <option value="Praktik Lapangan" {{ old('training_methods', $training->training_methods) == 'Praktik Lapangan' ? 'selected' : '' }}>Praktik Lapangan</option>
                     </select>
                     @error('training_methods')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -238,4 +284,25 @@
         </form>
     </div>
 </div>
+
+<script>
+function previewImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('image-preview');
+            const img = document.getElementById('preview-img');
+            img.src = e.target.result;
+            preview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function removeNewImage() {
+    document.getElementById('image').value = '';
+    document.getElementById('image-preview').classList.add('hidden');
+}
+</script>
 @endsection

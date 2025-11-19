@@ -9,6 +9,7 @@ use App\Models\TrainingCategory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TrainingController extends Controller
 {
@@ -144,12 +145,21 @@ class TrainingController extends Controller
             'duration' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
             'capacity' => 'required|integer|min:1',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'training_type' => 'required|in:Beginner,Intermediate,Advanced,Expert',
             'learning_hours' => 'nullable|integer|min:1',
             'training_methods' => 'nullable|string',
             'certification_note' => 'nullable|string',
             'is_active' => 'required|boolean',
         ]);
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('trainings', $imageName, 'public');
+            $validated['image'] = $imagePath;
+        }
 
         Training::create($validated);
 
@@ -182,12 +192,34 @@ class TrainingController extends Controller
             'duration' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
             'capacity' => 'required|integer|min:1',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'training_type' => 'required|in:Beginner,Intermediate,Advanced,Expert',
             'learning_hours' => 'nullable|integer|min:1',
             'training_methods' => 'nullable|string',
             'certification_note' => 'nullable|string',
             'is_active' => 'required|boolean',
         ]);
+
+        // Handle remove existing image
+        if ($request->has('remove_image')) {
+            if ($training->image && Storage::disk('public')->exists($training->image)) {
+                Storage::disk('public')->delete($training->image);
+            }
+            $validated['image'] = null;
+        }
+
+        // Handle new image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($training->image && Storage::disk('public')->exists($training->image)) {
+                Storage::disk('public')->delete($training->image);
+            }
+            
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('trainings', $imageName, 'public');
+            $validated['image'] = $imagePath;
+        }
 
         $training->update($validated);
 
