@@ -195,7 +195,8 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
     Route::get('/catalog', [App\Http\Controllers\User\CatalogController::class, 'index'])->name('catalog');
 
     // Schedules
-    Route::get('/schedules', [App\Http\Controllers\ScheduleController::class, 'index'])->name('schedules');
+    Route::get('/schedules', [App\Http\Controllers\User\ScheduleController::class, 'index'])->name('schedules');
+    Route::get('/schedules/{schedule}', [App\Http\Controllers\User\ScheduleController::class, 'show'])->name('schedules.show');
 
     // Certificates
     Route::get('/certificates', [App\Http\Controllers\User\CertificateController::class, 'index'])->name('certificates');
