@@ -27,15 +27,32 @@ class DeleteOldNotifications extends Command
     public function handle(): int
     {
         $days = $this->option('days');
+        $chunkSize = 1000; // Delete in chunks to avoid locking
 
         $this->info("Deleting notifications older than {$days} days...");
 
-        $deletedCount = DB::table('notifications')
-            ->where('created_at', '<', now()->subDays($days))
-            ->delete();
+        $cutoffDate = now()->subDays($days);
+        $totalDeleted = 0;
 
-        if ($deletedCount > 0) {
-            $this->info("Successfully deleted {$deletedCount} old notification(s).");
+        // Delete in chunks to avoid database locks and memory issues
+        do {
+            $deletedCount = DB::table('notifications')
+                ->where('created_at', '<', $cutoffDate)
+                ->limit($chunkSize)
+                ->delete();
+
+            $totalDeleted += $deletedCount;
+
+            if ($deletedCount > 0) {
+                $this->info("Deleted {$deletedCount} notifications... (Total: {$totalDeleted})");
+
+                // Brief pause to avoid overwhelming the database
+                usleep(100000); // 100ms pause
+            }
+        } while ($deletedCount > 0);
+
+        if ($totalDeleted > 0) {
+            $this->info("✓ Successfully deleted {$totalDeleted} old notification(s).");
         } else {
             $this->info('No old notifications to delete.');
         }

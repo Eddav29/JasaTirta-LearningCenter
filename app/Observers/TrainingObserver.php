@@ -2,10 +2,9 @@
 
 namespace App\Observers;
 
+use App\Jobs\SendBulkNotifications;
 use App\Models\Training;
-use App\Models\User;
 use App\Notifications\NewTrainingNotification;
-use Illuminate\Support\Facades\Notification;
 
 class TrainingObserver
 {
@@ -14,18 +13,12 @@ class TrainingObserver
      */
     public function created(Training $training): void
     {
-        // Get all users with 'user' or 'participant' role
-        $users = User::role(['user', 'participant'])->get();
-
-        // Also notify admins
-        $admins = User::role(['admin', 'super-admin'])->get();
-
-        // Merge both collections
-        $recipients = $users->merge($admins);
-
-        // Send notification to all recipients
-        if ($recipients->isNotEmpty()) {
-            Notification::send($recipients, new NewTrainingNotification($training));
-        }
+        // Dispatch job to send notifications in chunks
+        // This prevents memory issues and server overload with many users
+        SendBulkNotifications::dispatch(
+            ['user', 'participant', 'admin', 'super-admin'],
+            new NewTrainingNotification($training),
+            100 // Process 100 users per chunk
+        )->onQueue('notifications');
     }
 }
