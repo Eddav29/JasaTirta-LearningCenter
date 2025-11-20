@@ -308,58 +308,6 @@
                     </button>
                 </div>
             </div>
-
-            {{-- Recent Achievements --}}
-            <div class="bg-white rounded-lg border border-gray-200">
-                <div class="border-b border-gray-200 p-6">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-                        </svg>
-                        <h2 class="text-lg font-semibold text-gray-900">Pencapaian Terbaru</h2>
-                    </div>
-                </div>
-                <div class="p-6 space-y-3">
-                    {{-- Achievement 1 --}}
-                    <div class="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg">
-                        <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center shrink-0">
-                            <svg class="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                            </svg>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-medium text-sm">Quick Learner</h4>
-                            <p class="text-xs text-gray-600 mt-1">Completed 3 lessons in one day</p>
-                            <p class="text-xs text-gray-500 mt-1">2 hari lalu</p>
-                        </div>
-                        <span class="px-2 py-1 bg-white border border-yellow-200 text-yellow-700 text-xs font-medium rounded">Badge</span>
-                    </div>
-
-                    {{-- Achievement 2 --}}
-                    <div class="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg">
-                        <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center shrink-0">
-                            <svg class="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-                            </svg>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-medium text-sm">Lab Expert</h4>
-                            <p class="text-xs text-gray-600 mt-1">Scored 95% on lab techniques quiz</p>
-                            <p class="text-xs text-gray-500 mt-1">1 minggu lalu</p>
-                        </div>
-                        <span class="px-2 py-1 bg-white border border-yellow-200 text-yellow-700 text-xs font-medium rounded">Sertifikat</span>
-                    </div>
-
-                    <button class="w-full px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">
-                        <div class="flex items-center justify-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                            </svg>
-                            Lihat Semua Pencapaian
-                        </div>
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 
