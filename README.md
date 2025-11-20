@@ -38,19 +38,21 @@ JTLC adalah aplikasi backend Laravel yang dibangun dengan arsitektur yang bersih
 
 - **Backend Framework**: Laravel 12.x
 - **PHP Version**: 8.3+
-- **Database**: SQLite (default), MySQL/PostgreSQL (configurable)
+- **Database**: MySQL (production), SQLite (testing)
 - **Authentication**: Laravel Sanctum
 - **Authorization**: Spatie Laravel Permission
+- **Frontend Bundler**: Vite
+- **CSS Framework**: Tailwind CSS v4
 - **Code Quality**: Laravel Pint
 - **Testing**: PHPUnit
-- **Development Tools**: Laravel Boost, Laravel Sail
+- **Development Tools**: Laravel Boost
 
 ## Persyaratan Sistem
 
 - PHP 8.3 atau lebih tinggi
 - Composer
-- Node.js & NPM (untuk asset bundling)
-- SQLite (default) atau MySQL/PostgreSQL
+- Node.js 18+ & NPM (untuk Vite asset bundling)
+- MySQL 8.0+ (production) atau SQLite (development/testing)
 
 ## Instalasi
 
@@ -85,17 +87,26 @@ JTLC adalah aplikasi backend Laravel yang dibangun dengan arsitektur yang bersih
    php artisan migrate --seed
    ```
 
-6. **Build assets**
+6. **Build assets (Production)**
    ```bash
    npm run build
-   # Atau untuk development
+   ```
+   
+   **Atau untuk development dengan Hot Module Replacement:**
+   ```bash
+   # Terminal 1: Laravel Server
+   php artisan serve
+   
+   # Terminal 2: Vite Dev Server
    npm run dev
    ```
 
-7. **Start server**
-   ```bash
-   php artisan serve
+7. **Akses aplikasi**
    ```
+   http://localhost:8000
+   ```
+
+> 📖 **Dokumentasi lengkap Vite setup**: Lihat [docs/VITE_SETUP.md](docs/VITE_SETUP.md)
 
 ## API Endpoints
 
