@@ -123,131 +123,111 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {{-- Continue Learning --}}
+        {{-- Training History --}}
         <div class="lg:col-span-2">
             <div class="bg-white rounded-lg border border-gray-200">
                 <div class="border-b border-gray-200 p-6">
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <h2 class="text-lg font-semibold text-gray-900">Lanjutkan Belajar</h2>
+                        <h2 class="text-lg font-semibold text-gray-900">Riwayat Pelatihan</h2>
                     </div>
-                    <p class="text-sm text-gray-500 mt-1">Kursus yang sedang Anda ikuti</p>
+                    <p class="text-sm text-gray-500 mt-1">Pelatihan yang pernah Anda ikuti</p>
                 </div>
-                <div class="p-6 space-y-4">
-                    {{-- Course 1 --}}
-                    <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                        <div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
-                            <img 
-                                src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=300&h=200&fit=crop" 
-                                alt="Water Quality Analysis"
-                                class="w-full h-full object-cover"
-                            />
+                <div class="p-6 space-y-3">
+                    {{-- Training 1 --}}
+                    <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div class="flex items-start justify-between mb-2">
+                            <h4 class="font-medium text-gray-900">Water Quality Analysis Fundamentals</h4>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 shrink-0">
+                                Selesai
+                            </span>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-medium truncate">Water Quality Analysis Fundamentals</h4>
-                            <p class="text-sm text-gray-500">Dr. Sarah Johnson</p>
-                            <div class="flex items-center gap-2 mt-2">
-                                <div class="flex-1 bg-gray-200 rounded-full h-2">
-                                    <div class="bg-blue-600 rounded-full h-2" style="width: 75%"></div>
-                                </div>
-                                <span class="text-sm text-gray-500">75%</span>
-                            </div>
-                            <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
-                                <div class="flex items-center gap-1">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                                    </svg>
-                                    <span>Lab Techniques for pH Testing</span>
-                                </div>
-                                <span>• 45 min</span>
-                            </div>
-                        </div>
-                        <button class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors shrink-0">
-                            <div class="flex items-center gap-2">
+                        <p class="text-sm text-gray-600 mb-3">Dr. Sarah Johnson</p>
+                        <div class="flex items-center gap-4 text-xs text-gray-500">
+                            <div class="flex items-center gap-1">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
-                                Lanjut
+                                <span>15-17 Nov 2024</span>
                             </div>
-                        </button>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span>3 Hari</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                </svg>
+                                <span>Jakarta Lab Center</span>
+                            </div>
+                        </div>
                     </div>
 
-                    {{-- Course 2 --}}
-                    <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                        <div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
-                            <img 
-                                src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300&h=200&fit=crop" 
-                                alt="Environmental Monitoring"
-                                class="w-full h-full object-cover"
-                            />
+                    {{-- Training 2 --}}
+                    <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div class="flex items-start justify-between mb-2">
+                            <h4 class="font-medium text-gray-900">Environmental Monitoring Techniques</h4>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 shrink-0">
+                                Berlangsung
+                            </span>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-medium truncate">Environmental Monitoring Techniques</h4>
-                            <p class="text-sm text-gray-500">Prof. Michael Chen</p>
-                            <div class="flex items-center gap-2 mt-2">
-                                <div class="flex-1 bg-gray-200 rounded-full h-2">
-                                    <div class="bg-blue-600 rounded-full h-2" style="width: 45%"></div>
-                                </div>
-                                <span class="text-sm text-gray-500">45%</span>
-                            </div>
-                            <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
-                                <div class="flex items-center gap-1">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                    </svg>
-                                    <span>Sampling Methods</span>
-                                </div>
-                                <span>• 30 min</span>
-                            </div>
-                        </div>
-                        <button class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors shrink-0">
-                            <div class="flex items-center gap-2">
+                        <p class="text-sm text-gray-600 mb-3">Prof. Michael Chen</p>
+                        <div class="flex items-center gap-4 text-xs text-gray-500">
+                            <div class="flex items-center gap-1">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
-                                Lanjut
+                                <span>20-22 Nov 2024</span>
                             </div>
-                        </button>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span>3 Hari</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                </svg>
+                                <span>Online</span>
+                            </div>
+                        </div>
                     </div>
 
-                    {{-- Course 3 --}}
-                    <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                        <div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
-                            <img 
-                                src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=300&h=200&fit=crop" 
-                                alt="Laboratory Safety"
-                                class="w-full h-full object-cover"
-                            />
+                    {{-- Training 3 --}}
+                    <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div class="flex items-start justify-between mb-2">
+                            <h4 class="font-medium text-gray-900">Laboratory Safety Protocols</h4>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 shrink-0">
+                                Terdaftar
+                            </span>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-medium truncate">Laboratory Safety Protocols</h4>
-                            <p class="text-sm text-gray-500">Dr. Lisa Wang</p>
-                            <div class="flex items-center gap-2 mt-2">
-                                <div class="flex-1 bg-gray-200 rounded-full h-2">
-                                    <div class="bg-blue-600 rounded-full h-2" style="width: 90%"></div>
-                                </div>
-                                <span class="text-sm text-gray-500">90%</span>
-                            </div>
-                            <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
-                                <div class="flex items-center gap-1">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                    </svg>
-                                    <span>Final Assessment</span>
-                                </div>
-                                <span>• 20 min</span>
-                            </div>
-                        </div>
-                        <button class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors shrink-0">
-                            <div class="flex items-center gap-2">
+                        <p class="text-sm text-gray-600 mb-3">Dr. Lisa Wang</p>
+                        <div class="flex items-center gap-4 text-xs text-gray-500">
+                            <div class="flex items-center gap-1">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <span>25-26 Nov 2024</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span>2 Hari</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                </svg>
+                                <span>Bandung Training Center</span>
+                            </div>
+                        </div>
+                    </div>
                                 </svg>
                                 Lanjut
                             </div>
