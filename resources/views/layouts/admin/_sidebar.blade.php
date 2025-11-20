@@ -96,6 +96,16 @@
             <span class="hidden lg:block" x-show="desktopSidebarOpen">Peserta</span>
         </a>
 
+        {{-- Pendaftaran --}}
+        <a href="{{ route('admin.registrations.index') }}" 
+           class="flex items-center gap-4 px-4 py-3.5 text-base font-medium rounded-lg transition-colors {{ request()->routeIs('admin.registrations.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
+            <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+            <span class="lg:hidden" x-show="desktopSidebarOpen">Pendaftaran</span>
+            <span class="hidden lg:block" x-show="desktopSidebarOpen">Pendaftaran</span>
+        </a>
+
         {{-- Kategori --}}
         <a href="{{ route('admin.categories.index') }}" 
            class="flex items-center gap-4 px-4 py-3.5 text-base font-medium rounded-lg transition-colors {{ request()->routeIs('admin.categories.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">

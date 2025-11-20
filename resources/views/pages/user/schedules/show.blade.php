@@ -266,9 +266,9 @@
                 </div>
 
                 @if($schedule->can_register)
-                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors mb-4">
+                    <a href="{{ route('user.registrations.create', $schedule) }}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors mb-4 text-center">
                         Daftar Sekarang
-                    </button>
+                    </a>
                 @else
                     <button disabled class="w-full bg-gray-300 text-gray-500 font-medium py-3 px-4 rounded-lg cursor-not-allowed mb-4">
                         @if($schedule->is_full)

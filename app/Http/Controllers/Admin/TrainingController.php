@@ -156,7 +156,7 @@ class TrainingController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imageName = time().'_'.$image->getClientOriginalName();
             $imagePath = $image->storeAs('trainings', $imageName, 'public');
             $validated['image'] = $imagePath;
         }
@@ -214,9 +214,9 @@ class TrainingController extends Controller
             if ($training->image && Storage::disk('public')->exists($training->image)) {
                 Storage::disk('public')->delete($training->image);
             }
-            
+
             $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imageName = time().'_'.$image->getClientOriginalName();
             $imagePath = $image->storeAs('trainings', $imageName, 'public');
             $validated['image'] = $imagePath;
         }

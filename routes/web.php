@@ -171,6 +171,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-ad
     // Reports
     Route::get('/reports', [App\Http\Controllers\Admin\ReportsController::class, 'index'])->name('reports');
 
+    // Registrations Management
+    Route::get('/registrations', [App\Http\Controllers\Admin\RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('/registrations/{registration}', [App\Http\Controllers\Admin\RegistrationController::class, 'show'])->name('registrations.show');
+    Route::post('/registrations/{registration}/approve', [App\Http\Controllers\Admin\RegistrationController::class, 'approve'])->name('registrations.approve');
+    Route::post('/registrations/{registration}/reject', [App\Http\Controllers\Admin\RegistrationController::class, 'reject'])->name('registrations.reject');
+
     // Profile
     Route::get('/profile', function () {
         return view('pages.admin.profile.index');
@@ -197,6 +203,13 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
     // Schedules
     Route::get('/schedules', [App\Http\Controllers\User\ScheduleController::class, 'index'])->name('schedules');
     Route::get('/schedules/{schedule}', [App\Http\Controllers\User\ScheduleController::class, 'show'])->name('schedules.show');
+
+    // Registrations
+    Route::get('/registrations', [App\Http\Controllers\User\RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('/registrations/create/{schedule}', [App\Http\Controllers\User\RegistrationController::class, 'create'])->name('registrations.create');
+    Route::post('/registrations', [App\Http\Controllers\User\RegistrationController::class, 'store'])->name('registrations.store');
+    Route::get('/registrations/{registration}', [App\Http\Controllers\User\RegistrationController::class, 'show'])->name('registrations.show');
+    Route::post('/registrations/{registration}/cancel', [App\Http\Controllers\User\RegistrationController::class, 'cancel'])->name('registrations.cancel');
 
     // Certificates
     Route::get('/certificates', [App\Http\Controllers\User\CertificateController::class, 'index'])->name('certificates');
