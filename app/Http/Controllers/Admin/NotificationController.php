@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,11 +17,14 @@ class NotificationController extends Controller
      */
     public function index(): View
     {
-        $notifications = Auth::user()
+        /** @var User $user */
+        $user = Auth::user();
+
+        $notifications = $user
             ->notifications()
             ->paginate(15);
 
-        $unreadCount = Auth::user()->unreadNotifications()->count();
+        $unreadCount = $user->unreadNotifications()->count();
 
         return view('pages.admin.notifications.index', compact('notifications', 'unreadCount'));
     }
@@ -30,6 +34,7 @@ class NotificationController extends Controller
      */
     public function getNotifications(Request $request): JsonResponse
     {
+        /** @var User $user */
         $user = Auth::user();
 
         $limit = $request->input('limit', 10);
@@ -65,7 +70,10 @@ class NotificationController extends Controller
      */
     public function markAsRead(string $id): JsonResponse
     {
-        $notification = Auth::user()
+        /** @var User $user */
+        $user = Auth::user();
+
+        $notification = $user
             ->notifications()
             ->findOrFail($id);
 
@@ -82,7 +90,10 @@ class NotificationController extends Controller
      */
     public function markAllAsRead(): JsonResponse
     {
-        Auth::user()->unreadNotifications->markAsRead();
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->unreadNotifications->markAsRead();
 
         return response()->json([
             'success' => true,
@@ -95,7 +106,10 @@ class NotificationController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        $notification = Auth::user()
+        /** @var User $user */
+        $user = Auth::user();
+
+        $notification = $user
             ->notifications()
             ->findOrFail($id);
 
@@ -111,7 +125,10 @@ class NotificationController extends Controller
      */
     public function delete(string $id): JsonResponse
     {
-        $notification = Auth::user()
+        /** @var User $user */
+        $user = Auth::user();
+
+        $notification = $user
             ->notifications()
             ->findOrFail($id);
 
