@@ -35,8 +35,8 @@ class ScheduleController extends Controller
         }
 
         // Method filter
-        if ($request->filled('method') && $request->method !== 'all') {
-            $query->where('method', $request->method);
+        if ($request->filled('method') && $request->input('method') !== 'all') {
+            $query->where('method', $request->input('method'));
         }
 
         // Training level filter (based on training_type)

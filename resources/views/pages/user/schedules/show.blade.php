@@ -9,14 +9,14 @@
         <ol class="flex items-center space-x-4">
             <li>
                 <a href="{{ route('user.dashboard') }}" class="text-gray-400 hover:text-gray-500">
-                    <svg class="flex-shrink-0 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="shrink-0 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10.707 2.293a1 1 0 00-1.414 0l-9 9a1 1 0 001.414 1.414L8 5.414V17a1 1 0 102 0V5.414l6.293 6.293a1 1 0 001.414-1.414l-9-9z"/>
                     </svg>
                 </a>
             </li>
             <li>
                 <div class="flex items-center">
-                    <svg class="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
                     </svg>
                     <a href="{{ route('user.schedules') }}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Jadwal</a>
@@ -24,7 +24,7 @@
             </li>
             <li>
                 <div class="flex items-center">
-                    <svg class="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
                     </svg>
                     <span class="ml-4 text-sm font-medium text-gray-500">{{ $schedule->training->title }}</span>
@@ -40,7 +40,7 @@
             {{-- Hero Section --}}
             <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
                 {{-- Training Image --}}
-                <div class="relative h-64 bg-gradient-to-br from-blue-500 to-purple-600">
+                <div class="relative h-64 bg-linear-to-br from-blue-500 to-purple-600">
                     @if($schedule->training->image)
                         <img src="{{ Storage::url($schedule->training->image) }}" 
                              alt="{{ $schedule->training->title }}"
@@ -146,7 +146,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Lokasi</label>
                                 <div class="flex items-start text-gray-900">
-                                    <svg class="w-5 h-5 mr-2 mt-0.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 mr-2 mt-0.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
@@ -192,7 +192,7 @@
                     <ul class="space-y-2">
                         @foreach($schedule->training->learningObjectives as $objective)
                             <li class="flex items-start">
-                                <svg class="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-green-500 mr-2 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                 </svg>
                                 <span class="text-gray-700">{{ $objective->objective }}</span>
@@ -209,7 +209,7 @@
                     <ul class="space-y-2">
                         @foreach($schedule->training->prerequisites as $prerequisite)
                             <li class="flex items-start">
-                                <svg class="w-5 h-5 text-blue-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-blue-500 mr-2 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                                 </svg>
                                 <span class="text-gray-700">{{ $prerequisite->prerequisite }}</span>
@@ -340,7 +340,7 @@
                         @foreach($relatedSchedules as $relatedSchedule)
                             <a href="{{ route('user.schedules.show', $relatedSchedule) }}" 
                                class="block border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-colors overflow-hidden">
-                                <div class="relative h-20 bg-gradient-to-br from-blue-500 to-purple-600">
+                                <div class="relative h-20 bg-linear-to-br from-blue-500 to-purple-600">
                                     @if($relatedSchedule->training->image)
                                         <img src="{{ Storage::url($relatedSchedule->training->image) }}" 
                                              alt="{{ $relatedSchedule->training->title }}"
