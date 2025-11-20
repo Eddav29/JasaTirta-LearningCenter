@@ -97,7 +97,7 @@
                                 {{-- Action --}}
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
                                     <a 
-                                        :href="`/katalog/${schedule.training.slug}`" 
+                                        :href="`/training/${schedule.training_id}`" 
                                         class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-150"
                                     >
                                         Detail
@@ -208,7 +208,7 @@
                                 <p class="text-lg font-bold text-gray-900" x-text="formatPrice(schedule.price)"></p>
                             </div>
                             <a 
-                                :href="`/katalog/${schedule.training.slug}`" 
+                                :href="`/training/${schedule.training_id}`" 
                                 class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-150"
                             >
                                 Lihat Detail
