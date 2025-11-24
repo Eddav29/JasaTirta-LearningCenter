@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class UserTrainingRegistration extends Model
 {
@@ -43,6 +44,11 @@ class UserTrainingRegistration extends Model
     public function verifiedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'verified_by');
+    }
+
+    public function refund(): HasOne
+    {
+        return $this->hasOne(Refund::class, 'user_training_registration_id');
     }
 
     public function scopePendingVerification($query)

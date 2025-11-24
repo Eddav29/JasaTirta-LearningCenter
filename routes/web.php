@@ -177,6 +177,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super-ad
     Route::post('/registrations/{registration}/approve', [App\Http\Controllers\Admin\RegistrationController::class, 'approve'])->name('registrations.approve');
     Route::post('/registrations/{registration}/reject', [App\Http\Controllers\Admin\RegistrationController::class, 'reject'])->name('registrations.reject');
 
+    // Refunds Management
+    Route::get('/refunds/{registration}/create', [App\Http\Controllers\Admin\RefundController::class, 'create'])->name('refunds.create');
+    Route::post('/refunds/{registration}', [App\Http\Controllers\Admin\RefundController::class, 'store'])->name('refunds.store');
+    Route::get('/refunds/{refund}', [App\Http\Controllers\Admin\RefundController::class, 'show'])->name('refunds.show');
+    Route::patch('/refunds/{refund}/status', [App\Http\Controllers\Admin\RefundController::class, 'updateStatus'])->name('refunds.updateStatus');
+
     // Profile
     Route::get('/profile', function () {
         return view('pages.admin.profile.index');

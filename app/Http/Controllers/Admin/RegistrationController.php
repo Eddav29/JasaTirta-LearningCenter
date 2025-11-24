@@ -83,6 +83,9 @@ class RegistrationController extends Controller
 
         $registration->user->notify(new RegistrationRejected($registration));
 
-        return back()->with('success', 'Pendaftaran berhasil ditolak.');
+        // Redirect to refund creation page
+        return redirect()
+            ->route('admin.refunds.create', $registration)
+            ->with('success', 'Pendaftaran berhasil ditolak. Silakan proses refund.');
     }
 }
