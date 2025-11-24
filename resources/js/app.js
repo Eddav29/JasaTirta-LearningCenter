@@ -3,6 +3,9 @@ import '../css/app.css';
 // Alpine.js
 import Alpine from 'alpinejs';
 
+// Global Page Loader
+import './loader.js';
+
 window.Alpine = Alpine;
 
 Alpine.start();

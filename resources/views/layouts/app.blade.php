@@ -17,6 +17,8 @@
     @stack('styles')
 </head>
 <body class="antialiased">
+    <x-loader />
+    
     <div id="app">
         <x-header />
         

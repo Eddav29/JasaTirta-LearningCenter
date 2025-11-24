@@ -17,6 +17,8 @@
     @stack('styles')
 </head>
 <body class="antialiased bg-gray-50" x-data="{ sidebarOpen: false, desktopSidebarOpen: true, profileOpen: false }">
+    <x-loader />
+    
     <div class="min-h-screen">
         {{-- Mobile Overlay --}}
         <div 
