@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -31,6 +32,7 @@ class ProfileController extends Controller
             'bio' => ['nullable', 'string', 'max:500'],
         ]);
 
+        /** @var User $user */
         $user = Auth::user();
         $user->update($request->only(['name', 'email', 'phone', 'location', 'bio']));
 
@@ -50,7 +52,9 @@ class ProfileController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        Auth::user()->update([
+        /** @var User $user */
+        $user = Auth::user();
+        $user->update([
             'password' => Hash::make($request->password),
         ]);
 
@@ -107,6 +111,7 @@ class ProfileController extends Controller
             'avatar' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
 
+        /** @var User $user */
         $user = Auth::user();
 
         if ($request->hasFile('avatar')) {
