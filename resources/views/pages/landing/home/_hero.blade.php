@@ -1,14 +1,15 @@
 {{-- Hero Section --}}
-<section class="relative bg-slate-900 min-h-screen flex items-center overflow-hidden">
-    {{-- Clean Background Pattern --}}
-    <div class="absolute inset-0 bg-slate-900"></div>
+<section class="relative bg-linear-to-br from-slate-900 via-blue-900 to-slate-900 min-h-screen flex items-center overflow-hidden">
+    {{-- Animated Background Pattern --}}
+    <div class="absolute inset-0">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnptMCAyYy0yLjIxIDAtNCAxLjc5LTQgNHMxLjc5IDQgNCA0IDQtMS43OSA0LTQtMS43OS00LTQtNHoiIGZpbGw9IiMxZTQwYWYiIG9wYWNpdHk9Ii4xIi8+PC9nPjwvc3ZnPg==')] opacity-20"></div>
+    </div>
     
-    {{-- Subtle professional background elements --}}
-    <div class="absolute inset-0 opacity-5">
-        <div class="absolute top-20 left-20 w-1 h-20 bg-white rotate-45"></div>
-        <div class="absolute top-40 right-32 w-1 h-16 bg-white rotate-12"></div>
-        <div class="absolute bottom-32 left-1/3 w-1 h-12 bg-white -rotate-45"></div>
-        <div class="absolute bottom-20 right-20 w-8 h-8 border border-white rounded-lg rotate-45"></div>
+    {{-- Floating Elements --}}
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s"></div>
     </div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex items-center py-20">
@@ -35,17 +36,17 @@
                 </div>
                 
                 <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                    <a href="/catalog" class="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow-lg transition-all duration-300">
-                        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="/catalog" class="group inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-semibold shadow-xl shadow-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/60 transition-all duration-300 hover:scale-105">
+                        <svg class="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
                         Lihat Katalog Pelatihan
-                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                         </svg>
                     </a>
-                    <a href="/contact" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-slate-900 rounded-lg font-semibold transition-all duration-300 bg-white/10 backdrop-blur-sm">
-                        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="/contact" class="group inline-flex items-center justify-center px-8 py-4 border-2 border-white/30 text-white hover:bg-white hover:text-slate-900 hover:border-white rounded-xl font-semibold transition-all duration-300 bg-white/5 backdrop-blur-sm hover:scale-105 shadow-lg">
+                        <svg class="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                         </svg>
                         Konsultasi Gratis
