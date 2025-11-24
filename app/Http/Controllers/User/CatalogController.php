@@ -57,8 +57,10 @@ class CatalogController extends Controller
                 'created_at' => $training->created_at,
                 'schedules' => $training->schedules->map(function ($schedule) {
                     return [
+                        'id' => $schedule->id,
                         'start_date' => $schedule->start_date,
                         'location' => $schedule->location,
+                        'status' => $schedule->status,
                         'available_slots' => $schedule->available_slots ?? 0,
                         'total_slots' => $schedule->total_slots ?? 0,
                     ];

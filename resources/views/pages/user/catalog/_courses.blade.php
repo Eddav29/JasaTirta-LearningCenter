@@ -92,9 +92,14 @@
                         </a>
                     </template>
                     <template x-if="!isEnrolled(course.id)">
-                        <a :href="`/catalog/${course.slug || course.id}`" class="block w-full px-4 py-2 bg-white border-2 border-blue-600 hover:bg-blue-600 text-blue-600 hover:text-white text-center font-medium rounded-lg transition-colors">
-                            Lihat Detail
-                        </a>
+                        <div class="grid grid-cols-2 gap-3">
+                            <a :href="`/catalog/${course.slug || course.id}`" class="block w-full px-4 py-2 bg-white border-2 border-blue-600 hover:bg-blue-50 text-blue-600 text-center font-medium rounded-lg transition-colors">
+                                Detail
+                            </a>
+                            <a :href="getRegistrationUrl(course)" class="block w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-center font-medium rounded-lg transition-colors">
+                                Daftar
+                            </a>
+                        </div>
                     </template>
                 </div>
             </div>
@@ -186,9 +191,14 @@
                                     </a>
                                 </template>
                                 <template x-if="!isEnrolled(course.id)">
-                                    <a :href="`/catalog/${course.slug || course.id}`" class="px-6 py-2 bg-white border-2 border-blue-600 hover:bg-blue-600 text-blue-600 hover:text-white font-medium rounded-lg transition-colors">
-                                        Lihat Detail
-                                    </a>
+                                    <div class="flex gap-2">
+                                        <a :href="`/catalog/${course.slug || course.id}`" class="px-6 py-2 bg-white border-2 border-blue-600 hover:bg-blue-50 text-blue-600 font-medium rounded-lg transition-colors">
+                                            Detail
+                                        </a>
+                                        <a :href="getRegistrationUrl(course)" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                                            Daftar
+                                        </a>
+                                    </div>
                                 </template>
                             </div>
                         </div>

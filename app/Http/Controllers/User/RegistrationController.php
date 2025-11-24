@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRegistrationRequest;
+use App\Models\Training;
 use App\Models\TrainingSchedule;
 use App\Models\UserTrainingRegistration;
 use Illuminate\Contracts\View\View;
@@ -20,6 +21,16 @@ class RegistrationController extends Controller
             ->paginate(10);
 
         return view('pages.user.registrations.index', compact('registrations'));
+    }
+
+    public function selectSchedule(Training $training): View
+    {
+        $training->load(['category', 'schedules' => function ($query) {
+            $query->where('status', 'buka_pendaftaran')
+                  ->orderBy('start_date', 'asc');
+        }]);
+
+        return view('pages.user.registrations.select-schedule', compact('training'));
     }
 
     public function create(TrainingSchedule $schedule): View

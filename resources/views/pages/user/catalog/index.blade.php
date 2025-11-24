@@ -137,6 +137,22 @@ function catalogApp() {
             return this.enrolledCourseIds.includes(courseId);
         },
         
+        // Get registration URL based on available schedules
+        getRegistrationUrl(course) {
+            // Filter active schedules (open for registration)
+            const activeSchedules = (course.schedules || []).filter(schedule => 
+                schedule.status === 'buka_pendaftaran' || schedule.status === 'open'
+            );
+            
+            // If only 1 active schedule, go directly to payment form
+            if (activeSchedules.length === 1) {
+                return `/user/registrations/create/${activeSchedules[0].id}`;
+            }
+            
+            // If multiple schedules or no schedules, go to schedule selection page
+            return `/user/registrations/select-schedule/${course.id}`;
+        },
+        
         // Reset filters
         resetFilters() {
             this.searchQuery = '';

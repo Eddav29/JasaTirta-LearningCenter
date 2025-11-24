@@ -400,10 +400,17 @@
 
                                         @if($schedule->status === 'buka_pendaftaran')
                                         <div class="mt-4 pt-4 border-t border-gray-200">
-                                            <a href="{{ route('register') }}" 
-                                               class="block text-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 rounded-lg transition-colors">
-                                                Daftar Batch Ini
-                                            </a>
+                                            @auth
+                                                <a href="{{ route('user.registrations.create', $schedule) }}" 
+                                                   class="block text-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 rounded-lg transition-colors">
+                                                    Daftar Batch Ini
+                                                </a>
+                                            @else
+                                                <a href="{{ route('user.registrations.create', $schedule) }}" 
+                                                   class="block text-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 rounded-lg transition-colors">
+                                                    Login untuk Daftar
+                                                </a>
+                                            @endauth
                                         </div>
                                         @endif
                                     </div>
@@ -537,10 +544,17 @@
 
                             {{-- Action Buttons --}}
                             <div class="space-y-3">
-                                <a href="{{ route('register') }}" 
-                                   class="w-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3.5 rounded-lg transition-all shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/50 text-center block">
-                                    Daftar Sekarang
-                                </a>
+                                @auth
+                                    <a href="{{ route('user.registrations.select-schedule', $training) }}" 
+                                       class="w-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3.5 rounded-lg transition-all shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/50 text-center block">
+                                        Daftar Sekarang
+                                    </a>
+                                @else
+                                    <a href="{{ route('user.registrations.select-schedule', $training) }}" 
+                                       class="w-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3.5 rounded-lg transition-all shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/50 text-center block">
+                                        Login untuk Daftar
+                                    </a>
+                                @endauth
                                 <button class="w-full border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 text-gray-700 hover:text-blue-700 font-semibold py-3 rounded-lg transition-all">
                                     Hubungi Admin
                                 </button>

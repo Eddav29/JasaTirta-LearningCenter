@@ -206,6 +206,7 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'role:user,participant
 
     // Registrations
     Route::get('/registrations', [App\Http\Controllers\User\RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('/registrations/select-schedule/{training}', [App\Http\Controllers\User\RegistrationController::class, 'selectSchedule'])->name('registrations.select-schedule');
     Route::get('/registrations/create/{schedule}', [App\Http\Controllers\User\RegistrationController::class, 'create'])->name('registrations.create');
     Route::post('/registrations', [App\Http\Controllers\User\RegistrationController::class, 'store'])->name('registrations.store');
     Route::get('/registrations/{registration}', [App\Http\Controllers\User\RegistrationController::class, 'show'])->name('registrations.show');
