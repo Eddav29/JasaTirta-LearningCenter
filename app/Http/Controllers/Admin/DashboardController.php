@@ -7,6 +7,7 @@ use App\Models\Training;
 use App\Models\TrainingSchedule;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -66,10 +67,8 @@ class DashboardController extends Controller
         // Popular trainings (most registered)
         $popularTrainings = Training::with(['category', 'schedules'])
             ->where('is_active', true)
-            ->withCount(['schedules as total_registered' => function ($query) {
-                $query->selectRaw('SUM(registered_count)');
-            }])
-            ->orderBy('total_registered', 'desc')
+            ->withSum('schedules as total_registered', 'registered_count')
+            ->orderByDesc('total_registered')
             ->limit(5)
             ->get();
 
@@ -92,11 +91,10 @@ class DashboardController extends Controller
      */
     private function calculateMonthlyRevenue(Carbon $startDate, Carbon $endDate): int
     {
-        return TrainingSchedule::with('training')
-            ->whereBetween('start_date', [$startDate, $endDate])
-            ->get()
-            ->sum(function ($schedule) {
-                return $schedule->registered_count * ($schedule->training->price ?? 0);
-            });
+        return DB::table('training_schedules')
+            ->join('trainings', 'training_schedules.training_id', '=', 'trainings.id')
+            ->whereBetween('training_schedules.start_date', [$startDate, $endDate])
+            ->selectRaw('SUM(training_schedules.registered_count * trainings.price) as total_revenue')
+            ->value('total_revenue') ?? 0;
     }
 }

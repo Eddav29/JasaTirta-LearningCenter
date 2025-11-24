@@ -9,6 +9,7 @@ use App\Models\TrainingCategory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class TrainingController extends Controller
@@ -73,9 +74,8 @@ class TrainingController extends Controller
         $stats = [
             'total' => Training::count(),
             'active' => Training::where('is_active', true)->count(),
-            'totalParticipants' => Training::with('schedules')->get()->sum(function ($training) {
-                return $training->schedules->sum('enrolled_count');
-            }),
+            'totalParticipants' => DB::table('training_schedules')
+                ->sum('enrolled_count'),
             'averageRating' => Training::where('rating', '>', 0)->avg('rating') ?? 0,
         ];
 

@@ -55,6 +55,9 @@ class RegistrationController extends Controller
             return back()->with('error', 'Status pembayaran harus pending verifikasi.');
         }
 
+        // Load user relationship to prevent N+1
+        $registration->load('user');
+
         $registration->update([
             'status' => 'confirmed',
             'payment_status' => 'paid',
@@ -72,6 +75,9 @@ class RegistrationController extends Controller
         $validated = $request->validate([
             'rejected_reason' => 'required|string|max:1000',
         ]);
+
+        // Load user relationship to prevent N+1
+        $registration->load('user');
 
         $registration->update([
             'status' => 'cancelled',
