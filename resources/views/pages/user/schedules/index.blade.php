@@ -16,7 +16,6 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('schedulesManager', () => ({
             viewMode: '{{ request("view", "grid") }}',
-            showFilters: false,
             
             get stats() {
                 return @json($stats);
