@@ -51,7 +51,7 @@
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-600">Total Peserta</p>
-                    <p class="text-2xl font-bold text-gray-900">{{ number_format($training->schedules->sum('enrolled_count')) }}</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ number_format($training->schedules->sum('registered_count')) }}</p>
                 </div>
             </div>
         </div>
@@ -200,7 +200,7 @@
                                         <p class="text-sm text-gray-600 mt-1">{{ $schedule->location }}</p>
                                     </div>
                                     <span class="px-3 py-1 text-sm rounded-full {{ $schedule->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
-                                        {{ $schedule->enrolled_count }}/{{ $schedule->max_participants }}
+                                        {{ $schedule->registered_count }}/{{ $schedule->max_participants }}
                                     </span>
                                 </div>
                             </div>

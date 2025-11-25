@@ -38,9 +38,9 @@ class TrainingController extends Controller
             $query->where('category_id', $request->category);
         }
 
-        // Level filter (based on training_type)
+        // Level filter
         if ($request->filled('level') && $request->level !== 'all') {
-            $query->where('training_type', $request->level);
+            $query->where('level', $request->level);
         }
 
         // Status filter
@@ -75,7 +75,7 @@ class TrainingController extends Controller
             'total' => Training::count(),
             'active' => Training::where('is_active', true)->count(),
             'totalParticipants' => DB::table('training_schedules')
-                ->sum('enrolled_count'),
+                ->sum('registered_count'),
             'averageRating' => Training::where('rating', '>', 0)->avg('rating') ?? 0,
         ];
 
@@ -146,7 +146,8 @@ class TrainingController extends Controller
             'price' => 'required|numeric|min:0',
             'capacity' => 'required|integer|min:1',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'training_type' => 'required|in:Beginner,Intermediate,Advanced,Expert',
+            'training_type' => 'required|in:offline,online,hybrid',
+            'level' => 'required|in:Beginner,Intermediate,Advanced,Expert',
             'learning_hours' => 'nullable|integer|min:1',
             'training_methods' => 'nullable|string',
             'certification_note' => 'nullable|string',
@@ -193,7 +194,8 @@ class TrainingController extends Controller
             'price' => 'required|numeric|min:0',
             'capacity' => 'required|integer|min:1',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'training_type' => 'required|in:Beginner,Intermediate,Advanced,Expert',
+            'training_type' => 'required|in:offline,online,hybrid',
+            'level' => 'required|in:Beginner,Intermediate,Advanced,Expert',
             'learning_hours' => 'nullable|integer|min:1',
             'training_methods' => 'nullable|string',
             'certification_note' => 'nullable|string',

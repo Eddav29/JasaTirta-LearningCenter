@@ -160,7 +160,7 @@
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Gambar</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Pelatihan</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Kategori</th>
-                        <th class="text-left py-3 px-4 font-medium text-gray-900">Level</th>
+                        <th class="text-left py-3 px-4 font-medium text-gray-900">Tipe</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Status</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Instructor</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-900">Kapasitas</th>
@@ -230,10 +230,10 @@
                             </td>
                             <td class="py-4 px-4">
                                 <div class="text-sm">
-                                    <p class="font-medium">{{ $training->schedules->sum('enrolled_count') ?? 0 }}/{{ $training->capacity }}</p>
+                                    <p class="font-medium">{{ $training->schedules->sum('registered_count') ?? 0 }}/{{ $training->capacity }}</p>
                                     <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
                                         @php
-                                            $enrolledCount = $training->schedules->sum('enrolled_count') ?? 0;
+                                            $enrolledCount = $training->schedules->sum('registered_count') ?? 0;
                                             $percentage = $training->capacity > 0 ? ($enrolledCount / $training->capacity) * 100 : 0;
                                         @endphp
                                         <div class="bg-blue-600 h-1.5 rounded-full" style="width: {{ min($percentage, 100) }}%"></div>
