@@ -48,15 +48,14 @@
                 </select>
             </div>
 
-            {{-- Level Filter --}}
+            {{-- Method Filter --}}
             <div class="space-y-2">
-                <label class="block text-sm font-medium text-gray-700">Level</label>
+                <label class="block text-sm font-medium text-gray-700">Tipe Pelatihan</label>
                 <select name="level" class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                    <option value="all">Semua Level</option>
-                    <option value="Beginner" {{ request('level') == 'Beginner' ? 'selected' : '' }}>Beginner</option>
-                    <option value="Intermediate" {{ request('level') == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
-                    <option value="Advanced" {{ request('level') == 'Advanced' ? 'selected' : '' }}>Advanced</option>
-                    <option value="Expert" {{ request('level') == 'Expert' ? 'selected' : '' }}>Expert</option>
+                    <option value="all">Semua Tipe</option>
+                    <option value="online" {{ request('level') == 'online' ? 'selected' : '' }}>Online</option>
+                    <option value="offline" {{ request('level') == 'offline' ? 'selected' : '' }}>Offline</option>
+                    <option value="hybrid" {{ request('level') == 'hybrid' ? 'selected' : '' }}>Hybrid</option>
                 </select>
             </div>
 

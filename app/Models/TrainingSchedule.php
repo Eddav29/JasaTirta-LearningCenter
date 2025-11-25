@@ -43,8 +43,8 @@ class TrainingSchedule extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',
         'total_slots' => 'integer',

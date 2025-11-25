@@ -487,7 +487,7 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <p class="text-xs text-gray-500">Level</p>
+                                        <p class="text-xs text-gray-500">Tipe Pelatihan</p>
                                         <p class="font-semibold text-gray-900">{{ $training->training_type }}</p>
                                     </div>
                                 </div>
