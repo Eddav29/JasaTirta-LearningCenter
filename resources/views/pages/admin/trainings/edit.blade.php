@@ -78,23 +78,6 @@
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-
-                <div>
-                    <label for="training_type" class="block text-sm font-medium text-gray-700 mb-2">
-                        Tipe Pelatihan <span class="text-red-500">*</span>
-                    </label>
-                    <select id="training_type" name="training_type" required
-                        class="w-full px-3 py-2 border {{ $errors->has('training_type') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">Pilih Tipe</option>
-                        <option value="Beginner" {{ old('training_type', $training->training_type) == 'Beginner' ? 'selected' : '' }}>Beginner</option>
-                        <option value="Intermediate" {{ old('training_type', $training->training_type) == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
-                        <option value="Advanced" {{ old('training_type', $training->training_type) == 'Advanced' ? 'selected' : '' }}>Advanced</option>
-                        <option value="Expert" {{ old('training_type', $training->training_type) == 'Expert' ? 'selected' : '' }}>Expert</option>
-                    </select>
-                    @error('training_type')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
             </div>
 
             <div>
@@ -204,6 +187,22 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="training_type" class="block text-sm font-medium text-gray-700 mb-2">
+                        Tipe Pelatihan <span class="text-red-500">*</span>
+                    </label>
+                    <select id="training_type" name="training_type" required
+                        class="w-full px-3 py-2 border {{ $errors->has('training_type') ? 'border-red-300' : 'border-gray-300' }} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="">Pilih Tipe Pelatihan</option>
+                        <option value="offline" {{ old('training_type', $training->training_type) == 'offline' ? 'selected' : '' }}>Offline</option>
+                        <option value="online" {{ old('training_type', $training->training_type) == 'online' ? 'selected' : '' }}>Online</option>
+                        <option value="hybrid" {{ old('training_type', $training->training_type) == 'hybrid' ? 'selected' : '' }}>Hybrid</option>
+                    </select>
+                    @error('training_type')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div>
                     <label for="learning_hours" class="block text-sm font-medium text-gray-700 mb-2">
                         Jam Pembelajaran

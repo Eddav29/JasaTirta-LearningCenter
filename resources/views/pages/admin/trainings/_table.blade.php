@@ -10,14 +10,20 @@
         return $isActive ? 'Active' : 'Inactive';
     }
 
-    function getLevelColor($level) {
-        return match($level) {
-            'Expert' => 'bg-purple-100 text-purple-800',
-            'Advanced' => 'bg-blue-100 text-blue-800',
-            'Intermediate' => 'bg-indigo-100 text-indigo-800',
-            'Beginner' => 'bg-green-100 text-green-800',
+    function getMethodColor($method) {
+        return match($method) {
+            'online' => 'bg-blue-100 text-blue-800',
+            'offline' => 'bg-green-100 text-green-800', 
+            'hybrid' => 'bg-purple-100 text-purple-800',
             default => 'bg-gray-100 text-gray-800'
         };
+    }
+
+    function getTrainingMethods($schedules) {
+        if ($schedules->isEmpty()) {
+            return collect(['No Schedule']);
+        }
+        return $schedules->pluck('method')->unique();
     }
 
     function formatCurrency($amount) {
@@ -28,10 +34,10 @@
 <div class="mt-6 bg-white rounded-lg border border-gray-200" x-data="{
     selectedTrainings: [],
     selectAll() {
-        if (this.selectedTrainings.length === {{ $trainings->count() }}) {
+        if (this.selectedTrainings.length === {{ is_array($trainings) ? count($trainings) : $trainings->count() }}) {
             this.selectedTrainings = [];
         } else {
-            this.selectedTrainings = [{{ $trainings->pluck('id')->join(',') }}];
+            this.selectedTrainings = [{{ is_array($trainings) ? collect($trainings)->pluck('id')->join(',') : $trainings->pluck('id')->join(',') }}];
         }
     },
     toggleSelect(id) {
@@ -46,7 +52,7 @@
         return this.selectedTrainings.includes(id);
     },
     get allSelected() {
-        return this.selectedTrainings.length === {{ $trainings->count() }} && {{ $trainings->count() }} > 0;
+        return this.selectedTrainings.length === {{ is_array($trainings) ? count($trainings) : $trainings->count() }} && {{ is_array($trainings) ? count($trainings) : $trainings->count() }} > 0;
     },
     bulkDelete() {
         if (this.selectedTrainings.length === 0) {
@@ -140,7 +146,7 @@
     <div class="p-6 border-b border-gray-200">
         <h3 class="text-lg font-bold text-gray-900">Daftar Pelatihan</h3>
         <p class="text-sm text-gray-600 mt-1">
-            Menampilkan {{ $trainings->count() }} dari {{ $trainings->total() }} pelatihan
+            Menampilkan {{ is_array($trainings) ? count($trainings) : $trainings->count() }} dari {{ is_array($trainings) ? count($trainings) : $trainings->total() }} pelatihan
         </p>
     </div>
     
@@ -216,9 +222,13 @@
                                 </span>
                             </td>
                             <td class="py-4 px-4">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ getLevelColor($training->training_type) }}">
-                                    {{ $training->training_type }}
-                                </span>
+                                <div class="flex flex-wrap gap-1">
+                                    @foreach(getTrainingMethods($training->schedules) as $method)
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ getMethodColor($method) }}">
+                                            {{ ucfirst($method) }}
+                                        </span>
+                                    @endforeach
+                                </div>
                             </td>
                             <td class="py-4 px-4">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ getStatusColor($training->is_active) }}">

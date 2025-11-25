@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property string|null $image
+ */
 class Training extends Model
 {
     /** @use HasFactory<\Database\Factories\TrainingFactory> */

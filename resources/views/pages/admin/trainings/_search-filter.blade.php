@@ -82,7 +82,7 @@
                 </select>
             </div>
 
-            {{-- Level Filter --}}
+            {{-- Method Filter --}}
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-gray-700">Level</label>
                 <select 

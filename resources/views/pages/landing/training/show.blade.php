@@ -31,15 +31,14 @@
                             </span>
                             @php
                                 $badgeClass = match($training->training_type) {
-                                    'Beginner' => 'bg-green-100 text-green-800',
-                                    'Intermediate' => 'bg-blue-100 text-blue-800',
-                                    'Advanced' => 'bg-purple-100 text-purple-800',
-                                    'Expert' => 'bg-red-100 text-red-800',
+                                    'offline' => 'bg-green-100 text-green-800',
+                                    'online' => 'bg-blue-100 text-blue-800',
+                                    'hybrid' => 'bg-purple-100 text-purple-800',
                                     default => 'bg-gray-100 text-gray-800',
                                 };
                             @endphp
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $badgeClass }}">
-                                {{ $training->training_type }}
+                                {{ ucfirst($training->training_type) }}
                             </span>
                         </div>
                         
@@ -487,8 +486,8 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <p class="text-xs text-gray-500">Level</p>
-                                        <p class="font-semibold text-gray-900">{{ $training->training_type }}</p>
+                                        <p class="text-xs text-gray-500">Tipe Pelatihan</p>
+                                        <p class="font-semibold text-gray-900">{{ ucfirst($training->training_type) }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -692,15 +691,14 @@
                             @endif
                             @php
                                 $relatedBadgeClass = match($relatedTraining->training_type) {
-                                    'Beginner' => 'bg-green-100 text-green-700',
-                                    'Intermediate' => 'bg-blue-100 text-blue-700',
-                                    'Advanced' => 'bg-purple-100 text-purple-700',
-                                    'Expert' => 'bg-red-100 text-red-700',
+                                    'offline' => 'bg-green-100 text-green-700',
+                                    'online' => 'bg-blue-100 text-blue-700',
+                                    'hybrid' => 'bg-purple-100 text-purple-700',
                                     default => 'bg-gray-100 text-gray-700',
                                 };
                             @endphp
                             <span class="px-2 py-0.5 rounded-full {{ $relatedBadgeClass }}">
-                                {{ $relatedTraining->training_type }}
+                                {{ ucfirst($relatedTraining->training_type) }}
                             </span>
                         </div>
 

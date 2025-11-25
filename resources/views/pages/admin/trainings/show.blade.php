@@ -101,7 +101,7 @@
                                 {{ $training->is_active ? 'Aktif' : 'Tidak Aktif' }}
                             </span>
                             <span class="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full">
-                                {{ $training->training_type }}
+                                {{ ucfirst($training->training_type) }}
                             </span>
                         </div>
                     </div>
