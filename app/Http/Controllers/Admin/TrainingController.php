@@ -2,82 +2,39 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Data\Training\CreateTrainingData;
+use App\Data\Training\UpdateTrainingData;
 use App\Http\Controllers\Controller;
-use App\Models\Instructor;
 use App\Models\Training;
-use App\Models\TrainingCategory;
+use App\Services\Contracts\TrainingServiceInterface;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class TrainingController extends Controller
 {
+    public function __construct(
+        protected TrainingServiceInterface $trainingService
+    ) {}
+
     public function index(Request $request): View
     {
-        $query = Training::with(['category', 'instructor', 'schedules']);
-
-        // Search functionality
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%")
-                    ->orWhereHas('category', function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%");
-                    })
-                    ->orWhereHas('instructor', function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%");
-                    });
-            });
-        }
-
-        // Category filter
-        if ($request->filled('category') && $request->category !== 'all') {
-            $query->where('category_id', $request->category);
-        }
-
-        // Level filter
-        if ($request->filled('level') && $request->level !== 'all') {
-            $query->where('level', $request->level);
-        }
-
-        // Status filter
-        if ($request->filled('status')) {
-            if ($request->status === 'active') {
-                $query->where('is_active', true);
-            } elseif ($request->status === 'inactive') {
-                $query->where('is_active', false);
-            }
-        }
-
-        // Instructor filter
-        if ($request->filled('instructor') && $request->instructor !== 'all') {
-            $query->where('instructor_id', $request->instructor);
-        }
-
-        // Sorting
-        $sortBy = $request->get('sort', 'created_at');
-        $sortDirection = $request->get('direction', 'desc');
-        $query->orderBy($sortBy, $sortDirection);
-
-        // Pagination
-        $perPage = $request->get('per_page', 10);
-        $trainings = $query->paginate($perPage)->withQueryString();
-
-        // Get categories and instructors for filters
-        $categories = TrainingCategory::orderBy('name')->get();
-        $instructors = Instructor::orderBy('name')->get();
-
-        // Calculate statistics
-        $stats = [
-            'total' => Training::count(),
-            'active' => Training::where('is_active', true)->count(),
-            'totalParticipants' => DB::table('training_schedules')
-                ->sum('registered_count'),
-            'averageRating' => Training::where('rating', '>', 0)->avg('rating') ?? 0,
+        $filters = [
+            'search' => $request->search,
+            'category' => $request->category,
+            'level' => $request->level,
+            'status' => $request->status,
+            'instructor' => $request->instructor,
+            'sort' => $request->get('sort', 'created_at'),
+            'direction' => $request->get('direction', 'desc'),
         ];
+
+        $perPage = $request->get('per_page', 10);
+
+        $trainings = $this->trainingService->getPaginatedTrainings($filters, $perPage);
+        $categories = $this->trainingService->getCategories();
+        $instructors = $this->trainingService->getInstructors();
+        $stats = $this->trainingService->getStatistics();
 
         return view('pages.admin.trainings.index', compact(
             'trainings',
@@ -99,9 +56,9 @@ class TrainingController extends Controller
             return redirect()->back()->with('error', 'Tidak ada pelatihan yang dipilih');
         }
 
-        Training::whereIn('id', $ids)->delete();
+        $count = $this->trainingService->bulkDeleteTrainings($ids);
 
-        return redirect()->back()->with('success', count($ids).' pelatihan berhasil dihapus');
+        return redirect()->back()->with('success', "{$count} pelatihan berhasil dihapus");
     }
 
     public function bulkUpdateStatus(Request $request): RedirectResponse
@@ -117,19 +74,16 @@ class TrainingController extends Controller
             return redirect()->back()->with('error', 'Tidak ada pelatihan yang dipilih');
         }
 
-        Training::whereIn('id', $ids)->update([
-            'is_active' => $request->is_active,
-        ]);
-
+        $count = $this->trainingService->bulkUpdateStatus($ids, $request->is_active);
         $status = $request->is_active ? 'diaktifkan' : 'dinonaktifkan';
 
-        return redirect()->back()->with('success', count($ids).' pelatihan berhasil '.$status);
+        return redirect()->back()->with('success', "{$count} pelatihan berhasil {$status}");
     }
 
     public function create(): View
     {
-        $categories = TrainingCategory::orderBy('name')->get();
-        $instructors = Instructor::orderBy('name')->get();
+        $categories = $this->trainingService->getCategories();
+        $instructors = $this->trainingService->getInstructors();
 
         return view('pages.admin.trainings.create', compact('categories', 'instructors'));
     }
@@ -146,38 +100,30 @@ class TrainingController extends Controller
             'price' => 'required|numeric|min:0',
             'capacity' => 'required|integer|min:1',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'training_type' => 'required|in:offline,online,hybrid',
-            'level' => 'required|in:Beginner,Intermediate,Advanced,Expert',
+            'training_type' => 'required|in:Beginner,Intermediate,Advanced,Expert',
             'learning_hours' => 'nullable|integer|min:1',
             'training_methods' => 'nullable|string',
             'certification_note' => 'nullable|string',
             'is_active' => 'required|boolean',
         ]);
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'_'.$image->getClientOriginalName();
-            $imagePath = $image->storeAs('trainings', $imageName, 'public');
-            $validated['image'] = $imagePath;
-        }
-
-        Training::create($validated);
+        $data = CreateTrainingData::fromRequest($validated);
+        $this->trainingService->createTraining($data);
 
         return redirect()->route('admin.trainings.index')->with('success', 'Pelatihan berhasil ditambahkan');
     }
 
     public function show(Training $training): View
     {
-        $training->load(['category', 'instructor', 'schedules', 'learningObjectives', 'prerequisites', 'materials', 'syllabus.topics']);
+        $training = $this->trainingService->getTrainingById($training->id);
 
         return view('pages.admin.trainings.show', compact('training'));
     }
 
     public function edit(Training $training): View
     {
-        $categories = TrainingCategory::orderBy('name')->get();
-        $instructors = Instructor::orderBy('name')->get();
+        $categories = $this->trainingService->getCategories();
+        $instructors = $this->trainingService->getInstructors();
 
         return view('pages.admin.trainings.edit', compact('training', 'categories', 'instructors'));
     }
@@ -194,43 +140,22 @@ class TrainingController extends Controller
             'price' => 'required|numeric|min:0',
             'capacity' => 'required|integer|min:1',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'training_type' => 'required|in:offline,online,hybrid',
-            'level' => 'required|in:Beginner,Intermediate,Advanced,Expert',
+            'training_type' => 'required|in:Beginner,Intermediate,Advanced,Expert',
             'learning_hours' => 'nullable|integer|min:1',
             'training_methods' => 'nullable|string',
             'certification_note' => 'nullable|string',
             'is_active' => 'required|boolean',
         ]);
 
-        // Handle remove existing image
-        if ($request->has('remove_image')) {
-            if ($training->image && Storage::disk('public')->exists($training->image)) {
-                Storage::disk('public')->delete($training->image);
-            }
-            $validated['image'] = null;
-        }
-
-        // Handle new image upload
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($training->image && Storage::disk('public')->exists($training->image)) {
-                Storage::disk('public')->delete($training->image);
-            }
-
-            $image = $request->file('image');
-            $imageName = time().'_'.$image->getClientOriginalName();
-            $imagePath = $image->storeAs('trainings', $imageName, 'public');
-            $validated['image'] = $imagePath;
-        }
-
-        $training->update($validated);
+        $data = UpdateTrainingData::fromRequest($validated);
+        $this->trainingService->updateTraining($training, $data);
 
         return redirect()->route('admin.trainings.index')->with('success', 'Pelatihan berhasil diperbarui');
     }
 
     public function destroy(Training $training): RedirectResponse
     {
-        $training->delete();
+        $this->trainingService->deleteTraining($training);
 
         return redirect()->route('admin.trainings.index')->with('success', 'Pelatihan berhasil dihapus');
     }

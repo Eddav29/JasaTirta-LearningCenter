@@ -27,7 +27,7 @@ class RegistrationController extends Controller
     {
         $training->load(['category', 'schedules' => function ($query) {
             $query->where('status', 'buka_pendaftaran')
-                  ->orderBy('start_date', 'asc');
+                ->orderBy('start_date', 'asc');
         }]);
 
         return view('pages.user.registrations.select-schedule', compact('training'));

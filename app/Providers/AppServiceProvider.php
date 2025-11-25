@@ -15,9 +15,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // User Management
         $this->app->scoped(\App\Repositories\Contracts\UserRepository::class, \App\Repositories\Eloquent\EloquentUserRepository::class);
         $this->app->scoped(\App\Services\Contracts\AuthService::class, \App\Services\AuthService::class);
         $this->app->scoped(\App\Services\Contracts\UserManagementService::class, \App\Services\UserManagementService::class);
+
+        // Training Management
+        $this->app->scoped(\App\Repositories\Contracts\TrainingRepositoryInterface::class, \App\Repositories\Eloquent\TrainingRepository::class);
+        $this->app->scoped(\App\Services\Contracts\TrainingServiceInterface::class, \App\Services\TrainingService::class);
     }
 
     /**

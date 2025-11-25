@@ -1,6 +1,28 @@
 {{-- Search and Filter Section --}}
-<div class="bg-white p-6 rounded-lg border border-gray-200 mt-6">
-    <form method="GET" action="{{ route('admin.trainings.index') }}" class="space-y-4">
+<div class="bg-white p-6 rounded-lg border border-gray-200 mt-6" x-data="{
+    searchQuery: '{{ request('search') }}',
+    category: '{{ request('category', 'all') }}',
+    level: '{{ request('level', 'all') }}',
+    status: '{{ request('status', '') }}',
+    instructor: '{{ request('instructor', 'all') }}',
+    debounceTimer: null,
+    
+    submitForm() {
+        this.$refs.filterForm.submit();
+    },
+    
+    handleSearchInput() {
+        clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+            this.submitForm();
+        }, 500);
+    },
+    
+    handleFilterChange() {
+        this.submitForm();
+    }
+}">
+    <form method="GET" action="{{ route('admin.trainings.index') }}" x-ref="filterForm" class="space-y-4">
         {{-- Header Section --}}
         <div class="flex items-center justify-between">
             <div>
@@ -27,10 +49,18 @@
             <input
                 type="text"
                 name="search"
-                value="{{ request('search') }}"
+                x-model="searchQuery"
+                x-on:input="handleSearchInput()"
                 placeholder="Cari berdasarkan judul, deskripsi, kategori, atau nama instructor..."
-                class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
             />
+            {{-- Loading Indicator --}}
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none" x-show="debounceTimer !== null">
+                <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
         </div>
 
         {{-- Filters Grid --}}
@@ -38,10 +68,14 @@
             {{-- Category Filter --}}
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-gray-700">Kategori</label>
-                <select name="category" class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                <select 
+                    name="category" 
+                    x-model="category"
+                    x-on:change="handleFilterChange()"
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                     <option value="all">Semua Kategori</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                        <option value="{{ $category->id }}">
                             {{ $category->name }}
                         </option>
                     @endforeach
@@ -51,32 +85,44 @@
             {{-- Level Filter --}}
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-gray-700">Level</label>
-                <select name="level" class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                <select 
+                    name="level" 
+                    x-model="level"
+                    x-on:change="handleFilterChange()"
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                     <option value="all">Semua Level</option>
-                    <option value="Beginner" {{ request('level') == 'Beginner' ? 'selected' : '' }}>Beginner</option>
-                    <option value="Intermediate" {{ request('level') == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
-                    <option value="Advanced" {{ request('level') == 'Advanced' ? 'selected' : '' }}>Advanced</option>
-                    <option value="Expert" {{ request('level') == 'Expert' ? 'selected' : '' }}>Expert</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Expert">Expert</option>
                 </select>
             </div>
 
             {{-- Status Filter --}}
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-gray-700">Status</label>
-                <select name="status" class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                <select 
+                    name="status" 
+                    x-model="status"
+                    x-on:change="handleFilterChange()"
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                     <option value="">Semua Status</option>
-                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
-                    <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Tidak Aktif</option>
+                    <option value="active">Aktif</option>
+                    <option value="inactive">Tidak Aktif</option>
                 </select>
             </div>
 
             {{-- Instructor Filter --}}
             <div class="space-y-2">
                 <label class="block text-sm font-medium text-gray-700">Instructor</label>
-                <select name="instructor" class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                <select 
+                    name="instructor" 
+                    x-model="instructor"
+                    x-on:change="handleFilterChange()"
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                     <option value="all">Semua Instructor</option>
                     @foreach($instructors as $instructor)
-                        <option value="{{ $instructor->id }}" {{ request('instructor') == $instructor->id ? 'selected' : '' }}>
+                        <option value="{{ $instructor->id }}">
                             {{ $instructor->name }}
                         </option>
                     @endforeach
@@ -87,13 +133,13 @@
         {{-- Action Buttons --}}
         <div class="flex items-center justify-between pt-4 border-t border-gray-200">
             <div class="flex items-center gap-3">
-                {{-- Search Button --}}
-                <button type="submit" class="inline-flex items-center px-6 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                {{-- Info Text - No button needed anymore --}}
+                <p class="text-sm text-gray-500 italic">
+                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    Cari & Filter
-                </button>
+                    Filter otomatis diterapkan saat Anda mengetik atau mengubah pilihan
+                </p>
 
                 {{-- Reset Button --}}
                 @if(request()->hasAny(['search', 'category', 'level', 'status', 'instructor']))
