@@ -14,13 +14,10 @@
         <div class="flex items-center justify-between h-20 px-5 border-b border-gray-200">
             <a href="{{ route('user.dashboard') }}" class="flex items-center gap-3">
                 {{-- Logo Icon --}}
-                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shrink-0">
-                    JT
-                </div>
+                <img src="{{ asset('images/logo.png') }}" alt="JTLC Logo" class="h-13 w-auto shrink-0">
                 {{-- Logo Text --}}
                 <div x-show="desktopSidebarOpen" class="hidden lg:block">
-                    <h1 class="text-lg font-bold text-gray-900">JasaTirta</h1>
-                    <p class="text-xs text-gray-500">Learning Center</p>
+                    <img src="{{ asset('images/logo-teks.png') }}" alt="Jasa Tirta I Learning Center" class="h-40 w-auto">
                 </div>
             </a>
             

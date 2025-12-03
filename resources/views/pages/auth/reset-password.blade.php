@@ -7,10 +7,9 @@
     <div class="max-w-md w-full">
         <!-- Logo/Header -->
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-full mb-4">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m0 0a2 2 0 012 2m-2-2a2 2 0 00-2 2m2-2V5a2 2 0 00-2-2H9a2 2 0 00-2 2v2m0 0V9a2 2 0 012 2m0 0a2 2 0 002 2m0 0v2a2 2 0 01-2 2H9a2 2 0 01-2-2v-2m0 0a2 2 0 01-2-2"></path>
-                </svg>
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <img src="{{ asset('images/logo.png') }}" alt="JTLC Logo" class="h-16 w-auto">
+                <img src="{{ asset('images/logo-teks.png') }}" alt="Jasa Tirta I Learning Center" class="h-42 w-auto">
             </div>
             <h2 class="text-3xl font-bold text-gray-900">Reset Password</h2>
             <p class="text-gray-600 mt-2">Enter your new password</p>

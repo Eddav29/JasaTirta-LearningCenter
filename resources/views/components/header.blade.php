@@ -19,26 +19,35 @@
         <div class="flex items-center justify-between h-16 lg:h-20">
             {{-- Logo --}}
             <div class="shrink-0">
-                <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-linear-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 
-                            :class="isScrolled ? 'text-gray-900' : 'text-white'"
-                            class="text-xl font-bold transition-colors duration-300"
-                        >
-                            JTLC
-                        </h1>
-                        <p 
-                            :class="isScrolled ? 'text-gray-600' : 'text-white/80'"
-                            class="text-xs font-medium transition-colors duration-300"
-                        >
-                            Learning Center
-                        </p>
-                    </div>
+                <a href="{{ route('home') }}" class="flex items-center">
+                    {{-- Logo putih saat di atas, logo warna saat scroll --}}
+                    <img 
+                        x-show="!isScrolled" 
+                        src="{{ asset('images/logo-putih.png') }}" 
+                        alt="JTLC Logo" 
+                        class="h-12 w-auto transition-opacity duration-300"
+                    >
+                    <img 
+                        x-show="isScrolled" 
+                        src="{{ asset('images/logo.png') }}" 
+                        alt="JTLC Logo" 
+                        class="h-12 w-auto transition-opacity duration-300"
+                        style="display: none;"
+                    >
+                    {{-- Logo text putih saat di atas, logo text warna saat scroll --}}
+                    <img 
+                        x-show="!isScrolled" 
+                        src="{{ asset('images/logo-teks-putih.png') }}" 
+                        alt="Jasa Tirta I Learning Center" 
+                        class="h-37.5 w-auto transition-opacity duration-300"
+                    >
+                    <img 
+                        x-show="isScrolled" 
+                        src="{{ asset('images/logo-teks.png') }}" 
+                        alt="Jasa Tirta I Learning Center" 
+                        class="h-37.5 w-auto transition-opacity duration-300"
+                        style="display: none;"
+                    >
                 </a>
             </div>
 
